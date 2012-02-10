@@ -1,0 +1,666 @@
+# for localized messages  	 
+from . import _
+#
+#  Set Picon - Plugin E2
+#
+#  by ims (c) 2012
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 2
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+
+import os
+from enigma import ePicLoad, getDesktop
+from Plugins.Plugin import PluginDescriptor
+from Screens.Screen import Screen
+from Screens.HelpMenu import HelpableScreen
+from Components.ActionMap import ActionMap, HelpableActionMap
+from Components.Pixmap import Pixmap
+from Components.FileList import FileList
+from Components.config import ConfigSubsection, ConfigDirectory, ConfigSelection, getConfigListEntry, config, ConfigYesNo
+from Components.Label import Label
+from Components.ConfigList import ConfigListScreen
+from os import system
+import enigma
+from Tools.Directories import resolveFilename, fileExists, createDir, pathExists
+from Components.Button import Button
+from enigma import eTimer
+from Components.Renderer.Picon import initPiconPaths, searchPaths
+from Screens.MessageBox import MessageBox
+
+SOURCE = "/picon/"
+TARGET = "/picon/"
+
+config.plugins.setpicon = ConfigSubsection()
+config.plugins.setpicon.type = ConfigSelection(default = "0", choices = [("0",_("service reference")),("1",_("name"))])
+config.plugins.setpicon.source = ConfigDirectory(SOURCE)
+config.plugins.setpicon.target = ConfigDirectory(TARGET)
+config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("0",_("all picon's directories")),("1",_("input directory only"))])
+config.plugins.setpicon.name_op = ConfigYesNo(default=False)
+config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
+cfg = config.plugins.setpicon
+
+SOURCE = cfg.source.value
+TARGET = cfg.target.value
+
+EXT = ".png"
+
+class setPicon(Screen, HelpableScreen):
+	skin = """
+	<screen name="setPicon" position="center,center" size="560,290" backgroundColor="black" title="SetPicon">
+		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
+		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
+		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
+		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" /> 
+		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
+		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
+		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
+		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
+
+		<widget name="nowpicon" position="450,50" zPosition="2" size="100,60" alphatest="on"/>
+
+		<widget name="name" position="10,50" zPosition="2" size="300,25" valign="center" halign="left" font="Regular;22" transparent="0" foregroundColor="white" />
+		<widget name="current" position="340,50" zPosition="2" size="100,20" valign="top" halign="right" font="Regular;16" transparent="0" foregroundColor="white" />
+		<widget name="reference" position="10,75" zPosition="2" size="430,20" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
+		<widget name="orbital" position="10,95" zPosition="2" size="100,20" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
+
+		<ePixmap pixmap="skin_default/div-h.png" position="10,120" zPosition="2" size="540,2" transparent="0" />
+
+		<widget name="text" position="10,135" zPosition="2" size="540,25" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
+
+		<ePixmap pixmap="~/img/border.png" position="225,165" zPosition="1" size="110,70" transparent="0" />
+		<widget name="picon2l" position="10,170" zPosition="2" size="100,60" alphatest="on"/>
+		<widget name="picon1l" position="120,170" zPosition="2" size="100,60" alphatest="on"/>
+		<widget name="picon"   position="230,170" zPosition="2" size="100,60" alphatest="on"/>
+		<widget name="picon1p" position="340,170" zPosition="2" size="100,60" alphatest="on"/>
+		<widget name="picon2p" position="450,170" zPosition="2" size="100,60" alphatest="on"/>
+
+		<widget name="message" position="230,240" zPosition="2" size="100,20" valign="center" halign="center" font="Regular;18" transparent="0" foregroundColor="white" />
+		<ePixmap pixmap="skin_default/div-h.png" position="10,264" zPosition="2" size="540,2" transparent="0" />
+		<widget name="path" position="10,267" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" transparent="0" foregroundColor="white" />
+	</screen>"""
+
+	def __init__(self, session, plugin_path, services, bouquetname=None):
+		self.skin = setPicon.skin
+		self.skin_path = plugin_path
+		self.EMPTY = plugin_path + "/img/empty.png"
+
+		Screen.__init__(self, session)
+		HelpableScreen.__init__(self)
+		self.services = services
+		self.bouquetname = bouquetname
+		self.setup_title = self.bouquetname
+
+		initPiconPaths()
+		self.lastPath = None
+
+		self["OkCancelActions"] = HelpableActionMap(self, "OkCancelActions",
+			{
+			"cancel": (self.end, _("exit plugin")),
+			"ok": (self.assignSelectedPicon,_("set and save selected picon")),
+			})
+
+		self["SetPiconActions"] = HelpableActionMap(self, "SetPiconActions",
+			{
+			"menu": (self.callConfig,_("configuration")),
+			"left": (self.previousPicon,_("go to previous picon")),
+			"right": (self.nextPicon,_("go to next picon")),
+			"up": (self.nextService,_("go to next service")),
+			"down": (self.prevService,_("go to previous service")),
+			"red": (self.end, _("exit plugin")),
+			"green": (self.saveAssignedPicon,_("save service's picon")),
+			"yellow": (self.searchPicon,_("search picon for current service")),
+			"blue": (self.saveBouquetPicons,_("save bouquet's picons")),
+			"first": (self.firstPicon,_("go to first picon")),
+			"last": (self.lastPicon,_("go to last picon")),
+			"1": (self.minusPiconX,_("go to -10 picons")),
+			"4": (self.minusPiconC,_("go to -100 picons")),
+			"7": (self.minusPiconM,_("go to -1000 picons")),
+			"3": (self.plusPiconX,_("go to +10 picons")),
+			"6": (self.plusPiconC,_("go to +100 picons")),
+			"9": (self.plusPiconM,_("go to +1000 picons")),
+			"8": (self.deletePicon,_("delete selected picon")),
+			}, -2)
+
+		self["key_red"] = Button(_("Cancel"))
+		self["key_green"] = Button(_("Save current"))
+		self["key_yellow"] = Button(_("Search"))
+		self["key_blue"] = Button()
+
+		self.initGraphic()
+
+		self["current"] = Label()
+		self["name"] = Label()
+		self["reference"] = Label()
+		self["orbital"] = Label()
+		self["message"] = Label()
+		self["text"] = Label(_("Please wait to finishing picon's list..."))
+		self["path"] = Label()
+
+		self.filesOK = 0
+		self.idx = 0
+		self.name = None
+		self.refstr = None
+		self.orbital = None
+
+		self.ItemsList = []
+		self.sidx = 0
+
+		self.searchList = []
+		self.search = False
+		self.fidx = 0
+
+		# fill ItemList with services from current bouquet
+		for service in self.services: 
+			self.ItemsList.append((service.getServiceName(), service))
+		self.lenItemsList = len(self.ItemsList)
+
+		self.onLayoutFinish.append(self.delayStart)
+
+	def delayStart(self):
+		self.wait = eTimer()
+		self.wait.timeout.get().append(self.delayedStart)
+		self.wait.start(250, True)
+
+	def delayedStart(self):
+		if SOURCE != TARGET or cfg.allpicons.value == "0":
+			self["key_blue"].setText(_("Save bouquet"))
+		self.setWindowTitle()
+		self.setGraphic()
+		self.getCurrentService()
+		self["text"].setText(_("Reading picons..."))
+		self.getStoredPicons()
+		self.setText()
+		self["current"].setText(_("current:"))
+
+	def getStoredPicons(self):
+		self.readFiles()
+		self.firstPicon()
+
+	def getCurrentService(self):
+		from ServiceReference import ServiceReference
+		if self.session.nav.getCurrentlyPlayingServiceReference():
+			self.name = ServiceReference(self.session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
+			self.refstr = self.session.nav.getCurrentlyPlayingServiceReference().toString()
+			self.orbital =  self.getOrbitalPosition(self.refstr)
+		self.displayServiceParams()
+		for item in self.ItemsList:
+			if str(item[1]) == str(self.refstr):
+				break	
+			self.sidx += 1
+
+	def displayServiceParams(self):
+		self["name"].setText(self.name)
+		self["reference"].setText(self.refstr)
+		self["orbital"].setText(self.orbital)
+		self.currentServicePicon()
+
+	def currentServicePicon(self):
+		path = self.getInternalPicons(self.convRef(self.refstr))
+		if path is not None:
+			self.nowLoad.startDecode(path)
+		else:
+			self.nowLoad.startDecode(self.EMPTY)
+
+	def assignSelectedPicon(self):
+		if len(self.picon) == 0:
+			return
+		filename = self.convRef(self.refstr)
+		if cfg.type.value == "1":
+			filename = self.convName(self.name)
+			if cfg.name_op.value:
+				filename += "_" + self.getOrbitalPosition(self.refstr)
+		path = SOURCE + self.picon[self.idx] + EXT
+		if fileExists(path):
+			print "[SetPicon] cp", path, TARGET + filename + EXT
+			os.system("cp %s %s" % ( path, TARGET + filename + EXT ))
+			self.currentServicePicon()
+		else:
+			print "[SetPicon] source does not exist", path
+
+	def saveAssignedPicon(self):
+		self.saveItem(self.ItemsList[self.sidx])
+
+	def saveBouquetPicons(self):
+		if SOURCE != TARGET or cfg.allpicons.value == "0":
+			for idx in self.ItemsList:
+				self.saveItem(idx)
+
+	def saveItem(self, item):
+		refstr = self.convRef(item[1])
+		if cfg.allpicons.value == "1":
+			path = SOURCE + refstr + EXT
+		else:
+			path = self.getInternalPicons(refstr)
+		filename = refstr
+		if cfg.type.value == "1":
+			filename = self.convName(item[0])
+			if cfg.name_op.value:
+				filename += "_" + self.getOrbitalPosition(item[1])
+		if fileExists(path):
+			os.system("cp %s %s" % ( path, TARGET + filename + EXT ))
+		else:
+			print "[SetPicon] path does not exist:", path
+
+	def setWindowTitle(self):
+		self.setTitle(_("SetPicon") + "  -  " + self.bouquetname)
+
+	def displayMsg(self, message):
+		self["message"].setText(message)
+
+	def setText(self):
+		text = _("Select picon and press OK to assign to current service:")
+		if cfg.type.value != "0":
+			text = _("Select picon and save it with OK to output directory:")
+		self["text"].setText(text)
+
+	def readFiles(self):
+		self.filesOK = 0
+		filelist = FileList(SOURCE, matchingPattern="png")
+		self.maxPicons = 0
+		self.picon = []
+		for x in filelist.getFileList():
+			if (x[0][1] != True):
+				self.picon.append(x[0][0][:-4])
+				self.maxPicons += 1
+		if self.maxPicons != 0:
+			self.filesOK = True
+		else:
+			self.displayMsg(_("No picons found!"))
+
+	def searchPicon(self):
+		if not len(self.picon):
+			return
+		if self.search:
+			self.displayFoundedPicon()
+		else:
+			self.fidx = 0
+			self.searchList = []
+			for index, item in enumerate(self.picon):
+				if item == self.convRef(self.refstr) or item == self.convName(self.name) or item == (self.convName(self.name) + "_" + self.getOrbitalPosition(self.refstr)):
+					self.searchList.append(index)
+			if not len(self.searchList):
+				self["key_yellow"].setText(_("Search"))
+				self.displayPath(_("Not found"))
+			else:
+				#print "founded:", self.searchList
+				self.search = True
+				self.displayFoundedPicon()
+
+	def displayFoundedPicon(self):
+		text = _("Search")
+		if len(self.searchList) != 1:
+			text += " (%s/%s)" % (self.fidx+1, len(self.searchList))
+		self["key_yellow"].setText(text)
+		self.displayPath("%s" % self.picon[self.searchList[self.fidx]])	
+		self.gotoPicon(self.searchList[self.fidx], True)
+		self.fidx += 1
+		self.fidx %= len(self.searchList)
+
+	def displayPath(self, text):
+		if cfg.filename.value == "0":
+			text = ""
+		if cfg.filename.value == "1":
+			text = text[text.rfind('/')+1:]
+		self["path"].setText(text)
+
+	def convToRef(self, filename):
+		return filename.replace('_',':') + ":"
+
+	def nextPicon(self):
+		self.gotoPicon(1)
+
+	def previousPicon(self):
+		self.gotoPicon(-1)
+
+	def firstPicon(self):
+		self.gotoPicon(0, True)
+		
+	def lastPicon(self):
+		self.gotoPicon(self.maxPicons-1, True)
+
+	def plusPiconX(self):
+		self.gotoPicon(10)
+
+	def plusPiconC(self):
+		self.gotoPicon(100)
+
+	def plusPiconM(self):
+		self.gotoPicon(1000)
+
+	def minusPiconX(self):
+		self.gotoPicon(-10)
+
+	def minusPiconC(self):
+		self.gotoPicon(-100)
+
+	def minusPiconM(self):
+		self.gotoPicon(-1000)
+
+	def gotoPicon(self, position, absolute=False):
+		if self.filesOK:
+			if absolute:
+				self.idx = position
+			else:
+				self.idx += position
+				self.idx %= self.maxPicons
+			self.displayPicon()
+
+	def displayPicon(self):
+		path = SOURCE + self.picon[(self.idx-2) % self.maxPicons] + EXT
+		if fileExists(path):
+			self.piconLoad2l.startDecode(path)
+		path = SOURCE + self.picon[(self.idx-1) % self.maxPicons] + EXT
+		if fileExists(path):
+			self.piconLoad1l.startDecode(path)
+		path = SOURCE + self.picon[self.idx] + EXT
+		if fileExists(path):
+			self.piconLoad.startDecode(path)
+			self.displayPath(path)
+		path = SOURCE + self.picon[(self.idx+1) % self.maxPicons] + EXT
+		if fileExists(path):
+			self.piconLoad1p.startDecode(path)
+		path = SOURCE + self.picon[(self.idx+2) %self.maxPicons] + EXT
+		if fileExists(path):
+			self.piconLoad2p.startDecode(path)
+		self.displayMsg("%s/%s" % (self.idx+1, self.maxPicons))
+
+	def nextService(self):
+		self.changeService(1)
+
+	def prevService(self):
+		self.changeService(-1)
+
+	def changeService(self, num):
+		self.sidx += num
+		self.sidx %= self.lenItemsList
+		self.search = False
+		self["key_yellow"].setText(_("Search"))
+		self.name = self.ItemsList[self.sidx][0]
+		self.refstr = str(self.ItemsList[self.sidx][1])
+		self.orbital =  self.getOrbitalPosition(self.refstr)
+		self.displayServiceParams()
+
+	def getInternalPicons(self, serviceName):
+		if self.lastPath:
+			pngname = self.lastPath + serviceName + EXT
+			if pathExists(pngname):
+				return pngname
+		global searchPaths
+		for path in searchPaths:
+			if pathExists(path):
+				pngname = path + serviceName + EXT
+				if pathExists(pngname):
+					self.lastPath = path
+					return pngname
+		return None
+
+	def convRef(self, serviceRef):
+		return '_'.join(str(serviceRef).split(':', 10)[:10])
+
+	def convName(self, serviceName):
+		return serviceName.replace(' ','_').replace('/','__')
+
+	def getOrbitalPosition(self, serviceRef):
+		b = int("".join(str(serviceRef).split(':', 10)[6:7])[:-4],16)
+		direction = 'E'
+		if b > 1800:
+			b = 3600 - b
+			direction = 'W'
+		return ("%d.%d%s") % (b // 10, b % 10, direction)
+
+	def deletePicon(self):
+		self.removePath = SOURCE + self.picon[self.idx] + EXT
+		self.session.openWithCallback(self.removePicon, MessageBox, _("Are You sure delete picon?\n%s" % (self.removePath) ), MessageBox.TYPE_YESNO, default=False )
+
+	def removePicon(self, answer):
+		if answer is True:
+			if fileExists(self.removePath):
+				os.unlink(self.removePath)
+				self.getStoredPicons()
+		del self.removePath			
+
+	def end(self):
+		self.close()
+
+	def callConfig(self):
+		self.lastdir = cfg.source.value
+		self.lastpath = self["path"].getText()
+		self.session.openWithCallback(self.afterConfig, setPiconCfg)
+
+	def afterConfig(self, data=None):
+		self["key_blue"].setText("")
+		self.setText()
+		if SOURCE != TARGET or cfg.allpicons.value == "0":
+			self["key_blue"].setText(_("Save bouquet"))
+		if self.lastdir != cfg.source.value:
+			self.getStoredPicons()
+		else:
+			self.displayPicon()
+
+### for graphics
+	def initGraphic(self):
+		self["picon2l"] = Pixmap()
+		self.piconLoad2l = enigma.ePicLoad()
+		self.piconLoad2l.PictureData.get().append(self.showPicon2l)
+		self["picon1l"] = Pixmap()
+		self.piconLoad1l = enigma.ePicLoad()
+		self.piconLoad1l.PictureData.get().append(self.showPicon1l)
+		self["picon"] = Pixmap()
+		self.piconLoad = enigma.ePicLoad()
+		self.piconLoad.PictureData.get().append(self.showPicon)
+		self["picon1p"] = Pixmap()
+		self.piconLoad1p = enigma.ePicLoad()
+		self.piconLoad1p.PictureData.get().append(self.showPicon1p)
+		self["picon2p"] = Pixmap()
+		self.piconLoad2p = enigma.ePicLoad()
+		self.piconLoad2p.PictureData.get().append(self.showPicon2p)
+
+		self["nowpicon"] = Pixmap()
+		self.nowLoad = enigma.ePicLoad()
+		self.nowLoad.PictureData.get().append(self.showNowPicon)
+
+	def setGraphic(self):
+		par = [self["picon2l"].instance.size().width(), self["picon2l"].instance.size().height(), 1, 1, False, 0, "#00000000"]
+		self.piconLoad2l.setPara(par)
+		par = [self["picon1l"].instance.size().width(), self["picon1l"].instance.size().height(), 1, 1, False, 0, "#00000000"]
+		self.piconLoad1l.setPara(par)
+		par = [self["picon"].instance.size().width(), self["picon"].instance.size().height(), 1, 1, False, 0, "#00000000"]
+		self.piconLoad.setPara(par)
+		par = [self["picon1p"].instance.size().width(), self["picon1p"].instance.size().height(), 1, 1, False, 0, "#00000000"]
+		self.piconLoad1p.setPara(par)
+		par = [self["picon2p"].instance.size().width(), self["picon2p"].instance.size().height(), 1, 1, False, 0, "#00000000"]
+		self.piconLoad2p.setPara(par)
+
+		par = [self["nowpicon"].instance.size().width(), self["nowpicon"].instance.size().height(), 1, 1, False, 0, "#00000000"]
+		self.nowLoad.setPara(par)
+
+	def showPicon2l(self, picInfo=None):
+		ptr = self.piconLoad2l.getData()
+		if ptr != None:
+			self["picon2l"].instance.setPixmap(ptr.__deref__())
+			self["picon2l"].show()
+	def showPicon1l(self, picInfo=None):
+		ptr = self.piconLoad1l.getData()
+		if ptr != None:
+			self["picon1l"].instance.setPixmap(ptr.__deref__())
+			self["picon1l"].show()
+	def showPicon(self, picInfo=None):
+		ptr = self.piconLoad.getData()
+		if ptr != None:
+			self["picon"].instance.setPixmap(ptr.__deref__())
+			self["picon"].show()
+	def showPicon1p(self, picInfo=None):
+		ptr = self.piconLoad1p.getData()
+		if ptr != None:
+			self["picon1p"].instance.setPixmap(ptr.__deref__())
+			self["picon1p"].show()
+	def showPicon2p(self, picInfo=None):
+		ptr = self.piconLoad2p.getData()
+		if ptr != None:
+			self["picon2p"].instance.setPixmap(ptr.__deref__())
+			self["picon2p"].show()
+
+	def showNowPicon(self, picInfo=None):
+		ptr = self.nowLoad.getData()
+		if ptr != None:
+			self["nowpicon"].instance.setPixmap(ptr.__deref__())
+			self["nowpicon"].show()
+###
+
+class setPiconCfg(Screen, ConfigListScreen):
+	skin = """
+	<screen name="setPiconCfg" position="center,center" size="560,380" title="SetPicon Setup"  backgroundColor="black">
+		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
+		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
+		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
+		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
+		<widget name="config" position="10,40" size="540,300" zPosition="1" transparent="0" backgroundColor="black" scrollbarMode="showOnDemand" />
+		<ePixmap pixmap="skin_default/div-h.png" position="0,355" zPosition="1" size="560,2" />
+		<ePixmap alphatest="on" pixmap="skin_default/icons/clock.png" position="480,361" size="14,14" zPosition="3"/>
+		<widget font="Regular;18" halign="right" position="495,358" render="Label" size="55,20" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
+			<convert type="ClockToText">Default</convert>
+		</widget>
+		<widget name="statusbar" position="10,359" size="460,20" font="Regular;18" backgroundColor="black" />
+	</screen>"""
+
+	def __init__(self, session):
+		Screen.__init__(self, session)
+		self.session = session
+		self.skin = setPiconCfg.skin
+		self.setup_title = _("SetPicon Setup")
+			
+		self["key_green"] = Label(_("Save"))
+		self["key_red"] = Label(_("Cancel"))
+		self["statusbar"] = Label("ims (c) 2012. v0.16")
+		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
+		{
+			"green": self.save,
+			"ok": self.ok,
+			"red": self.exit,
+			"cancel": self.exit
+		}, -2)
+
+		self.onChangedEntry = []
+		self.refreshMenu()
+		ConfigListScreen.__init__(self, self.setPiconCfglist, self.session, on_change = self.changedEntry)
+
+		self.oldSource_dir = cfg.source.value
+		self.oldTarget_dir = cfg.target.value
+		self.onShown.append(self.setWindowTitle)
+
+	def refreshMenu(self):
+		self.source_entry = getConfigListEntry(_("Input directory"), cfg.source)
+		self.target_entry = getConfigListEntry(_("Output directory"), cfg.target)
+
+		self.setPiconCfglist = []
+		self.setPiconCfglist.append(getConfigListEntry(_("Save picon as"), cfg.type))
+		if cfg.type.value == "1":
+			self.setPiconCfglist.extend((
+				getConfigListEntry(_("Save name with orbital position"), cfg.name_op),
+			))
+		self.setPiconCfglist.append(self.source_entry)
+		self.setPiconCfglist.append(self.target_entry)
+		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
+		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
+
+	# for summary:
+	def changedEntry(self):
+		self.refreshMenu()
+		self["config"].setList(self.setPiconCfglist)
+		for x in self.onChangedEntry:
+			x()
+	def getCurrentEntry(self):
+		return self["config"].getCurrent()[0]
+	def getCurrentValue(self):
+		return str(self["config"].getCurrent()[1].getText())
+	def createSummary(self):
+		from Screens.Setup import SetupSummary
+		return SetupSummary
+	###
+	def setWindowTitle(self):
+		self.setTitle(_("SetPicon Setup"))
+
+	def ok(self):
+		from Screens.LocationBox import LocationBox
+		from Components.UsageConfig import preferredPath
+		currentry = self["config"].getCurrent()
+		if currentry == self.source_entry:
+			txt = _("Input directory of Picons")
+			inhibitDirs = ["/autofs", "/bin", "/boot", "/dev", "/etc", "/lib", "/proc", "/sbin", "/sys", "/tmp", "/usr"]
+			self.session.openWithCallback(self.sourceDirSelected, LocationBox, text=txt, currDir=cfg.source.value,
+							bookmarks=config.movielist.videodirs, autoAdd=False, editDir=True,
+							inhibitDirs=inhibitDirs)
+		elif currentry == self.target_entry:
+			txt = _("Output directory for created Picons")
+			inhibitDirs = ["/autofs", "/bin", "/boot", "/dev", "/etc", "/lib", "/proc", "/sbin", "/sys", "/tmp", "/usr"]
+			self.session.openWithCallback(self.targetDirSelected, LocationBox, text=txt, currDir=cfg.target.value,
+							bookmarks=config.movielist.videodirs, autoAdd=False, editDir=True,
+							inhibitDirs=inhibitDirs, minFree=10 ) # in MB
+
+	def sourceDirSelected(self, res):
+		if res is not None:
+			cfg.source.value = res
+		else:
+			cfg.source.value = self.oldSource_dir
+
+	def targetDirSelected(self, res):
+		if res is not None:
+			cfg.target.value = res
+		else:
+			cfg.target.value = self.oldTarget_dir
+
+	def save(self):
+		global SOURCE
+		SOURCE = cfg.source.value
+		global TARGET
+		TARGET = cfg.target.value
+		self.keySave()
+
+	def exit(self):
+		cfg.source.value = self.oldSource_dir
+		cfg.target.value = self.oldTarget_dir
+		self.keyCancel()
+
+from enigma import eServiceCenter, eServiceReference
+from ServiceReference import ServiceReference
+
+def getBouquetServices(bouquet):
+	services = [ ]
+	Servicelist = eServiceCenter.getInstance().list(bouquet)
+	if not Servicelist is None:
+		while True:
+			service = Servicelist.getNext()
+			if not service.valid(): #check if end of list
+				break
+			if service.flags & (eServiceReference.isDirectory | eServiceReference.isMarker): #ignore non playable services
+				continue
+			services.append(ServiceReference(service))
+	return services
+
+def main(session, servicelist=None, **kwargs):
+	global Servicelist
+	Servicelist = servicelist
+	global epg_bouquet
+	epg_bouquet = Servicelist and Servicelist.getRoot()
+	if epg_bouquet is not None:
+		services = getBouquetServices(epg_bouquet)
+		session.open(setPicon, plugin_path, services, ServiceReference(epg_bouquet).getServiceName())
+
+def Plugins(path,**kwargs):
+	global plugin_path
+    	plugin_path = path
+	name="SetPicon"
+	descr=_("set picon to service")
+	return [
+		#PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_PLUGINMENU, icon="setpicon.png", fnc=main),
+		PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main),
+		#PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart = False, fnc=main)
+		]

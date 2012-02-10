@@ -1,0 +1,200 @@
+# Czech translations for enigma package.
+# Copyright (C) 2009 THE enigma'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the enigma package.
+# Automatically generated, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Enigma 2 SetPicon Plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-16 23:05+0100\n"
+"PO-Revision-Date: 2012-02-09 22:15+0100\n"
+"Last-Translator: ims\n"
+"Language-Team: ims\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+#
+msgid "SetPicon Setup"
+msgstr "SetPicon - Nastavení"
+
+#
+msgid "Input directory"
+msgstr "Vstupní adresář"
+
+#
+msgid "Output directory"
+msgstr "Výstupní adresář"
+
+#
+msgid "Save picon as"
+msgstr "Uložit picon jako"
+
+#
+msgid "Saving current picons from"
+msgstr "Ukládat aktuální picons"
+
+#
+msgid "Input directory of Picons"
+msgstr "Vstupní adresář s picons"
+
+#
+msgid "Output directory for created Picons"
+msgstr "Adresář pro ukládání picons"
+
+#
+msgid "set picon to service"
+msgstr "přiřadit picon programu"
+
+#
+msgid "Save bouquet"
+msgstr "Uložit přehled"
+
+#
+msgid "No picons found!"
+msgstr "Žádné picons nenalezeny!"
+
+#
+msgid "current:"
+msgstr "aktuální:"
+
+#
+msgid "Select picon and press OK to assign to current service:"
+msgstr "Vyberte ikonu a stiskem OK ji přiřaďte aktuálnímu programu:"
+
+#
+msgid "Reading picons..."
+msgstr "Načítání picons..."
+
+#
+msgid "Please wait to finishing picon's list..."
+msgstr "Čekejte na dokončení seznamu picons..."
+
+#
+msgid "Save current"
+msgstr "Ulož aktuální"
+
+#
+msgid "Search"
+msgstr "Najít"
+
+#
+msgid "name"
+msgstr "název programu"
+
+#
+msgid "all picon's directories"
+msgstr "ze všech adresářů s picons"
+
+#
+msgid "input directory only"
+msgstr "pouze ze vstupního adresáře"
+
+#
+msgid "exit plugin"
+msgstr "zavřít plugin"
+
+#
+msgid "set and save selected picon"
+msgstr "nastavit a uložit vybranou picon"
+
+#
+msgid "service reference"
+msgstr "service reference"
+
+#
+msgid "configuration"
+msgstr "konfigurace"
+
+#
+msgid "go to previous picon"
+msgstr "předchozí picon"
+
+#
+msgid "go to next picon"
+msgstr "následující picon"
+
+#
+msgid "go to next service"
+msgstr "následující program"
+
+#
+msgid "go to previous service"
+msgstr "předchozí program"
+
+#
+msgid "save service's picon"
+msgstr "uložit picon programu"
+
+#
+msgid "search picon for current service"
+msgstr "najít picon pro aktuální program"
+
+#
+msgid "save bouquet's picons"
+msgstr "uložit picons z přehledu"
+
+#
+msgid "go to first picon"
+msgstr "na první picon"
+
+#
+msgid "go to last picon"
+msgstr "na poslední picon"
+
+#
+msgid "go to -10 picons"
+msgstr "zpět o 10 picons"
+
+#
+msgid "go to -100 picons"
+msgstr "zpět o 100 picons"
+
+#
+msgid "go to -1000 picons"
+msgstr "zpět o -1000 picons"
+
+#
+msgid "go to +10 picons"
+msgstr "vpřed o 10 picons"
+
+#
+msgid "go to +100 picons"
+msgstr "vpřed o 100 picons"
+
+#
+msgid "go to +1000 picons"
+msgstr "vpřed o 1000 picons"
+
+#
+msgid "Save name with orbital position"
+msgstr "Přidat k názvu i orbitální pozici"
+
+#
+msgid "Display picon's name"
+msgstr "Zobrazovat názvy picons"
+
+#
+msgid "no"
+msgstr "ne"
+
+#
+msgid "filename"
+msgstr "název souboru"
+
+#
+msgid "full path"
+msgstr "celá cesta"
+
+#
+msgid "Not found"
+msgstr "nenalezeno"
+
+#
+msgid "Select picon and save it with OK to output directory:"
+msgstr "Vyberte ikonu a stiskem OK ji uložte do výstupního adresáře:"
+
