@@ -1,0 +1,202 @@
+# Czech translations for enigma package.
+# Copyright (C) 2009 THE enigma'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the enigma package.
+# Automatically generated, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Enigma 2 SetPicon Plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-16 23:05+0100\n"
+"PO-Revision-Date: 2012-02-09 22:15+0100\n"
+"Last-Translator: Dima73\n"
+"Language-Team: Dima73\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+#
+msgid "SetPicon Setup"
+msgstr "SetPicon - Настройки"
+
+#
+msgid "Input directory"
+msgstr "Входной каталог"
+
+#
+msgid "Output directory"
+msgstr "Выходной каталог"
+
+#
+msgid "Save picon as"
+msgstr "Сохранять пикон как"
+
+#
+msgid "Saving current picons from"
+msgstr "Сохранение текущего пикона в"
+
+#
+msgid "Input directory of Picons"
+msgstr "Входной каталог для пиконов"
+
+#
+msgid "Output directory for created Picons"
+msgstr "Выходной каталог для пиконов"
+
+#
+msgid "set picon to service"
+msgstr "установить пикон к сервису"
+
+#
+msgid "Save bouquet"
+msgstr "Сохр. букет"
+
+#
+msgid "No picons found!"
+msgstr "Нет найденных пиконов!"
+
+#
+msgid "current:"
+msgstr "текущий:"
+
+#
+msgid "Select picon and press OK to assign to current service:"
+msgstr "Выберите пикон.ОК для установки к текущему сервису:"
+
+#
+msgid "Reading picons..."
+msgstr "Чтение пиконов..."
+
+#
+msgid "Please wait to finishing picon's list..."
+msgstr "Подождите полного списка пиконов..."
+
+#
+msgid "Save current"
+msgstr "Сохр. текущий"
+
+#
+msgid "Search"
+msgstr "Поиск"
+
+#
+msgid "name"
+msgstr "название сервиса"
+
+#
+msgid "all picon's directories"
+msgstr "все каталоги пиконов"
+
+#
+msgid "input directory only"
+msgstr "только входной каталог"
+
+#
+msgid "exit plugin"
+msgstr "закрыть плагин"
+
+#
+msgid "set and save selected picon"
+msgstr "установить и сохр. выбранный пикон"
+
+#
+msgid "service reference"
+msgstr "сервис референс"
+
+#
+msgid "configuration"
+msgstr "конфигурация"
+
+#
+msgid "go to previous picon"
+msgstr "перейти к предыдущему пикону"
+
+#
+msgid "go to next picon"
+msgstr "перейти к следующему пикону"
+
+#
+msgid "go to next service"
+msgstr "перейти к следующему сервису"
+
+#
+msgid "go to previous service"
+msgstr "перейти к предыдущему сервису"
+
+#
+msgid "save service's picon"
+msgstr "сохранение текущего пикона"
+
+#
+msgid "search picon for current service"
+msgstr "найти  пикон для текущего сервиса"
+
+#
+msgid "save bouquet's picons"
+msgstr "сохранить пиконы букета"
+
+#
+msgid "go to first picon"
+msgstr "перейти к первому пикону"
+
+#
+msgid "go to last picon"
+msgstr "перейти к последнему пикону"
+
+#
+msgid "go to -10 picons"
+msgstr "назад на 10 пиконов"
+
+#
+msgid "go to -100 picons"
+msgstr "назад на 100 пиконов"
+
+#
+msgid "go to -1000 picons"
+msgstr "назад на 1000 пиконов"
+
+#
+msgid "go to +10 picons"
+msgstr "вперед на 10 пиконов"
+
+#
+msgid "go to +100 picons"
+msgstr "вперед на 100 пиконов"
+
+#
+msgid "go to +1000 picons"
+msgstr "вперед на 1000 пиконов"
+
+#
+msgid "Save name with orbital position"
+msgstr "Добавить название орбитальной позиции"
+
+#
+msgid "Display picon's name"
+msgstr "Показать имена пиконов"
+
+#
+msgid "no"
+msgstr "нет"
+
+#
+msgid "filename"
+msgstr "название файла"
+
+#
+msgid "full path"
+msgstr "полный путь"
+
+#
+msgid "Not found"
+msgstr "Не найдено"
+
+#
+msgid "Select picon and save it with OK to output directory:"
+msgstr "Выберите пикон и нажмите ОК для сохр. в выходной каталог:"
+
+msgid "delete selected picon"
+msgstr "удалить выбранный пикон"
