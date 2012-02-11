@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Enigma 2 SetPicon Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 23:05+0100\n"
-"PO-Revision-Date: 2012-02-09 22:15+0100\n"
+"PO-Revision-Date: 2012-02-11 19:55+0100\n"
 "Last-Translator: Dima73\n"
 "Language-Team: Dima73\n"
 "MIME-Version: 1.0\n"
@@ -49,10 +49,6 @@ msgstr "Выходной каталог для пиконов"
 #
 msgid "set picon to service"
 msgstr "установить пикон к сервису"
-
-#
-msgid "Save bouquet"
-msgstr "Сохр. букет"
 
 #
 msgid "No picons found!"
@@ -200,3 +196,47 @@ msgstr "Выберите пикон и нажмите ОК для сохр. в �
 
 msgid "delete selected picon"
 msgstr "удалить выбранный пикон"
+
+#
+msgid "Save %s bouquet's picons to %s"
+msgstr ""
+
+#
+msgid "Copy all picons from %s to %s"
+msgstr ""
+
+#
+msgid "Delete all picons in %s"
+msgstr ""
+
+#
+msgid "Operations with picons"
+msgstr ""
+
+#
+msgid "Input directory and output directory are same!"
+msgstr ""
+
+#
+msgid "Are You sure delete all picons in %s ?"
+msgstr ""
+
+#
+msgid "In menu change input directory or save picons from bouquet."
+msgstr ""
+
+#
+msgid "Options"
+msgstr ""
+
+#
+msgid "options"
+msgstr ""
+
+#
+msgid "menu"
+msgstr ""
+
+#
+msgid "After save current picon refresh picons"
+msgstr ""

@@ -47,6 +47,7 @@ config.plugins.setpicon.target = ConfigDirectory(TARGET)
 config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("0",_("all picon's directories")),("1",_("input directory only"))])
 config.plugins.setpicon.name_op = ConfigYesNo(default=False)
 config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
+config.plugins.setpicon.refresh = ConfigYesNo(default=True)
 cfg = config.plugins.setpicon
 
 SOURCE = cfg.source.value
@@ -111,7 +112,7 @@ class setPicon(Screen, HelpableScreen):
 
 		self["SetPiconActions"] = HelpableActionMap(self, "SetPiconActions",
 			{
-			"menu": (self.showMenu,_("menu")), #
+			"menu": (self.showMenu,_("menu")),
 			"left": (self.previousPicon,_("go to previous picon")),
 			"right": (self.nextPicon,_("go to next picon")),
 			"up": (self.nextService,_("go to next service")),
@@ -119,8 +120,7 @@ class setPicon(Screen, HelpableScreen):
 			"red": (self.end, _("exit plugin")),
 			"green": (self.saveAssignedPicon,_("save service's picon")),
 			"yellow": (self.searchPicon,_("search picon for current service")),
-#			"blue": (self.saveBouquetPicons,_("save bouquet's picons")),
-			"blue": (self.callConfig,_("options")), #
+			"blue": (self.callConfig,_("options")),
 			"first": (self.firstPicon,_("go to first picon")),
 			"last": (self.lastPicon,_("go to last picon")),
 			"1": (self.minusPiconX,_("go to -10 picons")),
@@ -147,7 +147,8 @@ class setPicon(Screen, HelpableScreen):
 		self["text"] = Label(_("Please wait to finishing picon's list..."))
 		self["path"] = Label()
 
-		self.filesOK = 0
+		self.filesOK = False
+		self.maxPicons = 0
 		self.idx = 0
 		self.name = None
 		self.refstr = None
@@ -175,39 +176,37 @@ class setPicon(Screen, HelpableScreen):
 		self.wait.start(250, True)
 
 	def delayedStart(self):
-#		if SOURCE != TARGET or cfg.allpicons.value == "0":
-#			self["key_blue"].setText(_("Save bouquet"))
 		self.setWindowTitle()
 		self.setGraphic()
 		self.getCurrentService()
 		self["text"].setText(_("Reading picons..."))
 		self.getStoredPicons()
-		self.setText()
 		self["current"].setText(_("current:"))
 
 	def showMenu(self):
 		self.menu = [
-			(_("Save %s bouquet's picons to %s" % (self.bouquetname, TARGET)),0),
-			(_("Copy all picons from %s to %s" % (SOURCE, TARGET)),1),
-			(_("Delete all picons in %s" % TARGET),2),
-			(_("Delete all picons in %s" % SOURCE),3)
+			(_("Save %s bouquet's picons to %s") % (self.bouquetname, TARGET),0),
+			(_("Copy all picons from %s to %s") % (SOURCE, TARGET),1),
+			(_("Delete all picons in %s") % TARGET,2),
+			(_("Delete all picons in %s") % SOURCE,3)
 		]
-		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Select operation with picons:"), list=self.menu, selection = self.selection)
+		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Operations with picons"), list=self.menu, selection = self.selection)
 
 	def menuCallback(self, choice):
 		if choice is None:
 			return
-		if int(choice[1]) == 0:
+		selected = int(choice[1])
+		if selected == 0:
 			self.saveBouquetPicons()
-		elif int(choice[1]) == 1:
+		elif selected == 1:
 			self.copyAllToOutput()
-		elif int(choice[1]) == 2:
+		elif selected == 2:
 			self.deleteTarget()			
-		elif int(choice[1]) == 3:
+		elif selected == 3:
 			self.deleteSource()
 		else:
 			return
-		self.selection = int(choice[1])
+		self.selection = selected
 
 	def getStoredPicons(self):
 		self.readFiles()
@@ -256,11 +255,19 @@ class setPicon(Screen, HelpableScreen):
 
 	def saveAssignedPicon(self):
 		self.saveItem(self.ItemsList[self.sidx])
+		if cfg.refresh.value:
+			self.getStoredPicons()
 
 	def saveBouquetPicons(self):
 		if SOURCE != TARGET or cfg.allpicons.value == "0":
 			for idx in self.ItemsList:
 				self.saveItem(idx)
+			self.getStoredPicons()
+		else:
+			self.session.openWithCallback(self.sameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 ) 
+
+	def sameDirectories(self, answer):
+		return
 
 	def saveItem(self, item):
 		refstr = self.convRef(item[1])
@@ -274,6 +281,7 @@ class setPicon(Screen, HelpableScreen):
 			if cfg.name_op.value:
 				filename += "_" + self.getOrbitalPosition(item[1])
 		if fileExists(path):
+			print "[SetPicon] cp", path, TARGET + filename + EXT
 			os.system("cp %s %s" % ( path, TARGET + filename + EXT ))
 		else:
 			print "[SetPicon] path does not exist:", path
@@ -285,27 +293,31 @@ class setPicon(Screen, HelpableScreen):
 		self["message"].setText(message)
 
 	def setText(self):
-		text = _("Select picon and press OK to assign to current service:")
-		if cfg.type.value != "0":
-			text = _("Select picon and save it with OK to output directory:")
+		if self.filesOK:
+			text = _("Select picon and press OK to assign to current service:")
+			if cfg.type.value != "0":
+				text = _("Select picon and save it with OK to output directory:")
+		else:
+			text = _("In menu change input directory or save picons from bouquet.")
 		self["text"].setText(text)
 
 	def readFiles(self):
-		self.filesOK = 0
-		filelist = FileList(SOURCE, matchingPattern="png")
+		self.filesOK = False
+		filelist = FileList(SOURCE, showDirectories=False, matchingPattern="png")
 		self.maxPicons = 0
 		self.picon = []
 		for x in filelist.getFileList():
-			if (x[0][1] != True):
-				self.picon.append(x[0][0][:-4])
-				self.maxPicons += 1
+			self.picon.append(x[0][0][:-4])
+			self.maxPicons += 1
 		if self.maxPicons != 0:
 			self.filesOK = True
 		else:
 			self.displayMsg(_("No picons found!"))
+		self.setText()
+		self.search = False
 
 	def searchPicon(self):
-		if not len(self.picon):
+		if len(self.picon) == 0:
 			return
 		if self.search:
 			self.displayFoundedPicon()
@@ -319,7 +331,7 @@ class setPicon(Screen, HelpableScreen):
 				self["key_yellow"].setText(_("Search"))
 				self.displayPath(_("Not found"))
 			else:
-				#print "founded:", self.searchList
+				print "founded:", self.searchList
 				self.search = True
 				self.displayFoundedPicon()
 
@@ -341,7 +353,11 @@ class setPicon(Screen, HelpableScreen):
 		self["path"].setText(text)
 
 	def copyAllToOutput(self):
-		os.system("cp %s %s" % ( SOURCE + "*" + EXT, TARGET ))
+		if SOURCE != TARGET:
+			os.system("cp %s %s" % ( SOURCE + "*" + EXT, TARGET ))
+			self.getStoredPicons()
+		else:
+			self.session.openWithCallback(self.sameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 ) 
 
 	def deleteTarget(self):
 		self.rmPath = TARGET + "*" + EXT
@@ -352,13 +368,12 @@ class setPicon(Screen, HelpableScreen):
 		self.confirmDelete(SOURCE)
 		
 	def confirmDelete(self, path):
-		self.session.openWithCallback(self.deleteAllPicons, MessageBox, _("Are You sure delete all picons in %s ?" % path ), MessageBox.TYPE_YESNO, default=False )
+		self.session.openWithCallback(self.deleteAllPicons, MessageBox, _("Are You sure delete all picons in %s ?") % path, MessageBox.TYPE_YESNO, default=False )
 
 	def deleteAllPicons(self, answer=False):
 		if answer is True:
 			os.system("rm %s" % self.rmPath)
 			self.getStoredPicons()
-			self.currentServicePicon()
 		del self.rmPath
 
 	def convToRef(self, filename):
@@ -401,26 +416,35 @@ class setPicon(Screen, HelpableScreen):
 			else:
 				self.idx += position
 				self.idx %= self.maxPicons
-			self.displayPicon()
+		self.displayPicon()
 
 	def displayPicon(self):
-		path = SOURCE + self.picon[(self.idx-2) % self.maxPicons] + EXT
-		if fileExists(path):
-			self.piconLoad2l.startDecode(path)
-		path = SOURCE + self.picon[(self.idx-1) % self.maxPicons] + EXT
-		if fileExists(path):
-			self.piconLoad1l.startDecode(path)
-		path = SOURCE + self.picon[self.idx] + EXT
-		if fileExists(path):
-			self.piconLoad.startDecode(path)
-			self.displayPath(path)
-		path = SOURCE + self.picon[(self.idx+1) % self.maxPicons] + EXT
-		if fileExists(path):
-			self.piconLoad1p.startDecode(path)
-		path = SOURCE + self.picon[(self.idx+2) %self.maxPicons] + EXT
-		if fileExists(path):
-			self.piconLoad2p.startDecode(path)
-		self.displayMsg("%s/%s" % (self.idx+1, self.maxPicons))
+		if len(self.picon):
+			path = SOURCE + self.picon[(self.idx-2) % self.maxPicons] + EXT
+			if fileExists(path):
+				self.piconLoad2l.startDecode(path)
+			path = SOURCE + self.picon[(self.idx-1) % self.maxPicons] + EXT
+			if fileExists(path):
+				self.piconLoad1l.startDecode(path)
+			path = SOURCE + self.picon[self.idx] + EXT
+			if fileExists(path):
+				self.piconLoad.startDecode(path)
+				self.displayPath(path)
+			path = SOURCE + self.picon[(self.idx+1) % self.maxPicons] + EXT
+			if fileExists(path):
+				self.piconLoad1p.startDecode(path)
+			path = SOURCE + self.picon[(self.idx+2) %self.maxPicons] + EXT
+			if fileExists(path):
+				self.piconLoad2p.startDecode(path)
+			self.displayMsg("%s/%s" % (self.idx+1, self.maxPicons))
+		else:
+			if fileExists(self.EMPTY):
+				self.piconLoad2l.startDecode(self.EMPTY)
+				self.piconLoad1l.startDecode(self.EMPTY)
+				self.piconLoad.startDecode(self.EMPTY)
+				self.piconLoad1p.startDecode(self.EMPTY)
+				self.piconLoad2p.startDecode(self.EMPTY)
+				self["path"].setText("")
 
 	def nextService(self):
 		self.changeService(1)
@@ -467,8 +491,10 @@ class setPicon(Screen, HelpableScreen):
 		return ("%d.%d%s") % (b // 10, b % 10, direction)
 
 	def deletePicon(self):
+		if not len(self.picon):
+			return
 		self.removePath = SOURCE + self.picon[self.idx] + EXT
-		self.session.openWithCallback(self.removePicon, MessageBox, _("Are You sure delete picon?\n%s" % (self.removePath) ), MessageBox.TYPE_YESNO, default=False )
+		self.session.openWithCallback(self.removePicon, MessageBox, _("Are You sure delete picon?\n%s") % self.removePath, MessageBox.TYPE_YESNO, default=False )
 
 	def removePicon(self, answer):
 		if answer is True:
@@ -486,10 +512,7 @@ class setPicon(Screen, HelpableScreen):
 		self.session.openWithCallback(self.afterConfig, setPiconCfg)
 
 	def afterConfig(self, data=None):
-#		self["key_blue"].setText("")
 		self.setText()
-#		if SOURCE != TARGET or cfg.allpicons.value == "0":
-#			self["key_blue"].setText(_("Save bouquet"))
 		if self.lastdir != cfg.source.value:
 			self.getStoredPicons()
 		else:
@@ -589,7 +612,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 			
 		self["key_green"] = Label(_("Save"))
 		self["key_red"] = Label(_("Cancel"))
-		self["statusbar"] = Label("ims (c) 2012. v0.17")
+		self["statusbar"] = Label("ims (c) 2012. v0.18")
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -620,6 +643,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(self.target_entry)
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
+		self.setPiconCfglist.append(getConfigListEntry(_("After save current picon refresh picons"), cfg.refresh))
 
 	# for summary:
 	def changedEntry(self):

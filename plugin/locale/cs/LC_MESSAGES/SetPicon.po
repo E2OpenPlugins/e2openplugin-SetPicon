@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Enigma 2 SetPicon Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 23:05+0100\n"
-"PO-Revision-Date: 2012-02-09 22:15+0100\n"
+"PO-Revision-Date: 2012-02-11 20:32+0100\n"
 "Last-Translator: ims\n"
 "Language-Team: ims\n"
 "MIME-Version: 1.0\n"
@@ -49,10 +49,6 @@ msgstr "Adresář pro ukládání picons"
 #
 msgid "set picon to service"
 msgstr "přiřadit picon programu"
-
-#
-msgid "Save bouquet"
-msgstr "Uložit přehled"
 
 #
 msgid "No picons found!"
@@ -197,4 +193,48 @@ msgstr "nenalezeno"
 #
 msgid "Select picon and save it with OK to output directory:"
 msgstr "Vyberte ikonu a stiskem OK ji uložte do výstupního adresáře:"
+
+#
+msgid "Save %s bouquet's picons to %s"
+msgstr "Uložit picons z přehledu %s do %s"
+
+#
+msgid "Copy all picons from %s to %s"
+msgstr "Zkopírovat všechny picons z %s do %s"
+
+#
+msgid "Delete all picons in %s"
+msgstr "Smazat všechny picons v %s"
+
+#
+msgid "Operations with picons"
+msgstr "Operace s picons"
+
+#
+msgid "Input directory and output directory are same!"
+msgstr "Vstupní a výstupní adresář je stejný!"
+
+#
+msgid "Are You sure delete all picons in %s ?"
+msgstr "Skutečně chcete smazat všechny picons v %s ?"
+
+#
+msgid "In menu change input directory or save picons from bouquet."
+msgstr "Změňte vstupní adresář nebo uložte picons z přehledu."
+
+#
+msgid "Options"
+msgstr "Možnosti"
+
+#
+msgid "options"
+msgstr "možnosti"
+
+#
+msgid "menu"
+msgstr "menu"
+
+#
+msgid "After save current picon refresh picons"
+msgstr "Refresh picons po uložení aktuální picon"
 
