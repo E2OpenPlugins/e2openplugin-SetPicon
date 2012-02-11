@@ -35,6 +35,8 @@ from enigma import eTimer
 from Components.Renderer.Picon import initPiconPaths, searchPaths
 from Screens.MessageBox import MessageBox
 
+from Screens.ChoiceBox import ChoiceBox
+
 SOURCE = "/picon/"
 TARGET = "/picon/"
 
@@ -109,7 +111,7 @@ class setPicon(Screen, HelpableScreen):
 
 		self["SetPiconActions"] = HelpableActionMap(self, "SetPiconActions",
 			{
-			"menu": (self.callConfig,_("configuration")),
+			"menu": (self.showMenu,_("menu")), #
 			"left": (self.previousPicon,_("go to previous picon")),
 			"right": (self.nextPicon,_("go to next picon")),
 			"up": (self.nextService,_("go to next service")),
@@ -117,7 +119,8 @@ class setPicon(Screen, HelpableScreen):
 			"red": (self.end, _("exit plugin")),
 			"green": (self.saveAssignedPicon,_("save service's picon")),
 			"yellow": (self.searchPicon,_("search picon for current service")),
-			"blue": (self.saveBouquetPicons,_("save bouquet's picons")),
+#			"blue": (self.saveBouquetPicons,_("save bouquet's picons")),
+			"blue": (self.callConfig,_("options")), #
 			"first": (self.firstPicon,_("go to first picon")),
 			"last": (self.lastPicon,_("go to last picon")),
 			"1": (self.minusPiconX,_("go to -10 picons")),
@@ -132,7 +135,7 @@ class setPicon(Screen, HelpableScreen):
 		self["key_red"] = Button(_("Cancel"))
 		self["key_green"] = Button(_("Save current"))
 		self["key_yellow"] = Button(_("Search"))
-		self["key_blue"] = Button()
+		self["key_blue"] = Button(_("Options"))
 
 		self.initGraphic()
 
@@ -157,6 +160,8 @@ class setPicon(Screen, HelpableScreen):
 		self.search = False
 		self.fidx = 0
 
+		self.selection = 0
+
 		# fill ItemList with services from current bouquet
 		for service in self.services: 
 			self.ItemsList.append((service.getServiceName(), service))
@@ -170,8 +175,8 @@ class setPicon(Screen, HelpableScreen):
 		self.wait.start(250, True)
 
 	def delayedStart(self):
-		if SOURCE != TARGET or cfg.allpicons.value == "0":
-			self["key_blue"].setText(_("Save bouquet"))
+#		if SOURCE != TARGET or cfg.allpicons.value == "0":
+#			self["key_blue"].setText(_("Save bouquet"))
 		self.setWindowTitle()
 		self.setGraphic()
 		self.getCurrentService()
@@ -179,6 +184,30 @@ class setPicon(Screen, HelpableScreen):
 		self.getStoredPicons()
 		self.setText()
 		self["current"].setText(_("current:"))
+
+	def showMenu(self):
+		self.menu = [
+			(_("Save %s bouquet's picons to %s" % (self.bouquetname, TARGET)),0),
+			(_("Copy all picons from %s to %s" % (SOURCE, TARGET)),1),
+			(_("Delete all picons in %s" % TARGET),2),
+			(_("Delete all picons in %s" % SOURCE),3)
+		]
+		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Select operation with picons:"), list=self.menu, selection = self.selection)
+
+	def menuCallback(self, choice):
+		if choice is None:
+			return
+		if int(choice[1]) == 0:
+			self.saveBouquetPicons()
+		elif int(choice[1]) == 1:
+			self.copyAllToOutput()
+		elif int(choice[1]) == 2:
+			self.deleteTarget()			
+		elif int(choice[1]) == 3:
+			self.deleteSource()
+		else:
+			return
+		self.selection = int(choice[1])
 
 	def getStoredPicons(self):
 		self.readFiles()
@@ -311,6 +340,27 @@ class setPicon(Screen, HelpableScreen):
 			text = text[text.rfind('/')+1:]
 		self["path"].setText(text)
 
+	def copyAllToOutput(self):
+		os.system("cp %s %s" % ( SOURCE + "*" + EXT, TARGET ))
+
+	def deleteTarget(self):
+		self.rmPath = TARGET + "*" + EXT
+		self.confirmDelete(TARGET)
+
+	def deleteSource(self):
+		self.rmPath = SOURCE + "*" + EXT
+		self.confirmDelete(SOURCE)
+		
+	def confirmDelete(self, path):
+		self.session.openWithCallback(self.deleteAllPicons, MessageBox, _("Are You sure delete all picons in %s ?" % path ), MessageBox.TYPE_YESNO, default=False )
+
+	def deleteAllPicons(self, answer=False):
+		if answer is True:
+			os.system("rm %s" % self.rmPath)
+			self.getStoredPicons()
+			self.currentServicePicon()
+		del self.rmPath
+
 	def convToRef(self, filename):
 		return filename.replace('_',':') + ":"
 
@@ -436,10 +486,10 @@ class setPicon(Screen, HelpableScreen):
 		self.session.openWithCallback(self.afterConfig, setPiconCfg)
 
 	def afterConfig(self, data=None):
-		self["key_blue"].setText("")
+#		self["key_blue"].setText("")
 		self.setText()
-		if SOURCE != TARGET or cfg.allpicons.value == "0":
-			self["key_blue"].setText(_("Save bouquet"))
+#		if SOURCE != TARGET or cfg.allpicons.value == "0":
+#			self["key_blue"].setText(_("Save bouquet"))
 		if self.lastdir != cfg.source.value:
 			self.getStoredPicons()
 		else:
@@ -539,7 +589,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 			
 		self["key_green"] = Label(_("Save"))
 		self["key_red"] = Label(_("Cancel"))
-		self["statusbar"] = Label("ims (c) 2012. v0.16")
+		self["statusbar"] = Label("ims (c) 2012. v0.17")
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
