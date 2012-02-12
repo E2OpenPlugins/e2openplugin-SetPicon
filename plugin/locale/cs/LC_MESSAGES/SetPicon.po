@@ -234,7 +234,3 @@ msgstr "možnosti"
 msgid "menu"
 msgstr "menu"
 
-#
-msgid "After save current picon refresh picons"
-msgstr "Refresh picons po uložení aktuální picon"
-

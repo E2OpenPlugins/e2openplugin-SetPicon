@@ -47,7 +47,6 @@ config.plugins.setpicon.target = ConfigDirectory(TARGET)
 config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("0",_("all picon's directories")),("1",_("input directory only"))])
 config.plugins.setpicon.name_op = ConfigYesNo(default=False)
 config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
-config.plugins.setpicon.refresh = ConfigYesNo(default=True)
 cfg = config.plugins.setpicon
 
 SOURCE = cfg.source.value
@@ -189,7 +188,7 @@ class setPicon(Screen, HelpableScreen):
 		self.menu.append((_("Delete all picons in %s") % TARGET,2))
 		if SOURCE != TARGET:
 			self.menu.append((_("Delete all picons in %s") % SOURCE,3))
-		
+
 		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Operations with picons"), list=self.menu, selection = self.selection)
 
 	def menuCallback(self, choice):
@@ -662,7 +661,6 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(self.target_entry)
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
-		self.setPiconCfglist.append(getConfigListEntry(_("After save current picon refresh picons"), cfg.refresh))
 
 	# for summary:
 	def changedEntry(self):

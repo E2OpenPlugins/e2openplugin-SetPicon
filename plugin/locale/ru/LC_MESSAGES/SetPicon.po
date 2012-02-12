@@ -236,7 +236,3 @@ msgstr ""
 #
 msgid "menu"
 msgstr ""
-
-#
-msgid "After save current picon refresh picons"
-msgstr ""
