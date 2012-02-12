@@ -218,7 +218,9 @@ class setPicon(Screen, HelpableScreen):
 			self.refstr = self.session.nav.getCurrentlyPlayingServiceReference().toString()
 			self.orbital =  self.getOrbitalPosition(self.refstr)
 		self.displayServiceParams()
+		self.setIndexCurrentService()
 
+	def setIndexCurrentService(self):
 		for item in self.ItemsList:
 			if str(item[1]) == str(self.refstr):
 				break	
@@ -232,7 +234,7 @@ class setPicon(Screen, HelpableScreen):
 
 	def currentServicePicon(self):
 		path = self.getInternalPicons(self.convRef(self.refstr))
-		if path is not None:
+		if fileExists(path):
 			self.nowLoad.startDecode(path)
 		else:
 			self.nowLoad.startDecode(self.EMPTY)
@@ -337,7 +339,7 @@ class setPicon(Screen, HelpableScreen):
 				self.searchList.append(self.picon.index(item))
 
 			if len(self.searchList):
-#				print "founded:", self.searchList
+				print "[SetPicon] found:", self.searchList
 				self.search = True
 				self.displayFoundedPicon()
 			else:
@@ -369,11 +371,11 @@ class setPicon(Screen, HelpableScreen):
 			self.session.openWithCallback(self.sameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
 
 	def deleteTarget(self):
-		self.rmPath = TARGET + "*" + EXT
+		self.rmPath = TARGET
 		self.confirmDelete(TARGET)
 
 	def deleteSource(self):
-		self.rmPath = SOURCE + "*" + EXT
+		self.rmPath = SOURCE
 		self.confirmDelete(SOURCE)
 		
 	def confirmDelete(self, path):
@@ -381,7 +383,13 @@ class setPicon(Screen, HelpableScreen):
 
 	def deleteAllPicons(self, answer=False):
 		if answer is True:
-			os.system("rm %s" % self.rmPath)
+			for filename in os.listdir(self.rmPath):
+				if filename.endswith('.png'):
+					try:
+						filename = os.path.join(self.rmPath,filename)
+						os.unlink(filename)
+					except:
+						print "Failed to unlink", filename
 			self.getStoredPicons()
 		del self.rmPath
 
@@ -485,7 +493,7 @@ class setPicon(Screen, HelpableScreen):
 				if pathExists(pngname):
 					self.lastPath = path
 					return pngname
-		return None
+		return ""
 
 	def convRef(self, serviceRef):
 		return '_'.join(str(serviceRef).split(':', 10)[:10])
@@ -526,7 +534,6 @@ class setPicon(Screen, HelpableScreen):
 
 	def callConfig(self):
 		self.lastdir = cfg.source.value
-#		self.lastpath = self["path"].getText()
 		self.session.openWithCallback(self.afterConfig, setPiconCfg)
 
 	def afterConfig(self, data=None):
@@ -630,7 +637,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 			
 		self["key_green"] = Label(_("Save"))
 		self["key_red"] = Label(_("Cancel"))
-		self["statusbar"] = Label("ims (c) 2012. v0.20")
+		self["statusbar"] = Label("ims (c) 2012, v0.21")
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -751,7 +758,6 @@ def Plugins(path,**kwargs):
 	name="SetPicon"
 	descr=_("set picon to service")
 	return [
-		#PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_PLUGINMENU, icon="setpicon.png", fnc=main),
 		PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main),
 		#PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart = False, fnc=main)
 		]
