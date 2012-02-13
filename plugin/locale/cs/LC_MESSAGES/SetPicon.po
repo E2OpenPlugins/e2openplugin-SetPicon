@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Enigma 2 SetPicon Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 23:05+0100\n"
-"PO-Revision-Date: 2012-02-11 20:32+0100\n"
+"PO-Revision-Date: 2012-02-13 15:35+0100\n"
 "Last-Translator: ims\n"
 "Language-Team: ims\n"
 "MIME-Version: 1.0\n"
@@ -235,14 +235,18 @@ msgid "menu"
 msgstr "menu"
 
 #
-msgid "Do you want set both directory as:\n %s"
+msgid ""
+"Do you want set both directory as:\n"
+" %s"
 msgstr ""
+"Chcete nastavit oba adresáře jako:\n"
+" %s"
 
 #
 msgid "Swap Dirs"
-msgstr ""
+msgstr "Prohodit"
 
 #
 msgid "Same Dirs"
-msgstr ""
+msgstr "Stejné"
 
