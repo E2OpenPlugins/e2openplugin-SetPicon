@@ -24,12 +24,12 @@ from Screens.HelpMenu import HelpableScreen
 from Components.ActionMap import ActionMap, HelpableActionMap
 from Components.Pixmap import Pixmap
 from Components.FileList import FileList
-from Components.config import ConfigSubsection, ConfigDirectory, ConfigSelection, getConfigListEntry, config, ConfigYesNo
+from Components.config import ConfigSubsection, ConfigDirectory, ConfigSelection, getConfigListEntry, config, ConfigYesNo, ConfigLocations
 from Components.Label import Label
 from Components.ConfigList import ConfigListScreen
 from os import system
 import enigma
-from Tools.Directories import resolveFilename, fileExists, createDir, pathExists
+from Tools.Directories import resolveFilename, fileExists, pathExists
 from Components.Button import Button
 from enigma import eTimer
 from Components.Renderer.Picon import initPiconPaths, searchPaths
@@ -47,6 +47,7 @@ config.plugins.setpicon.target = ConfigDirectory(TARGET)
 config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("0",_("all picon's directories")),("1",_("input directory only"))])
 config.plugins.setpicon.name_op = ConfigYesNo(default=False)
 config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
+config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
 cfg = config.plugins.setpicon
 
 SOURCE = cfg.source.value
@@ -618,8 +619,14 @@ class setPiconCfg(Screen, ConfigListScreen):
 	<screen name="setPiconCfg" position="center,center" size="560,380" title="SetPicon Setup"  backgroundColor="black">
 		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
 		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
+		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
+		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" /> 
+
 		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
 		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
+		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
+		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
+
 		<widget name="config" position="10,40" size="540,300" zPosition="1" transparent="0" backgroundColor="black" scrollbarMode="showOnDemand" />
 		<ePixmap pixmap="skin_default/div-h.png" position="0,355" zPosition="1" size="560,2" />
 		<ePixmap alphatest="on" pixmap="skin_default/icons/clock.png" position="480,361" size="14,14" zPosition="3"/>
@@ -637,21 +644,24 @@ class setPiconCfg(Screen, ConfigListScreen):
 			
 		self["key_green"] = Label(_("Save"))
 		self["key_red"] = Label(_("Cancel"))
-		self["statusbar"] = Label("ims (c) 2012, v0.21")
+		self["key_yellow"] = Label(_("Swap Dirs"))
+		self["key_blue"] = Label(_("Same Dirs"))
+
+		self["statusbar"] = Label("ims (c) 2012, v0.22")
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
 			"ok": self.ok,
 			"red": self.exit,
-			"cancel": self.exit
+			"cancel": self.exit,
+			"yellow": self.swapDirs,
+			"blue": self.bothAsInputDir
 		}, -2)
 
 		self.onChangedEntry = []
 		self.refreshMenu()
-		ConfigListScreen.__init__(self, self.setPiconCfglist, self.session, on_change = self.changedEntry)
+		ConfigListScreen.__init__(self, self.setPiconCfglist, session, on_change = self.changedEntry)
 
-		self.oldSource_dir = cfg.source.value
-		self.oldTarget_dir = cfg.target.value
 		self.onShown.append(self.setWindowTitle)
 
 	def refreshMenu(self):
@@ -671,8 +681,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 
 	# for summary:
 	def changedEntry(self):
-		self.refreshMenu()
-		self["config"].setList(self.setPiconCfglist)
+		self.refresh()
 		for x in self.onChangedEntry:
 			x()
 	def getCurrentEntry(self):
@@ -686,34 +695,48 @@ class setPiconCfg(Screen, ConfigListScreen):
 	def setWindowTitle(self):
 		self.setTitle(_("SetPicon Setup"))
 
+	def refresh(self):
+		self.refreshMenu()
+		self["config"].setList(self.setPiconCfglist)
+
 	def ok(self):
 		from Screens.LocationBox import LocationBox
-		from Components.UsageConfig import preferredPath
 		currentry = self["config"].getCurrent()
 		if currentry == self.source_entry:
 			txt = _("Input directory of Picons")
 			inhibitDirs = ["/autofs", "/bin", "/boot", "/dev", "/etc", "/lib", "/proc", "/sbin", "/sys", "/tmp", "/usr"]
 			self.session.openWithCallback(self.sourceDirSelected, LocationBox, text=txt, currDir=cfg.source.value,
-							bookmarks=config.movielist.videodirs, autoAdd=False, editDir=True,
+							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
 							inhibitDirs=inhibitDirs)
 		elif currentry == self.target_entry:
 			txt = _("Output directory for created Picons")
 			inhibitDirs = ["/autofs", "/bin", "/boot", "/dev", "/etc", "/lib", "/proc", "/sbin", "/sys", "/tmp", "/usr"]
 			self.session.openWithCallback(self.targetDirSelected, LocationBox, text=txt, currDir=cfg.target.value,
-							bookmarks=config.movielist.videodirs, autoAdd=False, editDir=True,
+							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
 							inhibitDirs=inhibitDirs, minFree=10 ) # in MB
 
 	def sourceDirSelected(self, res):
 		if res is not None:
 			cfg.source.value = res
-		else:
-			cfg.source.value = self.oldSource_dir
 
 	def targetDirSelected(self, res):
 		if res is not None:
 			cfg.target.value = res
-		else:
-			cfg.target.value = self.oldTarget_dir
+
+	def swapDirs(self):
+		tmp = cfg.target.value
+		cfg.target.value = cfg.source.value
+		cfg.source.value = tmp
+		self["config"].invalidate(self["config"].list[self.setPiconCfglist.index(self.source_entry)])
+		self["config"].invalidate(self["config"].list[self.setPiconCfglist.index(self.target_entry)])
+
+	def bothAsInputDir(self):
+		self.session.openWithCallback(self.sameDirs, MessageBox, _("Do you want set both directory as:\n %s") % cfg.source.value , MessageBox.TYPE_YESNO, default=False )
+
+	def sameDirs(self, answer=False):
+		if answer:
+			cfg.target.value = cfg.source.value
+			self["config"].invalidate(self["config"].list[self.setPiconCfglist.index(self.target_entry)])
 
 	def save(self):
 		global SOURCE
@@ -723,8 +746,6 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.keySave()
 
 	def exit(self):
-		cfg.source.value = self.oldSource_dir
-		cfg.target.value = self.oldTarget_dir
 		self.keyCancel()
 
 from enigma import eServiceCenter, eServiceReference

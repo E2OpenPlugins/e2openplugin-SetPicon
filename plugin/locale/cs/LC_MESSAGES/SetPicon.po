@@ -234,3 +234,15 @@ msgstr "možnosti"
 msgid "menu"
 msgstr "menu"
 
+#
+msgid "Do you want set both directory as:\n %s"
+msgstr ""
+
+#
+msgid "Swap Dirs"
+msgstr ""
+
+#
+msgid "Same Dirs"
+msgstr ""
+
