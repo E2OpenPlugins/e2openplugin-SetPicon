@@ -101,7 +101,6 @@ class setPicon(Screen, HelpableScreen):
 		self.bouquetname = bouquetname
 		self.setup_title = self.bouquetname
 
-		initPiconPaths()
 		self.lastPath = None
 
 		self["OkCancelActions"] = HelpableActionMap(self, "OkCancelActions",
@@ -319,6 +318,7 @@ class setPicon(Screen, HelpableScreen):
 				self.picon.append(x[0][0][:-4])
 				self.maxPicons += 1
 		self.search = False
+		self.setText()
 
 	def searchPicon(self):
 		if len(self.picon) == 0:
