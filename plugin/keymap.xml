@@ -24,5 +24,9 @@
 
 	<key id="KEY_PREVIOUS" mapto="first" flags="m" />
 	<key id="KEY_NEXT" mapto="last" flags="m" />
+
+	<key id="KEY_CHANNELUP" mapto="service" flags="m" />
+	<key id="KEY_CHANNELDOWN" mapto="picons" flags="m" />
+
 </map>
 </keymap>

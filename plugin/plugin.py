@@ -48,6 +48,8 @@ config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("
 config.plugins.setpicon.name_op = ConfigYesNo(default=False)
 config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
 config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
+config.plugins.setpicon.extmenu = ConfigYesNo(default=False)
+
 cfg = config.plugins.setpicon
 
 SOURCE = cfg.source.value
@@ -85,7 +87,8 @@ class setPicon(Screen, HelpableScreen):
 		<widget name="picon1p" position="340,170" zPosition="2" size="100,60" alphatest="on"/>
 		<widget name="picon2p" position="450,170" zPosition="2" size="100,60" alphatest="on"/>
 
-		<widget name="message" position="230,240" zPosition="2" size="100,20" valign="center" halign="center" font="Regular;18" transparent="0" foregroundColor="white" />
+		<widget name="search" position="10,240" zPosition="2" size="200,22" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
+		<widget name="message" position="230,240" zPosition="2" size="100,22" valign="center" halign="center" font="Regular;18" transparent="0" foregroundColor="white" />
 		<ePixmap pixmap="skin_default/div-h.png" position="10,264" zPosition="2" size="540,2" transparent="0" />
 		<widget name="path" position="10,267" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" transparent="0" foregroundColor="white" />
 	</screen>"""
@@ -118,7 +121,7 @@ class setPicon(Screen, HelpableScreen):
 			"down": (self.prevService,_("go to previous service")),
 			"red": (self.end, _("exit plugin")),
 			"green": (self.saveAssignedPicon,_("save service's picon")),
-			"yellow": (self.searchPicon,_("search picon for current service")),
+			"yellow": (self.searching,_("search picons or service")),
 			"blue": (self.callConfig,_("options")),
 			"first": (self.firstPicon,_("go to first picon")),
 			"last": (self.lastPicon,_("go to last picon")),
@@ -128,7 +131,9 @@ class setPicon(Screen, HelpableScreen):
 			"3": (self.plusPiconX,_("go to +10 picons")),
 			"6": (self.plusPiconC,_("go to +100 picons")),
 			"9": (self.plusPiconM,_("go to +1000 picons")),
-			"8": (self.deletePicon,_("delete selected picon")),
+			"8": (self.deleteSelectedPicon,_("delete selected picon")),
+			"service": (self.setSearchService,_("switch searching to service")),
+			"picons": (self.setSearchPicon,_("switch searching to picons")),
 			}, -2)
 
 		self["key_red"] = Button(_("Cancel"))
@@ -145,6 +150,7 @@ class setPicon(Screen, HelpableScreen):
 		self["message"] = Label()
 		self["text"] = Label(_("Please wait to finishing picon's list..."))
 		self["path"] = Label()
+		self["search"] = Label()
 
 		self.maxPicons = 0
 		self.idx = 0
@@ -152,7 +158,7 @@ class setPicon(Screen, HelpableScreen):
 		self.refstr = None
 		self.orbital = None
 
-		self.ItemsList = []
+		self.ServicesList = []
 		self.sidx = 0
 
 		self.searchList = []
@@ -161,25 +167,28 @@ class setPicon(Screen, HelpableScreen):
 
 		self.selection = 0
 
+		self.search_picon = True
+
 		# fill ItemList with services from current bouquet
 		for service in self.services: 
-			self.ItemsList.append((service.getServiceName(), service))
-		self.lenItemsList = len(self.ItemsList)
+			self.ServicesList.append((service.getServiceName(), str(service)))
+		self.lenServicesList = len(self.ServicesList)
 
 		self.onLayoutFinish.append(self.delayStart)
 
 	def delayStart(self):
 		self.wait = eTimer()
-		self.wait.timeout.get().append(self.delayedStart)
+		self.wait.timeout.get().append(self.runOnStart)
 		self.wait.start(250, True)
 
-	def delayedStart(self):
+	def runOnStart(self):
 		self.setWindowTitle()
 		self.setGraphic()
 		self.getCurrentService()
 		self["text"].setText(_("Reading picons..."))
 		self.getStoredPicons()
 		self["current"].setText(_("current:"))
+		self.searchText()
 
 	def showMenu(self):
 		self.menu = []
@@ -208,7 +217,7 @@ class setPicon(Screen, HelpableScreen):
 		self.selection = selected
 
 	def getStoredPicons(self):
-		self.readFiles()
+		self.readPngFiles()
 		self.firstPicon()
 
 	def getCurrentService(self):
@@ -218,22 +227,20 @@ class setPicon(Screen, HelpableScreen):
 			self.refstr = self.session.nav.getCurrentlyPlayingServiceReference().toString()
 			self.orbital =  self.getOrbitalPosition(self.refstr)
 		self.displayServiceParams()
-		self.setIndexCurrentService()
+		self.setCurrentServiceIndex()
 
-	def setIndexCurrentService(self):
-		for item in self.ItemsList:
-			if str(item[1]) == str(self.refstr):
-				break	
-			self.sidx += 1
+	def setCurrentServiceIndex(self):
+		if self.ServicesList.count((self.name,self.refstr)):
+			self.sidx = self.ServicesList.index((self.name,self.refstr))
 
 	def displayServiceParams(self):
 		self["name"].setText(self.name)
 		self["reference"].setText(self.refstr)
 		self["orbital"].setText(self.orbital)
-		self.currentServicePicon()
+		self.displayCurServicePicon()
 
-	def currentServicePicon(self):
-		path = self.getInternalPicons(self.convRef(self.refstr))
+	def displayCurServicePicon(self):
+		path = self.getInternalPicon(self.ref2str(self.refstr))
 		if fileExists(path):
 			self.nowLoad.startDecode(path)
 		else:
@@ -242,45 +249,45 @@ class setPicon(Screen, HelpableScreen):
 	def assignSelectedPicon(self):
 		if len(self.picon):
 			return
-		filename = self.convRef(self.refstr)
+		filename = self.ref2str(self.refstr)
 		if cfg.type.value == "1":
-			filename = self.convName(self.name)
+			filename = self.name2str(self.name)
 			if cfg.name_op.value:
 				filename += "_" + self.getOrbitalPosition(self.refstr)
 		path = SOURCE + self.picon[self.idx] + EXT
 		if fileExists(path):
 			print "[SetPicon] cp", path, TARGET + filename + EXT
 			os.system("cp %s %s" % ( path, TARGET + filename + EXT ))
-			self.currentServicePicon()
+			self.displayCurServicePicon()
 		else:
 			print "[SetPicon] source does not exist", path
 
 	def saveAssignedPicon(self):
-		self.saveItem(self.ItemsList[self.sidx])
+		self.savePicon(self.ServicesList[self.sidx])
 		self.displayPicon()
 		self.search = False
 
 	def saveBouquetPicons(self):
 		if SOURCE != TARGET or cfg.allpicons.value == "0":
-			for idx in self.ItemsList:
-				self.saveItem(idx, True)
+			for idx in self.ServicesList:
+				self.savePicon(idx, True)
 			self.displayPicon()
 			self.search = False
 		else:
-			self.session.openWithCallback(self.sameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
+			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
 
-	def sameDirectories(self, answer):
+	def setSameDirectories(self, answer):
 		return
 
-	def saveItem(self, item, bouquet=False):
-		refstr = self.convRef(item[1])
+	def savePicon(self, item, bouquet=False):
+		refstr = self.ref2str(item[1])
 		if cfg.allpicons.value == "1":
 			path = SOURCE + refstr + EXT
 		else:
-			path = self.getInternalPicons(refstr)
+			path = self.getInternalPicon(refstr)
 		filename = refstr
 		if cfg.type.value == "1":
-			filename = self.convName(item[0])
+			filename = self.name2str(item[0])
 			if cfg.name_op.value:
 				filename += "_" + self.getOrbitalPosition(item[1])
 		if fileExists(path):
@@ -299,7 +306,7 @@ class setPicon(Screen, HelpableScreen):
 	def displayMsg(self, message):
 		self["message"].setText(message)
 
-	def setText(self):
+	def displayText(self):
 		if len(self.picon):
 			text = _("Select picon and press OK to assign to current service:")
 			if cfg.type.value != "0":
@@ -308,7 +315,44 @@ class setPicon(Screen, HelpableScreen):
 			text = _("In menu change input directory or save picons from bouquet.")
 		self["text"].setText(text)
 
-	def readFiles(self):
+	def searchService(self):
+		index = 0
+		founded = False
+		for item in self.ServicesList:
+			(service, refstr, name, nameo, orbital ) = self.getStrings(item)
+			if service == refstr or service == name or service == nameo:
+				founded = True
+				self.refstr = item[1]
+				self.name = item[0]
+				self.orbital = orbital
+				break
+			index += 1	
+		if founded:
+			self.sidx = index
+			self.displayServiceParams()
+		else:
+			self.displayPath(_("Not found"))
+
+	def getStrings(self, item):
+		name = self.name2str(item[0])
+		orbital = self.getOrbitalPosition(item[1])
+		return ( self.picon[self.idx], self.ref2str(item[1]), self.name2str(item[0]), name + "_" + orbital, orbital)
+
+	def setSearchService(self):
+		self.search_picon = False
+		self.searchText()
+
+	def setSearchPicon(self):
+		self.search_picon = True
+		self.searchText()
+
+	def searchText(self):
+		text = _("Search: picons")
+		if not self.search_picon:
+			text = _("Search: service")	
+		self["search"].setText(text)
+
+	def readPngFiles(self):
 		self.idx = 0
 		filelist = FileList(SOURCE, matchingPattern="png")
 		self.maxPicons = 0
@@ -318,7 +362,13 @@ class setPicon(Screen, HelpableScreen):
 				self.picon.append(x[0][0][:-4])
 				self.maxPicons += 1
 		self.search = False
-		self.setText()
+		self.displayText()
+
+	def searching(self):
+		if self.search_picon:
+			self.searchPicon()
+		else:
+			self.searchService()
 
 	def searchPicon(self):
 		if len(self.picon) == 0:
@@ -329,10 +379,10 @@ class setPicon(Screen, HelpableScreen):
 			self.fidx = 0
 			self.searchList = []
 
-			item = self.convRef(self.refstr)
+			item = self.ref2str(self.refstr)
 			if self.picon.count(item):
 				self.searchList.append(self.picon.index(item))
-			item = self.convName(self.name)
+			item = self.name2str(self.name)
 			if self.picon.count(item):
 				self.searchList.append(self.picon.index(item))
 			item += "_" + self.getOrbitalPosition(self.refstr)
@@ -369,7 +419,7 @@ class setPicon(Screen, HelpableScreen):
 			os.system("cp %s %s" % ( SOURCE + "*" + EXT, TARGET ))
 			#self.getStoredPicons()
 		else:
-			self.session.openWithCallback(self.sameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
+			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
 
 	def deleteTarget(self):
 		self.rmPath = TARGET
@@ -393,9 +443,6 @@ class setPicon(Screen, HelpableScreen):
 						print "Failed to unlink", filename
 			self.getStoredPicons()
 		del self.rmPath
-
-	def convToRef(self, filename):
-		return filename.replace('_',':') + ":"
 
 	def nextPicon(self):
 		self.gotoPicon(1)
@@ -464,7 +511,7 @@ class setPicon(Screen, HelpableScreen):
 				self.piconLoad2p.startDecode(self.EMPTY)
 				self["path"].setText("")
 				self.displayMsg(_("No picons found!"))
-				self.setText()
+				self.displayText()
 
 	def nextService(self):
 		self.changeService(1)
@@ -474,43 +521,43 @@ class setPicon(Screen, HelpableScreen):
 
 	def changeService(self, num):
 		self.sidx += num
-		self.sidx %= self.lenItemsList
+		self.sidx %= self.lenServicesList
 		self.search = False
 		self["key_yellow"].setText(_("Search"))
-		self.name = self.ItemsList[self.sidx][0]
-		self.refstr = str(self.ItemsList[self.sidx][1])
+		self.name = self.ServicesList[self.sidx][0]
+		self.refstr = self.ServicesList[self.sidx][1]
 		self.orbital =  self.getOrbitalPosition(self.refstr)
 		self.displayServiceParams()
 
-	def getInternalPicons(self, serviceName):
+	def getInternalPicon(self, serviceRef):
 		if self.lastPath:
-			pngname = self.lastPath + serviceName + EXT
+			pngname = self.lastPath + serviceRef + EXT
 			if pathExists(pngname):
 				return pngname
 		global searchPaths
 		for path in searchPaths:
 			if pathExists(path):
-				pngname = path + serviceName + EXT
+				pngname = path + serviceRef + EXT
 				if pathExists(pngname):
 					self.lastPath = path
 					return pngname
 		return ""
 
-	def convRef(self, serviceRef):
-		return '_'.join(str(serviceRef).split(':', 10)[:10])
+	def ref2str(self, serviceRef):
+		return '_'.join(serviceRef.split(':', 10)[:10])
 
-	def convName(self, serviceName):
+	def name2str(self, serviceName):
 		return serviceName.replace(' ','_').replace('/','__')
 
 	def getOrbitalPosition(self, serviceRef):
-		b = int("".join(str(serviceRef).split(':', 10)[6:7])[:-4],16)
+		b = int("".join(serviceRef.split(':', 10)[6:7])[:-4],16)
 		direction = 'E'
 		if b > 1800:
 			b = 3600 - b
 			direction = 'W'
 		return ("%d.%d%s") % (b // 10, b % 10, direction)
 
-	def deletePicon(self):
+	def deleteSelectedPicon(self):
 		if not len(self.picon):
 			return
 		self.removePath = SOURCE + self.picon[self.idx] + EXT
@@ -538,7 +585,7 @@ class setPicon(Screen, HelpableScreen):
 		self.session.openWithCallback(self.afterConfig, setPiconCfg)
 
 	def afterConfig(self, data=None):
-		self.setText()
+		self.displayText()
 		if self.lastdir != cfg.source.value:
 			self.getStoredPicons()
 		else:
@@ -647,7 +694,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.22")
+		self["statusbar"] = Label("ims (c) 2012, v0.23")
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -678,6 +725,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(self.target_entry)
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
+		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in E-menu"), cfg.extmenu))
 
 	# for summary:
 	def changedEntry(self):
@@ -778,7 +826,7 @@ def Plugins(path,**kwargs):
     	plugin_path = path
 	name="SetPicon"
 	descr=_("set picon to service")
-	return [
-		PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main),
-		#PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart = False, fnc=main)
-		]
+	list = [ PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main),]
+	if cfg.extmenu.value:
+		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart = False, fnc=main))
+	return list

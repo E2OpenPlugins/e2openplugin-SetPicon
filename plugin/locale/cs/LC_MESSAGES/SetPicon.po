@@ -32,27 +32,27 @@ msgstr "Výstupní adresář"
 
 #
 msgid "Save picon as"
-msgstr "Uložit picon jako"
+msgstr "Ukládat pikony jako"
 
 #
 msgid "Saving current picons from"
-msgstr "Ukládat aktuální picons"
+msgstr "Ukládat aktuální pikony"
 
 #
 msgid "Input directory of Picons"
-msgstr "Vstupní adresář s picons"
+msgstr "Vstupní adresář s pikonami"
 
 #
 msgid "Output directory for created Picons"
-msgstr "Adresář pro ukládání picons"
+msgstr "Adresář pro ukládání pikon"
 
 #
 msgid "set picon to service"
-msgstr "přiřadit picon programu"
+msgstr "přiřadit pikonu programu"
 
 #
 msgid "No picons found!"
-msgstr "Žádné picons nenalezeny!"
+msgstr "Žádné pikony nenalezeny!"
 
 #
 msgid "current:"
@@ -64,11 +64,11 @@ msgstr "Vyberte ikonu a stiskem OK ji přiřaďte aktuálnímu programu:"
 
 #
 msgid "Reading picons..."
-msgstr "Načítání picons..."
+msgstr "Načítání pikon..."
 
 #
 msgid "Please wait to finishing picon's list..."
-msgstr "Čekejte na dokončení seznamu picons..."
+msgstr "Čekejte na dokončení seznamu pikon..."
 
 #
 msgid "Save current"
@@ -84,7 +84,7 @@ msgstr "název programu"
 
 #
 msgid "all picon's directories"
-msgstr "ze všech adresářů s picons"
+msgstr "ze všech adresářů s pikonami"
 
 #
 msgid "input directory only"
@@ -96,7 +96,7 @@ msgstr "zavřít plugin"
 
 #
 msgid "set and save selected picon"
-msgstr "nastavit a uložit vybranou picon"
+msgstr "nastavit a uložit vybranou pikonu"
 
 #
 msgid "service reference"
@@ -108,11 +108,11 @@ msgstr "konfigurace"
 
 #
 msgid "go to previous picon"
-msgstr "předchozí picon"
+msgstr "předchozí pikona"
 
 #
 msgid "go to next picon"
-msgstr "následující picon"
+msgstr "následující pikona"
 
 #
 msgid "go to next service"
@@ -124,47 +124,43 @@ msgstr "předchozí program"
 
 #
 msgid "save service's picon"
-msgstr "uložit picon programu"
-
-#
-msgid "search picon for current service"
-msgstr "najít picon pro aktuální program"
+msgstr "uložit pikonu programu"
 
 #
 msgid "save bouquet's picons"
-msgstr "uložit picons z přehledu"
+msgstr "uložit všechny picony z přehledu"
 
 #
 msgid "go to first picon"
-msgstr "na první picon"
+msgstr "na první pikonu"
 
 #
 msgid "go to last picon"
-msgstr "na poslední picon"
+msgstr "na poslední pikonu"
 
 #
 msgid "go to -10 picons"
-msgstr "zpět o 10 picons"
+msgstr "zpět o 10 pikon"
 
 #
 msgid "go to -100 picons"
-msgstr "zpět o 100 picons"
+msgstr "zpět o 100 pikon"
 
 #
 msgid "go to -1000 picons"
-msgstr "zpět o -1000 picons"
+msgstr "zpět o -1000 pikon"
 
 #
 msgid "go to +10 picons"
-msgstr "vpřed o 10 picons"
+msgstr "vpřed o 10 pikon"
 
 #
 msgid "go to +100 picons"
-msgstr "vpřed o 100 picons"
+msgstr "vpřed o 100 pikon"
 
 #
 msgid "go to +1000 picons"
-msgstr "vpřed o 1000 picons"
+msgstr "vpřed o 1000 pikon"
 
 #
 msgid "Save name with orbital position"
@@ -172,7 +168,7 @@ msgstr "Přidat k názvu i orbitální pozici"
 
 #
 msgid "Display picon's name"
-msgstr "Zobrazovat názvy picons"
+msgstr "Zobrazovat názvy pikon"
 
 #
 msgid "no"
@@ -196,31 +192,31 @@ msgstr "Vyberte ikonu a stiskem OK ji uložte do výstupního adresáře:"
 
 #
 msgid "Save %s bouquet's picons to %s"
-msgstr "Uložit picons z přehledu %s do %s"
+msgstr "Uložit pikony z přehledu %s do %s"
 
 #
 msgid "Copy all picons from %s to %s"
-msgstr "Zkopírovat všechny picons z %s do %s"
+msgstr "Zkopírovat všechny pikony z %s do %s"
 
 #
 msgid "Delete all picons in %s"
-msgstr "Smazat všechny picons v %s"
+msgstr "Smazat všechny pikony v %s"
 
 #
 msgid "Operations with picons"
-msgstr "Operace s picons"
+msgstr "Operace s pikonami"
 
 #
 msgid "Input directory and output directory are same!"
-msgstr "Vstupní a výstupní adresář je stejný!"
+msgstr "Vstupní a výstupní adresáře jsou stejné!"
 
 #
 msgid "Are You sure delete all picons in %s ?"
-msgstr "Skutečně chcete smazat všechny picons v %s ?"
+msgstr "Skutečně chcete smazat všechny pikony v %s ?"
 
 #
 msgid "In menu change input directory or save picons from bouquet."
-msgstr "Změňte vstupní adresář nebo uložte picons z přehledu."
+msgstr "Změňte vstupní adresář nebo uložte pikony z přehledu."
 
 #
 msgid "Options"
@@ -250,3 +246,26 @@ msgstr "Prohodit"
 msgid "Same Dirs"
 msgstr "Stejné"
 
+#
+msgid "SetPicon in E-menu"
+msgstr "SetPicon v E-menu"
+
+#
+msgid "Search: picons"
+msgstr "Hledat: pikony"
+
+#
+msgid "Search: service"
+msgstr "Hledat: program"
+
+#
+msgid "search picons or service"
+msgstr "vyhledat pikony nebo program"
+
+#
+msgid "switch searching to service"
+msgstr "přepnout hledání na program"
+
+#
+msgid "switch searching to picons"
+msgstr "přepnout hledání na pikony"

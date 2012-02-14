@@ -84,7 +84,7 @@ msgstr "название сервиса"
 
 #
 msgid "all picon's directories"
-msgstr "все каталоги пиконов"
+msgstr "в оба каталога пиконов"
 
 #
 msgid "input directory only"
@@ -125,10 +125,6 @@ msgstr "перейти к предыдущему сервису"
 #
 msgid "save service's picon"
 msgstr "сохранение текущего пикона"
-
-#
-msgid "search picon for current service"
-msgstr "найти  пикон для текущего сервиса"
 
 #
 msgid "save bouquet's picons"
@@ -199,52 +195,77 @@ msgstr "удалить выбранный пикон"
 
 #
 msgid "Save %s bouquet's picons to %s"
-msgstr ""
+msgstr "Сохр. букет %s пиконов в %s "
 
 #
 msgid "Copy all picons from %s to %s"
-msgstr ""
+msgstr "Копир. все пиконы из %s в %s"
 
 #
 msgid "Delete all picons in %s"
-msgstr ""
+msgstr "Удалить все пиконы из %s"
 
 #
 msgid "Operations with picons"
-msgstr ""
+msgstr "Операции с пиконами"
 
 #
 msgid "Input directory and output directory are same!"
-msgstr ""
+msgstr "Входной и выходной каталог одинаковы!"
 
 #
 msgid "Are You sure delete all picons in %s ?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить все пиконы из %s ?"
 
 #
 msgid "In menu change input directory or save picons from bouquet."
-msgstr ""
+msgstr "В меню измените входной каталог или сохр. пиконы букета"
 
 #
 msgid "Options"
-msgstr ""
+msgstr "Настройки"
 
 #
 msgid "options"
-msgstr ""
+msgstr "настройки"
 
 #
 msgid "menu"
-msgstr ""
+msgstr "меню"
 
 #
 msgid "Do you want set both directory as:\n %s"
-msgstr ""
+msgstr "Вы хотите установить оба каталога как:\n %s"
 
 #
 msgid "Swap Dirs"
-msgstr ""
+msgstr "Обмен каталогов"
 
 #
 msgid "Same Dirs"
+msgstr "Одинаковые каталоги"
+
+
+#
+msgid "SetPicon in E-menu"
+msgstr "SetPicon v E-menu"
+
+#
+msgid "Search: picons"
+msgstr ""
+
+#
+msgid "Search: service"
+msgstr ""
+
+#
+msgid "search picons or service"
+msgstr ""
+
+#
+msgid "switch searching to service"
+msgstr ""
+
+#
+msgid "switch searching to picons"
 msgstr ""
