@@ -269,3 +269,7 @@ msgstr ""
 #
 msgid "switch searching to picons"
 msgstr ""
+
+#
+msgid "Service not found"
+msgstr ""

@@ -269,3 +269,7 @@ msgstr "přepnout hledání na program"
 #
 msgid "switch searching to picons"
 msgstr "přepnout hledání na pikony"
+
+#
+msgid "Service not found"
+msgstr "Program nenalezen"

@@ -168,6 +168,7 @@ class setPicon(Screen, HelpableScreen):
 		self.selection = 0
 
 		self.search_picon = True
+		self.blocked = False
 
 		# fill ItemList with services from current bouquet
 		for service in self.services: 
@@ -202,6 +203,7 @@ class setPicon(Screen, HelpableScreen):
 
 	def menuCallback(self, choice):
 		if choice is None:
+			self.displayPicon()
 			return
 		selected = int(choice[1])
 		if selected == 0:
@@ -241,13 +243,14 @@ class setPicon(Screen, HelpableScreen):
 
 	def displayCurServicePicon(self):
 		path = self.getInternalPicon(self.ref2str(self.refstr))
-		if fileExists(path):
+		if fileExists(path) and not self.blocked:
 			self.nowLoad.startDecode(path)
 		else:
 			self.nowLoad.startDecode(self.EMPTY)
 
 	def assignSelectedPicon(self):
-		if len(self.picon):
+		if not len(self.picon) or self.blocked:
+			print "[SetPicon] OK: blocked or no picons", len(self.picon), self.blocked
 			return
 		filename = self.ref2str(self.refstr)
 		if cfg.type.value == "1":
@@ -261,11 +264,16 @@ class setPicon(Screen, HelpableScreen):
 			self.displayCurServicePicon()
 		else:
 			print "[SetPicon] source does not exist", path
+		print "[SetPicon] OK button"
 
 	def saveAssignedPicon(self):
+		if self.blocked:
+			print "[SetPicon] blocked"
+			return
 		self.savePicon(self.ServicesList[self.sidx])
 		self.displayPicon()
 		self.search = False
+		print "[SetPicon] GREEN button"
 
 	def saveBouquetPicons(self):
 		if SOURCE != TARGET or cfg.allpicons.value == "0":
@@ -326,12 +334,29 @@ class setPicon(Screen, HelpableScreen):
 				self.name = item[0]
 				self.orbital = orbital
 				break
-			index += 1	
+			index += 1
 		if founded:
 			self.sidx = index
 			self.displayServiceParams()
+			self.blocked = False
 		else:
 			self.displayPath(_("Not found"))
+			self.blocked = True
+			self.serviceHide()
+
+	def serviceHide(self):
+		self["name"].setText(_("Service not found"))
+		self["reference"].setText("")
+		self["orbital"].setText("")
+		self.displayCurServicePicon()
+
+	def servicePiconRefresh(self):
+		self.search = False
+		self["key_yellow"].setText(_("Search"))
+		if self.blocked:
+			self.blocked = False
+			self.displayPath("%s" % SOURCE + self.picon[self.idx] + EXT)
+		self.displayServiceParams()
 
 	def getStrings(self, item):
 		name = self.name2str(item[0])
@@ -341,15 +366,18 @@ class setPicon(Screen, HelpableScreen):
 	def setSearchService(self):
 		self.search_picon = False
 		self.searchText()
+		self.servicePiconRefresh()
+
 
 	def setSearchPicon(self):
 		self.search_picon = True
 		self.searchText()
+		self.servicePiconRefresh()
 
 	def searchText(self):
 		text = _("Search: picons")
 		if not self.search_picon:
-			text = _("Search: service")	
+			text = _("Search: service")
 		self["search"].setText(text)
 
 	def readPngFiles(self):
@@ -362,6 +390,7 @@ class setPicon(Screen, HelpableScreen):
 				self.picon.append(x[0][0][:-4])
 				self.maxPicons += 1
 		self.search = False
+		self.blocked = False
 		self.displayText()
 
 	def searching(self):
@@ -371,7 +400,7 @@ class setPicon(Screen, HelpableScreen):
 			self.searchService()
 
 	def searchPicon(self):
-		if len(self.picon) == 0:
+		if not len(self.picon):
 			return
 		if self.search:
 			self.displayFoundedPicon()
@@ -402,7 +431,7 @@ class setPicon(Screen, HelpableScreen):
 		if len(self.searchList) != 1:
 			text += " (%s/%s)" % (self.fidx+1, len(self.searchList))
 		self["key_yellow"].setText(text)
-		self.displayPath("%s" % self.picon[self.searchList[self.fidx]])	
+		self.displayPath("%s" % self.picon[self.searchList[self.fidx]])
 		self.gotoPicon(self.searchList[self.fidx], True)
 		self.fidx += 1
 		self.fidx %= len(self.searchList)
@@ -502,6 +531,8 @@ class setPicon(Screen, HelpableScreen):
 			if fileExists(path):
 				self.piconLoad2p.startDecode(path)
 			self.displayMsg("%s/%s" % (self.idx+1, self.maxPicons))
+			if self.blocked:
+				self.servicePiconRefresh()
 		else:
 			if fileExists(self.EMPTY):
 				self.piconLoad2l.startDecode(self.EMPTY)
@@ -512,6 +543,7 @@ class setPicon(Screen, HelpableScreen):
 				self["path"].setText("")
 				self.displayMsg(_("No picons found!"))
 				self.displayText()
+				self.blocked = False
 
 	def nextService(self):
 		self.changeService(1)
@@ -522,12 +554,10 @@ class setPicon(Screen, HelpableScreen):
 	def changeService(self, num):
 		self.sidx += num
 		self.sidx %= self.lenServicesList
-		self.search = False
-		self["key_yellow"].setText(_("Search"))
 		self.name = self.ServicesList[self.sidx][0]
 		self.refstr = self.ServicesList[self.sidx][1]
 		self.orbital =  self.getOrbitalPosition(self.refstr)
-		self.displayServiceParams()
+		self.servicePiconRefresh()
 
 	def getInternalPicon(self, serviceRef):
 		if self.lastPath:
@@ -590,6 +620,7 @@ class setPicon(Screen, HelpableScreen):
 			self.getStoredPicons()
 		else:
 			self.displayPicon()
+		
 
 ### for graphics
 	def initGraphic(self):
@@ -694,7 +725,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.23")
+		self["statusbar"] = Label("ims (c) 2012, v0.24")
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
