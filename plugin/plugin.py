@@ -3,7 +3,7 @@ from . import _
 #
 #  Set Picon - Plugin E2
 #
-#  by ims (c) 2012
+#  by ims (c) 2012 ims21@users.sourceforge.net
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -199,7 +199,6 @@ class setPicon(Screen, HelpableScreen):
 		self.menu.append((_("Delete all picons in %s") % TARGET,2))
 		if SOURCE != TARGET:
 			self.menu.append((_("Delete all picons in %s") % SOURCE,3))
-
 		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Operations with picons"), list=self.menu, selection = self.selection)
 
 	def menuCallback(self, choice):
@@ -265,7 +264,6 @@ class setPicon(Screen, HelpableScreen):
 			self.displayCurServicePicon()
 		else:
 			print "[SetPicon] source does not exist", path
-		print "[SetPicon] OK button"
 
 	def saveAssignedPicon(self):
 		if self.blocked:
@@ -274,7 +272,6 @@ class setPicon(Screen, HelpableScreen):
 		self.savePicon(self.ServicesList[self.sidx])
 		self.displayPicon()
 		self.search = False
-		print "[SetPicon] GREEN button"
 
 	def saveBouquetPicons(self):
 		if SOURCE != TARGET or cfg.allpicons.value == "0":
@@ -369,7 +366,6 @@ class setPicon(Screen, HelpableScreen):
 		self.searchText()
 		self.servicePiconRefresh()
 
-
 	def setSearchPicon(self):
 		self.search_picon = True
 		self.searchText()
@@ -447,7 +443,6 @@ class setPicon(Screen, HelpableScreen):
 	def copyAllToOutput(self):
 		if SOURCE != TARGET:
 			os.system("cp %s %s" % ( SOURCE + "*" + EXT, TARGET ))
-			#self.getStoredPicons()
 		else:
 			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
 
@@ -613,7 +608,7 @@ class setPicon(Screen, HelpableScreen):
 
 	def callConfig(self):
 		self.lastdir = cfg.source.value
-		self.session.openWithCallback(self.afterConfig, setPiconCfg)
+		self.session.openWithCallback(self.afterConfig, setPiconCfg, plugin_path)
 
 	def afterConfig(self, data=None):
 		self.displayText()
@@ -714,10 +709,11 @@ class setPiconCfg(Screen, ConfigListScreen):
 		<widget name="statusbar" position="10,359" size="460,20" font="Regular;18" backgroundColor="black" />
 	</screen>"""
 
-	def __init__(self, session):
+	def __init__(self, session, plugin_path):
 		Screen.__init__(self, session)
 		self.session = session
 		self.skin = setPiconCfg.skin
+		self.skin_path = plugin_path
 		self.setup_title = _("SetPicon Setup")
 			
 		self["key_green"] = Label(_("Save"))

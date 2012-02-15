@@ -277,4 +277,3 @@ msgstr "Program nenalezen"
 #
 msgid "refresh"
 msgstr "občerstvit"
-
