@@ -248,28 +248,32 @@ msgstr "Одинаковые каталоги"
 
 #
 msgid "SetPicon in E-menu"
-msgstr "SetPicon v E-menu"
+msgstr "Показать SetPicon в меню дополнений"
 
 #
 msgid "Search: picons"
-msgstr ""
+msgstr "Поиск: пиконы"
 
 #
 msgid "Search: service"
-msgstr ""
+msgstr "Поиск: сервисы"
 
 #
 msgid "search picons or service"
-msgstr ""
+msgstr "поиск пиконов или сервисов"
 
 #
 msgid "switch searching to service"
-msgstr ""
+msgstr "переключить на поиск сервисов"
 
 #
 msgid "switch searching to picons"
-msgstr ""
+msgstr "переключить на поиск пиконов"
 
 #
 msgid "Service not found"
-msgstr ""
+msgstr "Сервисы не найдены"
+
+#
+msgid "refresh"
+msgstr "обновление"
