@@ -280,16 +280,16 @@ msgstr "обновление"
 
 #
 msgid "Backup directory cannot be same as Input or Output directories !"
-msgstr "Záložní adresář nemůže být shodný se vstupním nebo výstupním adresářem !"
+msgstr ""
 
 #
 msgid "Backup directory for Picons"
-msgstr "Záložní adresář pro pikony"
+msgstr ""
 
 #
 msgid "Saving too to backup directory"
-msgstr "Ukládat též do záložního adresáře"
+msgstr ""
 
 #
 msgid "Backup directory"
-msgstr "Záložní adresář"
+msgstr ""

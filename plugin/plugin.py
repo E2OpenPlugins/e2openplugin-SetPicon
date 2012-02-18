@@ -821,8 +821,11 @@ class setPiconCfg(Screen, ConfigListScreen):
 			if res != cfg.source.value and res != cfg.target.value:
 				cfg.backup.value = res
 			else:
-				self.session.open( MessageBox, _("Backup directory cannot be same as Input or Output directories !"), MessageBox.TYPE_ERROR, timeout=5 )
+				self.backupWarning()
 				return
+
+	def backupWarning(self):
+		self.session.open( MessageBox, _("Backup directory cannot be same as Input or Output directories !"), MessageBox.TYPE_ERROR, timeout=5 )
 
 	def swapDirs(self):
 		tmp = cfg.target.value
@@ -841,7 +844,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 
 	def save(self):
 		if cfg.backup.value == cfg.target.value or cfg.backup.value == cfg.source.value:
-			self.session.open( MessageBox, _("Backup directory cannot be same as Input or Output directories !"), MessageBox.TYPE_ERROR, timeout=5 )
+			self.backupWarning()
 			return
 		global SOURCE
 		SOURCE = cfg.source.value
