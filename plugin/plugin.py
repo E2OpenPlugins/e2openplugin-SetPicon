@@ -39,6 +39,7 @@ from Screens.ChoiceBox import ChoiceBox
 
 SOURCE = "/picon/"
 TARGET = "/picon/"
+BACKUP = "/picon/"
 
 config.plugins.setpicon = ConfigSubsection()
 config.plugins.setpicon.type = ConfigSelection(default = "0", choices = [("0",_("service reference")),("1",_("name"))])
@@ -49,6 +50,8 @@ config.plugins.setpicon.name_op = ConfigYesNo(default=False)
 config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
 config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
 config.plugins.setpicon.extmenu = ConfigYesNo(default=False)
+config.plugins.setpicon.save2backtoo = ConfigYesNo(default=False)
+config.plugins.setpicon.backup = ConfigDirectory(BACKUP)
 
 cfg = config.plugins.setpicon
 
@@ -123,12 +126,12 @@ class setPicon(Screen, HelpableScreen):
 			"green": (self.saveAssignedPicon,_("save service's picon")),
 			"yellow": (self.searching,_("search picons or service")),
 			"blue": (self.callConfig,_("options")),
-			"first": (self.firstPicon,_("go to first picon")),
-			"last": (self.lastPicon,_("go to last picon")),
-			"1": (self.minusPiconX,_("go to -10 picons")),
+			"1": (self.firstPicon,_("go to first picon")),
+			"3": (self.lastPicon,_("go to last picon")),			
+			"first": (self.minusPiconV,_("go to -5 picons")),
 			"4": (self.minusPiconC,_("go to -100 picons")),
 			"7": (self.minusPiconM,_("go to -1000 picons")),
-			"3": (self.plusPiconX,_("go to +10 picons")),
+			"last": (self.plusPiconV,_("go to +5 picons")),
 			"6": (self.plusPiconC,_("go to +100 picons")),
 			"9": (self.plusPiconM,_("go to +1000 picons")),
 			"8": (self.deleteSelectedPicon,_("delete selected picon")),
@@ -261,6 +264,8 @@ class setPicon(Screen, HelpableScreen):
 		if fileExists(path):
 			print "[SetPicon] cp", path, TARGET + filename + EXT
 			os.system("cp %s %s" % ( path, TARGET + filename + EXT ))
+			if cfg.save2backtoo.value:
+				os.system("cp %s %s" % ( path, BACKUP + filename + EXT ))
 			self.displayCurServicePicon()
 		else:
 			print "[SetPicon] source does not exist", path
@@ -300,6 +305,8 @@ class setPicon(Screen, HelpableScreen):
 			if not bouquet:
 				print "[SetPicon] cp", path, TARGET + filename + EXT
 			os.system("cp %s %s" % ( path, TARGET + filename + EXT ))
+			if cfg.save2backtoo.value:
+				os.system("cp %s %s" % ( path, BACKUP + filename + EXT ))
 			if not self.picon.count(filename):
 				self.picon.append(filename)
 				self.maxPicons+=1
@@ -481,8 +488,8 @@ class setPicon(Screen, HelpableScreen):
 	def lastPicon(self):
 		self.gotoPicon(self.maxPicons-1, True)
 
-	def plusPiconX(self):
-		self.gotoPicon(10)
+	def plusPiconV(self):
+		self.gotoPicon(5)
 
 	def plusPiconC(self):
 		self.gotoPicon(100)
@@ -490,8 +497,8 @@ class setPicon(Screen, HelpableScreen):
 	def plusPiconM(self):
 		self.gotoPicon(1000)
 
-	def minusPiconX(self):
-		self.gotoPicon(-10)
+	def minusPiconV(self):
+		self.gotoPicon(-5)
 
 	def minusPiconC(self):
 		self.gotoPicon(-100)
@@ -721,7 +728,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.25")
+		self["statusbar"] = Label("ims (c) 2012, v0.26")
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -732,6 +739,8 @@ class setPiconCfg(Screen, ConfigListScreen):
 			"blue": self.bothAsInputDir
 		}, -2)
 
+		self.inhibitDirs = ["/autofs", "/bin", "/boot", "/dev", "/etc", "/lib", "/proc", "/sbin", "/sys", "/tmp", "/usr"]
+
 		self.onChangedEntry = []
 		self.refreshMenu()
 		ConfigListScreen.__init__(self, self.setPiconCfglist, session, on_change = self.changedEntry)
@@ -741,6 +750,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 	def refreshMenu(self):
 		self.source_entry = getConfigListEntry(_("Input directory"), cfg.source)
 		self.target_entry = getConfigListEntry(_("Output directory"), cfg.target)
+		self.backup_entry = getConfigListEntry(_("Backup directory"), cfg.backup)
 
 		self.setPiconCfglist = []
 		self.setPiconCfglist.append(getConfigListEntry(_("Save picon as"), cfg.type))
@@ -753,6 +763,11 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
 		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in E-menu"), cfg.extmenu))
+		self.setPiconCfglist.append(getConfigListEntry(_("Saving too to backup directory"), cfg.save2backtoo))
+		if cfg.save2backtoo.value:
+			self.setPiconCfglist.extend((
+				self.backup_entry,
+			))
 
 	# for summary:
 	def changedEntry(self):
@@ -779,16 +794,19 @@ class setPiconCfg(Screen, ConfigListScreen):
 		currentry = self["config"].getCurrent()
 		if currentry == self.source_entry:
 			txt = _("Input directory of Picons")
-			inhibitDirs = ["/autofs", "/bin", "/boot", "/dev", "/etc", "/lib", "/proc", "/sbin", "/sys", "/tmp", "/usr"]
 			self.session.openWithCallback(self.sourceDirSelected, LocationBox, text=txt, currDir=cfg.source.value,
 							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
-							inhibitDirs=inhibitDirs)
+							inhibitDirs=self.inhibitDirs)
 		elif currentry == self.target_entry:
 			txt = _("Output directory for created Picons")
-			inhibitDirs = ["/autofs", "/bin", "/boot", "/dev", "/etc", "/lib", "/proc", "/sbin", "/sys", "/tmp", "/usr"]
 			self.session.openWithCallback(self.targetDirSelected, LocationBox, text=txt, currDir=cfg.target.value,
 							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
-							inhibitDirs=inhibitDirs, minFree=10 ) # in MB
+							inhibitDirs=self.inhibitDirs, minFree=10 ) # in MB
+		elif currentry == self.backup_entry:
+			txt = _("Backup directory for Picons")
+			self.session.openWithCallback(self.backupDirSelected, LocationBox, text=txt, currDir=cfg.backup.value,
+							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
+							inhibitDirs=self.inhibitDirs, minFree=10 ) # in MB
 
 	def sourceDirSelected(self, res):
 		if res is not None:
@@ -797,6 +815,14 @@ class setPiconCfg(Screen, ConfigListScreen):
 	def targetDirSelected(self, res):
 		if res is not None:
 			cfg.target.value = res
+
+	def backupDirSelected(self, res):
+		if res is not None:
+			if res != cfg.source.value and res != cfg.target.value:
+				cfg.backup.value = res
+			else:
+				self.session.open( MessageBox, _("Backup directory cannot be same as Input or Output directories !"), MessageBox.TYPE_ERROR, timeout=5 )
+				return
 
 	def swapDirs(self):
 		tmp = cfg.target.value
@@ -814,10 +840,15 @@ class setPiconCfg(Screen, ConfigListScreen):
 			self["config"].invalidate(self["config"].list[self.setPiconCfglist.index(self.target_entry)])
 
 	def save(self):
+		if cfg.backup.value == cfg.target.value or cfg.backup.value == cfg.source.value:
+			self.session.open( MessageBox, _("Backup directory cannot be same as Input or Output directories !"), MessageBox.TYPE_ERROR, timeout=5 )
+			return
 		global SOURCE
 		SOURCE = cfg.source.value
 		global TARGET
 		TARGET = cfg.target.value
+		global BACKUP
+		BACKUP = cfg.backup.value
 		self.keySave()
 
 	def exit(self):

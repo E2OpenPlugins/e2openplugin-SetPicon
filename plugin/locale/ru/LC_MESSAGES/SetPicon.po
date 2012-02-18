@@ -139,8 +139,8 @@ msgid "go to last picon"
 msgstr "перейти к последнему пикону"
 
 #
-msgid "go to -10 picons"
-msgstr "назад на 10 пиконов"
+msgid "go to -5 picons"
+msgstr "назад на 5 пиконов"
 
 #
 msgid "go to -100 picons"
@@ -151,8 +151,8 @@ msgid "go to -1000 picons"
 msgstr "назад на 1000 пиконов"
 
 #
-msgid "go to +10 picons"
-msgstr "вперед на 10 пиконов"
+msgid "go to +5 picons"
+msgstr "вперед на 5 пиконов"
 
 #
 msgid "go to +100 picons"
@@ -272,8 +272,24 @@ msgstr "переключить на поиск пиконов"
 
 #
 msgid "Service not found"
-msgstr "Сервисы не найдены"
+msgstr "Сервис не найден"
 
 #
 msgid "refresh"
 msgstr "обновление"
+
+#
+msgid "Backup directory cannot be same as Input or Output directories !"
+msgstr "Záložní adresář nemůže být shodný se vstupním nebo výstupním adresářem !"
+
+#
+msgid "Backup directory for Picons"
+msgstr "Záložní adresář pro pikony"
+
+#
+msgid "Saving too to backup directory"
+msgstr "Ukládat též do záložního adresáře"
+
+#
+msgid "Backup directory"
+msgstr "Záložní adresář"
