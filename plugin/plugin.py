@@ -857,6 +857,19 @@ class setPiconCfg(Screen, ConfigListScreen):
 	def exit(self):
 		self.keyCancel()
 
+def cleanup():
+	global Session
+	Session = None
+	global Servicelist
+	Servicelist = None
+	global plugin_path
+	plugin_path = None
+	global epg_bouquet
+	epg_bouquet = None
+
+def closed(ret=False):
+	cleanup()
+
 from enigma import eServiceCenter, eServiceReference
 from ServiceReference import ServiceReference
 
@@ -880,7 +893,7 @@ def main(session, servicelist=None, **kwargs):
 	epg_bouquet = Servicelist and Servicelist.getRoot()
 	if epg_bouquet is not None:
 		services = getBouquetServices(epg_bouquet)
-		session.open(setPicon, plugin_path, services, ServiceReference(epg_bouquet).getServiceName())
+		session.openWithCallback(closed, setPicon, plugin_path, services, ServiceReference(epg_bouquet).getServiceName())
 
 def Plugins(path,**kwargs):
 	global plugin_path
