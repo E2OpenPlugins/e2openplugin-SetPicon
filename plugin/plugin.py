@@ -49,7 +49,7 @@ config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("
 config.plugins.setpicon.name_op = ConfigYesNo(default=False)
 config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
 config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
-config.plugins.setpicon.extmenu = ConfigYesNo(default=False)
+config.plugins.setpicon.extmenu = ConfigYesNo(default=True)
 config.plugins.setpicon.save2backtoo = ConfigYesNo(default=False)
 config.plugins.setpicon.backup = ConfigDirectory(BACKUP)
 
@@ -57,6 +57,7 @@ cfg = config.plugins.setpicon
 
 SOURCE = cfg.source.value
 TARGET = cfg.target.value
+BACKUP = cfg.backup.value
 
 EXT = ".png"
 
@@ -99,13 +100,13 @@ class setPicon(Screen, HelpableScreen):
 	def __init__(self, session, plugin_path, services, bouquetname=None):
 		self.skin = setPicon.skin
 		self.skin_path = plugin_path
-		self.EMPTY = plugin_path + "/img/empty.png"
-
 		Screen.__init__(self, session)
 		HelpableScreen.__init__(self)
 		self.services = services
 		self.bouquetname = bouquetname
 		self.setup_title = self.bouquetname
+
+		self.EMPTY = self.skin_path + "/img/empty.png"
 
 		self.lastPath = None
 
@@ -202,6 +203,8 @@ class setPicon(Screen, HelpableScreen):
 		self.menu.append((_("Delete all picons in %s") % TARGET,2))
 		if SOURCE != TARGET:
 			self.menu.append((_("Delete all picons in %s") % SOURCE,3))
+		if cfg.save2backtoo.value:
+			self.menu.append((_("Delete picons in backup directory %s") % BACKUP,4))
 		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Operations with picons"), list=self.menu, selection = self.selection)
 
 	def menuCallback(self, choice):
@@ -217,6 +220,8 @@ class setPicon(Screen, HelpableScreen):
 			self.deleteTarget()			
 		elif selected == 3:
 			self.deleteSource()
+		elif selected == 4:
+			self.deleteBackup()
 		else:
 			return
 		self.selection = selected
@@ -460,6 +465,16 @@ class setPicon(Screen, HelpableScreen):
 	def deleteSource(self):
 		self.rmPath = SOURCE
 		self.confirmDelete(SOURCE)
+
+	def deleteBackup(self):
+		if self.diffDirs():
+			self.rmPath = BACKUP
+			self.confirmDelete(BACKUP)
+
+	def diffDirs(self):
+		if BACKUP != SOURCE and BACKUP != TARGET:
+			return True
+		return False
 		
 	def confirmDelete(self, path):
 		self.session.openWithCallback(self.deleteAllPicons, MessageBox, _("Are You sure delete all picons in %s ?") % path, MessageBox.TYPE_YESNO, default=False )
@@ -615,7 +630,7 @@ class setPicon(Screen, HelpableScreen):
 
 	def callConfig(self):
 		self.lastdir = cfg.source.value
-		self.session.openWithCallback(self.afterConfig, setPiconCfg, plugin_path)
+		self.session.openWithCallback(self.afterConfig, setPiconCfg, self.skin_path)
 
 	def afterConfig(self, data=None):
 		self.displayText()
@@ -862,8 +877,6 @@ def cleanup():
 	Session = None
 	global Servicelist
 	Servicelist = None
-	global plugin_path
-	plugin_path = None
 	global epg_bouquet
 	epg_bouquet = None
 

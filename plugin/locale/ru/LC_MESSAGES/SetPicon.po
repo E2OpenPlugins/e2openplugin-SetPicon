@@ -293,3 +293,7 @@ msgstr ""
 #
 msgid "Backup directory"
 msgstr ""
+
+#
+msgid "Delete picons in backup directory %s"
+msgstr ""

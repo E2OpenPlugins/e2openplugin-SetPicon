@@ -294,3 +294,6 @@ msgstr "Ukládat též do záložního adresáře"
 msgid "Backup directory"
 msgstr "Záložní adresář"
 
+#
+msgid "Delete picons in backup directory %s"
+msgstr "Smazat pikony v záložním adresáři %s"
