@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
 
 #
 msgid "SetPicon Setup"
@@ -280,20 +280,20 @@ msgstr "обновление"
 
 #
 msgid "Backup directory cannot be same as Input or Output directories !"
-msgstr ""
+msgstr "Бекуп каталога не состоится, оба каталога одинаковы!"
 
 #
 msgid "Backup directory for Picons"
-msgstr ""
+msgstr "Резервное копирование каталога пиконов"
 
 #
 msgid "Saving too to backup directory"
-msgstr ""
+msgstr "Сохранить и в каталог бекупа"
 
 #
 msgid "Backup directory"
-msgstr ""
+msgstr "Каталог бекупа"
 
 #
 msgid "Delete picons in backup directory %s"
-msgstr ""
+msgstr "Удаление пиконов в каталоге бекупа %s"
