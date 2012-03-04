@@ -743,7 +743,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.26")
+		self["statusbar"] = Label("ims (c) 2012, v0.27,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -872,6 +872,33 @@ class setPiconCfg(Screen, ConfigListScreen):
 	def exit(self):
 		self.keyCancel()
 
+def getMemory(par=1):
+	TEMP = "/tmp/tmp.txt"
+	os.system("free > %s" % (TEMP))
+	try:
+		fd = open(TEMP,"r")
+		if fd:
+			test = fd.readline()
+			test = fd.readline().split()
+			os.unlink(TEMP)
+			m = int(test[1])
+			u = int(test[2])
+			f = int(test[3])
+			memory = ""
+			if par&0x1:
+				memory += _("mem: %d MB" % (m/1024)) + " "
+			if par&0x2:
+				memory += _("used: %.2f%s" % (100.*u/m,'%')) + " "
+			if par&0x4:
+				memory += _("free: %.2f%s" % (100.*f/m,'%'))
+			return memory
+	except Exception, e:
+		print "[SetPicon] read file FAIL:", e
+		return ""
+
+def freeMemory():
+	os.system("echo 1 > /proc/sys/vm/drop_caches")
+
 def cleanup():
 	global Session
 	Session = None
@@ -879,6 +906,7 @@ def cleanup():
 	Servicelist = None
 	global epg_bouquet
 	epg_bouquet = None
+	freeMemory()
 
 def closed(ret=False):
 	cleanup()
