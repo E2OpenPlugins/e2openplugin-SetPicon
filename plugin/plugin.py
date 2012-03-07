@@ -872,26 +872,27 @@ class setPiconCfg(Screen, ConfigListScreen):
 	def exit(self):
 		self.keyCancel()
 
-def getMemory(par=1):
-	TEMP = "/tmp/tmp.txt"
-	os.system("free > %s" % (TEMP))
+def getMemory(par=0x01):
 	try:
-		fd = open(TEMP,"r")
-		if fd:
-			test = fd.readline()
-			test = fd.readline().split()
-			os.unlink(TEMP)
-			m = int(test[1])
-			u = int(test[2])
-			f = int(test[3])
-			memory = ""
-			if par&0x1:
-				memory += _("mem: %d MB" % (m/1024)) + " "
-			if par&0x2:
-				memory += _("used: %.2f%s" % (100.*u/m,'%')) + " "
-			if par&0x4:
-				memory += _("free: %.2f%s" % (100.*f/m,'%'))
-			return memory
+		memory = ""
+		mm = mu = mf = 0
+		for line in open('/proc/meminfo','r'):
+			line = line.strip()
+			if "MemTotal:" in line:
+				line = line.split()
+				mm = int(line[1])
+			if "MemFree:" in line:
+				line = line.split()
+				mf = int(line[1])
+				break
+		mu = mm - mf
+		if par&0x01:
+			memory += "".join((_("mem:")," %d " % (mm/1024),_("MB")," "))
+		if par&0x02:
+			memory += "".join((_("used:")," %.2f%s" % (100.*mu/mm,'%')," "))
+		if par&0x04:
+			memory += "".join((_("free:")," %.2f%s" % (100.*mf/mm,'%')))
+		return memory
 	except Exception, e:
 		print "[SetPicon] read file FAIL:", e
 		return ""
