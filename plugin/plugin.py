@@ -898,7 +898,8 @@ def getMemory(par=0x01):
 		return ""
 
 def freeMemory():
-	os.system("echo 1 > /proc/sys/vm/drop_caches")
+	os.system("sync")
+	os.system("echo 3 > /proc/sys/vm/drop_caches")
 
 def cleanup():
 	global Session
