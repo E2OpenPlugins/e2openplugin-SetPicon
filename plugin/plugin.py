@@ -570,12 +570,13 @@ class setPicon(Screen, HelpableScreen):
 		self.changeService(-1)
 
 	def changeService(self, num):
-		self.sidx += num
-		self.sidx %= self.lenServicesList
-		self.name = self.ServicesList[self.sidx][0]
-		self.refstr = self.ServicesList[self.sidx][1]
-		self.orbital =  self.getOrbitalPosition(self.refstr)
-		self.servicePiconRefresh()
+		if self.lenServicesList:
+			self.sidx += num
+			self.sidx %= self.lenServicesList
+			self.name = self.ServicesList[self.sidx][0]
+			self.refstr = self.ServicesList[self.sidx][1]
+			self.orbital =  self.getOrbitalPosition(self.refstr)
+			self.servicePiconRefresh()
 
 	def getInternalPicon(self, serviceRef):
 		if self.lastPath:
