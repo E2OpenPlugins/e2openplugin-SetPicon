@@ -32,7 +32,7 @@ import enigma
 from Tools.Directories import resolveFilename, fileExists, pathExists
 from Components.Button import Button
 from enigma import eTimer
-from Components.Renderer.Picon import initPiconPaths, searchPaths
+from Components.Renderer.Picon import searchPaths
 from Screens.MessageBox import MessageBox
 
 from Screens.ChoiceBox import ChoiceBox
@@ -744,7 +744,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.27,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.28,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
