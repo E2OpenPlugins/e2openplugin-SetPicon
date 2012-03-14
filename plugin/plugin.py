@@ -586,8 +586,13 @@ class setPicon(Screen, HelpableScreen):
 			global searchPaths
 		except Exception, e:
 			print "[SetPicon]",e
-			from Components.Renderer.Picon import Picon
-			searchPaths = Picon().searchPaths
+			try:
+				from Components.Renderer.Picon import Picon
+				searchPaths = Picon().searchPaths
+			except Exception, e:
+				print "[SetPicon]",e
+				from enigma import eEnv
+				searchPaths = (eEnv.resolve('${datadir}/enigma2/%s/'), '/media/cf/%s/', '/media/usb/%s/')
 
 		for path in searchPaths:
 			if pathExists(path):
