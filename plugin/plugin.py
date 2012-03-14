@@ -234,8 +234,8 @@ class setPicon(Screen, HelpableScreen):
 			self.name = ServiceReference(self.session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
 			self.refstr = self.session.nav.getCurrentlyPlayingServiceReference().toString()
 			self.orbital =  self.getOrbitalPosition(self.refstr)
-		self.displayServiceParams()
-		self.setCurrentServiceIndex()
+			self.displayServiceParams()
+			self.setCurrentServiceIndex()
 
 	def setCurrentServiceIndex(self):
 		if self.ServicesList.count((self.name,self.refstr)):
@@ -277,7 +277,8 @@ class setPicon(Screen, HelpableScreen):
 		if self.blocked:
 			print "[SetPicon] blocked"
 			return
-		self.savePicon(self.ServicesList[self.sidx])
+		if len(self.ServicesList):
+			self.savePicon(self.ServicesList[self.sidx])
 		self.displayPicon()
 		self.search = False
 
@@ -603,7 +604,9 @@ class setPicon(Screen, HelpableScreen):
 		return ""
 
 	def ref2str(self, serviceRef):
-		return '_'.join(serviceRef.split(':', 10)[:10])
+		if serviceRef is not None:
+			return '_'.join(serviceRef.split(':', 10)[:10])
+		return ""
 
 	def name2str(self, serviceName):
 		return serviceName.replace(' ','_').replace('/','__')
@@ -754,7 +757,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.29,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.30,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
