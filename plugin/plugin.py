@@ -32,9 +32,7 @@ import enigma
 from Tools.Directories import resolveFilename, fileExists, pathExists
 from Components.Button import Button
 from enigma import eTimer
-from Components.Renderer.Picon import searchPaths
 from Screens.MessageBox import MessageBox
-
 from Screens.ChoiceBox import ChoiceBox
 
 SOURCE = "/picon/"
@@ -583,7 +581,14 @@ class setPicon(Screen, HelpableScreen):
 			pngname = self.lastPath + serviceRef + EXT
 			if pathExists(pngname):
 				return pngname
-		global searchPaths
+		try:
+			from Components.Renderer.Picon import searchPaths
+			global searchPaths
+		except Exception, e:
+			print "[SetPicon]",e
+			from Components.Renderer.Picon import Picon
+			searchPaths = Picon().searchPaths
+
 		for path in searchPaths:
 			if pathExists(path):
 				pngname = path + serviceRef + EXT
