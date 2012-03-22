@@ -61,7 +61,7 @@ EXT = ".png"
 
 class setPicon(Screen, HelpableScreen):
 	skin = """
-	<screen name="setPicon" position="center,center" size="560,290" backgroundColor="black" title="SetPicon">
+	<screen name="setPicon" position="center,center" size="560,290" title="SetPicon">
 		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
 		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
 		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
@@ -73,26 +73,26 @@ class setPicon(Screen, HelpableScreen):
 
 		<widget name="nowpicon" position="450,50" zPosition="2" size="100,60" alphatest="on"/>
 
-		<widget name="name" position="10,50" zPosition="2" size="300,25" valign="center" halign="left" font="Regular;22" transparent="0" foregroundColor="white" />
-		<widget name="current" position="340,50" zPosition="2" size="100,20" valign="top" halign="right" font="Regular;16" transparent="0" foregroundColor="white" />
-		<widget name="reference" position="10,75" zPosition="2" size="430,20" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
-		<widget name="orbital" position="10,95" zPosition="2" size="100,20" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
+		<widget name="name" position="10,50" zPosition="2" size="300,25" valign="center" halign="left" font="Regular;22" foregroundColor="white" />
+		<widget name="current" position="340,50" zPosition="2" size="100,20" valign="top" halign="right" font="Regular;16" foregroundColor="white" />
+		<widget name="reference" position="10,75" zPosition="2" size="430,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
+		<widget name="orbital" position="10,95" zPosition="2" size="100,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 
 		<ePixmap pixmap="skin_default/div-h.png" position="10,120" zPosition="2" size="540,2" transparent="0" />
 
-		<widget name="text" position="10,135" zPosition="2" size="540,25" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
+		<widget name="text" position="10,135" zPosition="2" size="540,25" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 
-		<ePixmap pixmap="~/img/border.png" position="225,165" zPosition="1" size="110,70" transparent="0" />
+		<ePixmap pixmap="~/img/border.png" position="225,165" zPosition="1" size="110,70" alphatest="on" />
 		<widget name="picon2l" position="10,170" zPosition="2" size="100,60" alphatest="on"/>
 		<widget name="picon1l" position="120,170" zPosition="2" size="100,60" alphatest="on"/>
 		<widget name="picon"   position="230,170" zPosition="2" size="100,60" alphatest="on"/>
 		<widget name="picon1p" position="340,170" zPosition="2" size="100,60" alphatest="on"/>
 		<widget name="picon2p" position="450,170" zPosition="2" size="100,60" alphatest="on"/>
 
-		<widget name="search" position="10,240" zPosition="2" size="200,22" valign="center" halign="left" font="Regular;18" transparent="0" foregroundColor="white" />
-		<widget name="message" position="230,240" zPosition="2" size="100,22" valign="center" halign="center" font="Regular;18" transparent="0" foregroundColor="white" />
-		<ePixmap pixmap="skin_default/div-h.png" position="10,264" zPosition="2" size="540,2" transparent="0" />
-		<widget name="path" position="10,267" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" transparent="0" foregroundColor="white" />
+		<widget name="search" position="10,240" zPosition="2" size="200,22" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
+		<widget name="message" position="230,240" zPosition="2" size="100,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
+		<ePixmap pixmap="skin_default/div-h.png" position="10,264" zPosition="2" size="540,2" />
+		<widget name="path" position="10,267" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
 	</screen>"""
 
 	def __init__(self, session, plugin_path, services, bouquetname=None):
@@ -725,7 +725,7 @@ class setPicon(Screen, HelpableScreen):
 
 class setPiconCfg(Screen, ConfigListScreen):
 	skin = """
-	<screen name="setPiconCfg" position="center,center" size="560,380" title="SetPicon Setup"  backgroundColor="black">
+	<screen name="setPiconCfg" position="center,center" size="560,380" title="SetPicon Setup">
 		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
 		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
 		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
@@ -736,13 +736,13 @@ class setPiconCfg(Screen, ConfigListScreen):
 		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 
-		<widget name="config" position="10,40" size="540,300" zPosition="1" transparent="0" backgroundColor="black" scrollbarMode="showOnDemand" />
+		<widget name="config" position="10,40" size="540,300" zPosition="1" scrollbarMode="showOnDemand" />
 		<ePixmap pixmap="skin_default/div-h.png" position="0,355" zPosition="1" size="560,2" />
 		<ePixmap alphatest="on" pixmap="skin_default/icons/clock.png" position="480,361" size="14,14" zPosition="3"/>
-		<widget font="Regular;18" halign="right" position="495,358" render="Label" size="55,20" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
+		<widget font="Regular;18" halign="right" position="495,358" render="Label" size="55,20" source="global.CurrentTime" valign="center" zPosition="3">
 			<convert type="ClockToText">Default</convert>
 		</widget>
-		<widget name="statusbar" position="10,359" size="460,20" font="Regular;18" backgroundColor="black" />
+		<widget name="statusbar" position="10,359" size="460,20" font="Regular;18" />
 	</screen>"""
 
 	def __init__(self, session, plugin_path):
