@@ -285,7 +285,7 @@ class setPicon(Screen, HelpableScreen):
 		path = SOURCE + self.picon[self.idx] + EXT
 		if fileExists(path):
 			print "[SetPicon] copy", path, TARGET + filename + EXT
-			shutil.copy( path, TARGET + filename + EXT )
+			shutil.copy2( path, TARGET + filename + EXT )
 			if cfg.save2backtoo.value:
 				self.saveToBackup(self.refstr, path, filename)
 			self.displayCurServicePicon()
@@ -328,7 +328,7 @@ class setPicon(Screen, HelpableScreen):
 			if not bouquet:
 				print "[SetPicon] copy", path, TARGET + filename + EXT
 			if not backuponly:
-				shutil.copy( path, TARGET + filename + EXT )
+				shutil.copy2( path, TARGET + filename + EXT )
 			if cfg.save2backtoo.value:
 				self.saveToBackup(item[1], path, filename)
 			if not self.picon.count(filename):
@@ -348,7 +348,7 @@ class setPicon(Screen, HelpableScreen):
 			directory += SUBDIR
 			if not fileExists(directory):
 				os.makedirs(directory)
-		shutil.copy( path, directory + filename + EXT )
+		shutil.copy2( path, directory + filename + EXT )
 
 	def trueName(self, name):
 		name = name.replace('/', '_').replace('\\', '_').replace('&', '_').replace('\'', '').replace('"', '').replace('`', '').replace('*', '_').replace('?', '_').replace(' ', '_').replace('(', '_').replace(')', '_')
@@ -497,7 +497,7 @@ class setPicon(Screen, HelpableScreen):
 				if filename.endswith('.png'):
 					try:
 						filename = os.path.join(SOURCE,filename)
-						shutil.copy(filename, TARGET)
+						shutil.copy2(filename, TARGET)
 					except:
 						print "Failed to copy", filename
 		else:
