@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Enigma 2 SetPicon Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 23:05+0100\n"
-"PO-Revision-Date: 2012-02-18 18:43+0100\n"
+"PO-Revision-Date: 2012-04-14 22:19+0100\n"
 "Last-Translator: ims <ims21@users.sourceforge.net>\n"
 "Language-Team: ims\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "Načítání pikon..."
 
 #
 msgid "Please wait to finishing picon's list..."
-msgstr "Čekejte na dokončení seznamu pikon..."
+msgstr "Čekejte na dokončení načtení seznamu pikon..."
 
 #
 msgid "Save current"
@@ -297,3 +297,23 @@ msgstr "Záložní adresář"
 #
 msgid "Delete picons in backup directory %s"
 msgstr "Smazat pikony v záložním adresáři %s"
+
+#
+msgid "ZAP when is changed service"
+msgstr "Přepnout při změně programu"
+
+#
+msgid "Sorting picons in backup directory"
+msgstr "Třídit pikony v záložním adresáři"
+
+#
+msgid "by providers"
+msgstr "podle poskytovatele"
+
+#
+msgid "by orbital position"
+msgstr "podle orbitální pozice"
+
+#
+msgid "Save %s bouquet's picons to backup directory only"
+msgstr "Uložit pikony z přehledu %s pouze do záložního adresáře"

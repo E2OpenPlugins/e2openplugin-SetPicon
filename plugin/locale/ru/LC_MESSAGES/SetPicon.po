@@ -245,7 +245,6 @@ msgstr "Обмен каталогов"
 msgid "Same Dirs"
 msgstr "Одинаковые каталоги"
 
-
 #
 msgid "SetPicon in E-menu"
 msgstr "Показать SetPicon в меню дополнений"
@@ -297,3 +296,23 @@ msgstr "Каталог бекупа"
 #
 msgid "Delete picons in backup directory %s"
 msgstr "Удаление пиконов в каталоге бекупа %s"
+
+#
+msgid "ZAP when is changed service"
+msgstr ""
+
+#
+msgid "Sorting picons in backup directory"
+msgstr ""
+
+#
+msgid "by providers"
+msgstr ""
+
+#
+msgid "by orbital position"
+msgstr ""
+
+#
+msgid "Save %s bouquet's picons to backup directory only"
+msgstr "Сохр. букет %s пиконов только в каталог бекупа"

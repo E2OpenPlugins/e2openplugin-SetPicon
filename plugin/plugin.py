@@ -17,6 +17,7 @@ from . import _
 #
 
 import os
+import shutil
 from enigma import ePicLoad, getDesktop
 from Plugins.Plugin import PluginDescriptor
 from Screens.Screen import Screen
@@ -31,14 +32,14 @@ from os import system
 import enigma
 from Tools.Directories import resolveFilename, fileExists, pathExists
 from Components.Button import Button
-from enigma import eTimer
+from enigma import eTimer, eEnv
 from Screens.MessageBox import MessageBox
 from Screens.ChoiceBox import ChoiceBox
 
 SOURCE = "/picon/"
 TARGET = "/picon/"
 BACKUP = "/picon/"
-LAMEDB = "/etc/enigma2/lamedb"
+LAMEDB = eEnv.resolve('${sysconfdir}/enigma2/lamedb')
 
 config.plugins.setpicon = ConfigSubsection()
 config.plugins.setpicon.type = ConfigSelection(default = "0", choices = [("0",_("service reference")),("1",_("name"))])
@@ -51,7 +52,7 @@ config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
 config.plugins.setpicon.extmenu = ConfigYesNo(default=True)
 config.plugins.setpicon.save2backtoo = ConfigYesNo(default=False)
 config.plugins.setpicon.backup = ConfigDirectory(BACKUP)
-config.plugins.setpicon.backupsort = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("providers")),("2",_("orbital positions"))])
+config.plugins.setpicon.backupsort = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("by providers")),("2",_("by orbital position"))])
 config.plugins.setpicon.zap = ConfigYesNo(default=False)
 
 cfg = config.plugins.setpicon
@@ -79,8 +80,8 @@ class setPicon(Screen, HelpableScreen):
 		<widget name="name" position="10,50" zPosition="2" size="300,25" valign="center" halign="left" font="Regular;22" foregroundColor="white" />
 		<widget name="current" position="340,50" zPosition="2" size="100,20" valign="top" halign="right" font="Regular;16" foregroundColor="white" />
 		<widget name="reference" position="10,75" zPosition="2" size="430,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
-		<widget name="orbital" position="10,95" zPosition="2" size="100,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
-		<widget name="provider" position="10,105" zPosition="2" size="100,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
+		<widget name="orbital" position="10,95" zPosition="2" size="60,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
+		<widget name="provider" position="80,95" zPosition="2" size="300,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 
 		<ePixmap pixmap="skin_default/div-h.png" position="10,120" zPosition="2" size="540,2" transparent="0" />
 
@@ -180,14 +181,17 @@ class setPicon(Screen, HelpableScreen):
 		self.search_picon = True
 		self.blocked = False
 
+		self.init()
+		self.onLayoutFinish.append(self.delayStart)
+
+
+	def init(self):
 		# fill ItemList with services from current bouquet:
 		for service in self.services: 
 			self.ServicesList.append((service.getServiceName(), str(service)))
 		self.lenServicesList = len(self.ServicesList)
 		# fill self.providers list from lamedb:
 		self.getProviders()
-
-		self.onLayoutFinish.append(self.delayStart)
 
 	def delayStart(self):
 		self.wait = eTimer()
@@ -211,7 +215,9 @@ class setPicon(Screen, HelpableScreen):
 		if SOURCE != TARGET:
 			self.menu.append((_("Delete all picons in %s") % SOURCE,3))
 		if cfg.save2backtoo.value:
-			self.menu.append((_("Delete picons in backup directory %s") % BACKUP,4))
+			self.menu.append((_("Save %s bouquet's picons to backup directory only") % (self.bouquetname),4))
+			self.menu.append((_("Delete picons in backup directory %s") % BACKUP,5))
+
 		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Operations with picons"), list=self.menu, selection = self.selection)
 
 	def menuCallback(self, choice):
@@ -228,6 +234,8 @@ class setPicon(Screen, HelpableScreen):
 		elif selected == 3:
 			self.deleteSource()
 		elif selected == 4:
+			self.saveBouquetPicons(True)
+		elif selected == 5:
 			self.deleteBackup()
 		else:
 			return
@@ -276,21 +284,10 @@ class setPicon(Screen, HelpableScreen):
 				filename += "_" + self.getOrbitalPosition(self.refstr)
 		path = SOURCE + self.picon[self.idx] + EXT
 		if fileExists(path):
-			print "[SetPicon] cp", path, TARGET + filename + EXT
-			os.system("cp -f %s %s" % ( path, TARGET + filename + EXT ))
+			print "[SetPicon] copy", path, TARGET + filename + EXT
+			shutil.copy( path, TARGET + filename + EXT )
 			if cfg.save2backtoo.value:
-				directory = BACKUP
-				if cfg.backupsort.value == "1":
-					SUBDIR = self.trueName(self.getProviderName(self.refstr)) + "/"
-					if not fileExists(BACKUP+SUBDIR):
-						os.makedirs(BACKUP+SUBDIR)
-					directory += SUBDIR
-				elif cfg.backupsort.value == "2":
-					SUBDIR = self.getOrbitalPosition(self.refstr,True) + "/"
-					if not fileExists(BACKUP+SUBDIR):
-						os.makedirs(BACKUP+SUBDIR)
-					directory += SUBDIR
-				os.system("cp -f %s %s" % ( path, directory + filename + EXT ))
+				self.saveToBackup(self.refstr, path, filename)
 			self.displayCurServicePicon()
 		else:
 			print "[SetPicon] source does not exist", path
@@ -304,10 +301,10 @@ class setPicon(Screen, HelpableScreen):
 		self.displayPicon()
 		self.search = False
 
-	def saveBouquetPicons(self):
+	def saveBouquetPicons(self, backuponly=False):
 		if SOURCE != TARGET or cfg.allpicons.value == "0":
 			for idx in self.ServicesList:
-				self.savePicon(idx, True)
+				self.savePicon(idx, True, backuponly)
 			self.displayPicon()
 			self.search = False
 		else:
@@ -316,7 +313,7 @@ class setPicon(Screen, HelpableScreen):
 	def setSameDirectories(self, answer):
 		return
 
-	def savePicon(self, item, bouquet=False):
+	def savePicon(self, item, bouquet=False, backuponly=False):
 		refstr = self.ref2str(item[1])
 		if cfg.allpicons.value == "1":
 			path = SOURCE + refstr + EXT
@@ -329,29 +326,35 @@ class setPicon(Screen, HelpableScreen):
 				filename += "_" + self.getOrbitalPosition(item[1])
 		if fileExists(path):
 			if not bouquet:
-				print "[SetPicon] cp", path, TARGET + filename + EXT
-			os.system("cp -f %s %s" % ( path, TARGET + filename + EXT ))
+				print "[SetPicon] copy", path, TARGET + filename + EXT
+			if not backuponly:
+				shutil.copy( path, TARGET + filename + EXT )
 			if cfg.save2backtoo.value:
-				directory = BACKUP
-				if cfg.backupsort.value == "1":
-					SUBDIR = self.trueName(self.getProviderName(item[1])) + "/"
-					if not fileExists(BACKUP+SUBDIR):
-						os.makedirs(BACKUP+SUBDIR)
-					directory += SUBDIR
-				elif cfg.backupsort.value == "2":
-					SUBDIR = self.getOrbitalPosition(item[1],True) + "/"
-					if not fileExists(BACKUP+SUBDIR):
-						os.makedirs(BACKUP+SUBDIR)
-					directory += SUBDIR
-				os.system("cp -f %s %s" % ( path, directory + filename + EXT ))
+				self.saveToBackup(item[1], path, filename)
 			if not self.picon.count(filename):
 				self.picon.append(filename)
 				self.maxPicons+=1
-		else:
-			print "[SetPicon] path does not exist:", path
+#		else:
+#			print "[SetPicon] picone not exist:", path
+
+	def saveToBackup(self, ref, path, filename):
+		directory = BACKUP
+		if cfg.backupsort.value > "0":
+			SUBDIR = ""
+			if cfg.backupsort.value == "1":
+				SUBDIR = self.trueName(self.ref2ProviderName(ref)) + "/"
+			elif cfg.backupsort.value == "2":
+				SUBDIR = self.getOrbitalPosition(ref,True) + "/"
+			directory += SUBDIR
+			if not fileExists(directory):
+				os.makedirs(directory)
+		shutil.copy( path, directory + filename + EXT )
 
 	def trueName(self, name):
-		return name.replace('/', '_').replace('\\', '_').replace('&', '_').replace('\'', '').replace('"', '').replace('`', '').replace('*', '_').replace('?', '_').replace(' ', '_').replace('(', '_').replace(')', '_')
+		name = name.replace('/', '_').replace('\\', '_').replace('&', '_').replace('\'', '').replace('"', '').replace('`', '').replace('*', '_').replace('?', '_').replace(' ', '_').replace('(', '_').replace(')', '_')
+		if len(name):
+			return name
+		return "unknown"
 
 	def setWindowTitle(self):
 		self.setTitle(_("SetPicon") + "  -  " + self.bouquetname)
@@ -494,7 +497,7 @@ class setPicon(Screen, HelpableScreen):
 				if filename.endswith('.png'):
 					try:
 						filename = os.path.join(SOURCE,filename)
-						os.system("cp -f %s %s" % ( filename, TARGET ))
+						shutil.copy(filename, TARGET)
 					except:
 						print "Failed to copy", filename
 		else:
@@ -524,15 +527,18 @@ class setPicon(Screen, HelpableScreen):
 	def deleteAllPicons(self, answer=False):
 		if answer is True:
 			for filename in os.listdir(self.rmPath):
-				if filename.endswith('.png') or self.rmPath == BACKUP:
+				filename = os.path.join(self.rmPath,filename)
+				if filename.endswith('.png'):
 					try:
-						filename = os.path.join(self.rmPath,filename)
-						if self.rmPath == BACKUP:
-							os.system("rm -r %s >/dev/null 2>&1" % (filename))
-						else:
-							os.unlink(filename)
+						os.unlink(filename)
 					except:
 						print "Failed to unlink", filename
+				else:
+					 if self.rmPath == BACKUP:
+						try:
+							shutil.rmtree(filename)
+						except:
+							print "Failed rmtree", filename
 			if self.rmPath == SOURCE:
 				self.getStoredPicons()
 		del self.rmPath
@@ -693,12 +699,17 @@ class setPicon(Screen, HelpableScreen):
 		if cfg.zap.value:
 			self.session.nav.playService(eServiceReference(ref))
 		self.provider = self.getProviderName(ref)
-		self["provider"].setText(self.provider)
 
 	def getProviderName(self, ref=None):
+		provider = ""
 		if cfg.zap.value or ref is None:
-			return self.curProviderName()
-		return self.ref2ProviderName(ref)
+			provider = self.curProviderName()
+		else:
+			provider = self.ref2ProviderName(ref)
+		if provider == "unknown":
+			provider == _("unknown")
+		self["provider"].setText(provider)
+		return provider
 
 	def curProviderName(self):
 		from enigma import iServiceInformation
@@ -709,12 +720,17 @@ class setPicon(Screen, HelpableScreen):
 				return info.getInfoString(iServiceInformation.sProvider)
 
 	def ref2ProviderName(self, ref):
+#		SID:NS:TSID:ONID:STYPE:UNUSED(used for channelnumber in enigma1)
+#		X   X  X    X    D     D
+
+#		REFTYPE:FLAGS:STYPE:SID:TSID:ONID:NS:PARENT_SID:PARENT_TSID:UNUSED
+#		D       D     X     X   X    X    X  X          X           X
 		ref = [ int(x, 0x10) for x in ref.split(':')[:10]]
-		ref = "%04x:%08x:%04x:%04x:%x:0" % (ref[3], ref[6], ref[4], ref[5], ref[2])
+		ref = "%04x:%08x:%04x:%04x:%d:0" % (ref[3], ref[6], ref[4], ref[5], ref[2])
 		for i in self.providers:
 			if i[0] == ref:
 				return i[1]
-		return _("unknown")
+		return "unknown"
 
 	def getProviders(self):
 		lamedb = open(LAMEDB,"r")
@@ -728,7 +744,7 @@ class setPicon(Screen, HelpableScreen):
 			if len(prov) and prov[0][0] is 'p':
 				provider = prov[0].split(':')[1]
 			else:
-				provider = _("unknown")
+				provider = "unknown"
 			self.providers.append((ref,provider))
 
 	def end(self):
@@ -849,7 +865,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.31,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.32,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -872,7 +888,6 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.source_entry = getConfigListEntry(_("Input directory"), cfg.source)
 		self.target_entry = getConfigListEntry(_("Output directory"), cfg.target)
 		self.backup_entry = getConfigListEntry(_("Backup directory"), cfg.backup)
-		self.backup_sort = getConfigListEntry(_("Subdirectory in backup directory"), cfg.backupsort)
 
 		self.setPiconCfglist = []
 		self.setPiconCfglist.append(getConfigListEntry(_("Save picon as"), cfg.type))
@@ -885,8 +900,9 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
 		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in E-menu"), cfg.extmenu))
-		self.setPiconCfglist.append(getConfigListEntry(_("ZAP to service"), cfg.zap))
+		self.setPiconCfglist.append(getConfigListEntry(_("ZAP when is changed service"), cfg.zap))
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving too to backup directory"), cfg.save2backtoo))
+		self.backup_sort = getConfigListEntry(_("Sorting picons in backup directory"), cfg.backupsort)
 		if cfg.save2backtoo.value:
 			self.setPiconCfglist.extend((self.backup_entry,))
 			self.setPiconCfglist.extend((self.backup_sort,))
