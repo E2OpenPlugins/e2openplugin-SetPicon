@@ -299,19 +299,19 @@ msgstr "Удаление пиконов в каталоге бекупа %s"
 
 #
 msgid "ZAP when is changed service"
-msgstr ""
+msgstr "Переключить при смене сервиса"
 
 #
 msgid "Sorting picons in backup directory"
-msgstr ""
+msgstr "Сортировка пиконов в каталоге бекупа"
 
 #
 msgid "by providers"
-msgstr ""
+msgstr "по провайдерам"
 
 #
 msgid "by orbital position"
-msgstr ""
+msgstr "по орбитальной позиции"
 
 #
 msgid "Save %s bouquet's picons to backup directory only"
