@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Enigma 2 SetPicon Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 23:05+0100\n"
-"PO-Revision-Date: 2012-04-14 22:19+0100\n"
+"PO-Revision-Date: 2012-04-19 18:06+0100\n"
 "Last-Translator: ims <ims21@users.sourceforge.net>\n"
 "Language-Team: ims\n"
 "MIME-Version: 1.0\n"
@@ -317,3 +317,8 @@ msgstr "podle orbitální pozice"
 #
 msgid "Save %s bouquet's picons to backup directory only"
 msgstr "Uložit pikony z přehledu %s pouze do záložního adresáře"
+
+#
+msgid "Picons list reversed"
+msgstr "Seznam pikon opačně"
+
