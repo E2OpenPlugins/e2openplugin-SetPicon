@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Enigma 2 SetPicon Plugin\n"
+"Project-Id-Version: Dima 73\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 23:05+0100\n"
-"PO-Revision-Date: 2012-04-19 20:53+0100\n"
+"PO-Revision-Date: 2012-04-19 20:59+0100\n"
 "Last-Translator: ims <ims21@users.sourceforge.net>\n"
 "Language-Team: Dima73\n"
 "MIME-Version: 1.0\n"
@@ -325,3 +325,6 @@ msgstr "Сохр. букет %s пиконов только в каталог б
 msgid "Picons list reversed"
 msgstr "Обратный список пиконов"
 
+#
+msgid "Terrestrial"
+msgstr "Наземный"

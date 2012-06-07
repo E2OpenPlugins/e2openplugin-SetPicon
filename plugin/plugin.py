@@ -679,6 +679,9 @@ class setPicon(Screen, HelpableScreen):
 
 	def getOrbitalPosition(self, serviceRef, revert=False):
 		b = int("".join(serviceRef.split(':', 10)[6:7])[:-4],16)
+		if b > 3600:
+			text = _("Terrestrial")
+			return text
 		direction = 'E'
 		if b > 1800:
 			b = 3600 - b
@@ -882,7 +885,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.33,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.34,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
