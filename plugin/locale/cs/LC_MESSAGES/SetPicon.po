@@ -323,6 +323,10 @@ msgid "Picons list reversed"
 msgstr "Seznam pikon opačně"
 
 #
+msgid "delete selected picon"
+msgstr "smazat vybranou pikonu"
+
+#
 msgid "Terrestrial"
 msgstr "Pozemní"
 
