@@ -330,3 +330,7 @@ msgstr "smazat vybranou pikonu"
 msgid "Terrestrial"
 msgstr "Pozemní"
 
+#
+msgid "Cable"
+msgstr "Kabelová"
+

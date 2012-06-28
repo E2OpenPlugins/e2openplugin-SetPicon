@@ -35,9 +35,14 @@ from enigma import eTimer, eEnv
 from Screens.MessageBox import MessageBox
 from Screens.ChoiceBox import ChoiceBox
 
-SOURCE = "/picon/"
-TARGET = "/picon/"
-BACKUP = "/picon/"
+TEMP = "/tmp/"
+STARTDIR = "/picon/"
+if not pathExists(STARTDIR):
+	STARTDIR = TEMP
+SOURCE = STARTDIR
+TARGET = STARTDIR
+BACKUP = STARTDIR
+
 LAMEDB = eEnv.resolve('${sysconfdir}/enigma2/lamedb')
 
 config.plugins.setpicon = ConfigSubsection()
@@ -57,9 +62,18 @@ config.plugins.setpicon.reverse = ConfigYesNo(default=False)
 
 cfg = config.plugins.setpicon
 
+if not pathExists(cfg.source.value):
+	cfg.source.value = TEMP
+if not pathExists(cfg.target.value):
+	cfg.target.value = TEMP
+if not pathExists(cfg.backup.value):
+	cfg.backup.value = TEMP
+
 SOURCE = cfg.source.value
 TARGET = cfg.target.value
 BACKUP = cfg.backup.value
+
+
 
 EXT = ".png"
 
@@ -183,7 +197,6 @@ class setPicon(Screen, HelpableScreen):
 
 		self.init()
 		self.onLayoutFinish.append(self.delayStart)
-
 
 	def init(self):
 		# fill ItemList with services from current bouquet:
@@ -441,7 +454,6 @@ class setPicon(Screen, HelpableScreen):
 					self.picon.append(filename[:-4])
 					self.maxPicons += 1
 		self.sortPicons()
-
 		self.search = False
 		self.blocked = False
 		self.displayText()
@@ -679,9 +691,10 @@ class setPicon(Screen, HelpableScreen):
 
 	def getOrbitalPosition(self, serviceRef, revert=False):
 		b = int("".join(serviceRef.split(':', 10)[6:7])[:-4],16)
-		if b > 3600:
-			text = _("Terrestrial")
-			return text
+		if b == 0xeeee:
+			return _("Terrestrial")
+		if b == 0xffff:
+			return _("Cable")
 		direction = 'E'
 		if b > 1800:
 			b = 3600 - b
@@ -885,7 +898,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.34,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.35,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
