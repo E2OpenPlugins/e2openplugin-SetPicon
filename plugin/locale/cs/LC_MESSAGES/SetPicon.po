@@ -1,0 +1,336 @@
+# Czech translations for enigma package.
+# Copyright (C) 2009 THE enigma'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the enigma package.
+# Automatically generated, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Enigma 2 SetPicon Plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-16 23:05+0100\n"
+"PO-Revision-Date: 2012-06-07 20:56+0100\n"
+"Last-Translator: ims <ims21@users.sourceforge.net>\n"
+"Language-Team: ims\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+#
+msgid "SetPicon Setup"
+msgstr "SetPicon - Nastavení"
+
+#
+msgid "Input directory"
+msgstr "Vstupní adresář"
+
+#
+msgid "Output directory"
+msgstr "Výstupní adresář"
+
+#
+msgid "Save picon as"
+msgstr "Ukládat pikony jako"
+
+#
+msgid "Saving current picons from"
+msgstr "Ukládat aktuální pikony"
+
+#
+msgid "Input directory of Picons"
+msgstr "Vstupní adresář s pikonami"
+
+#
+msgid "Output directory for created Picons"
+msgstr "Adresář pro ukládání pikon"
+
+#
+msgid "set picon to service"
+msgstr "přiřadit pikonu programu"
+
+#
+msgid "No picons found!"
+msgstr "Žádné pikony nenalezeny!"
+
+#
+msgid "current:"
+msgstr "aktuální:"
+
+#
+msgid "Select picon and press OK to assign to current service:"
+msgstr "Vyberte ikonu a stiskem OK ji přiřaďte aktuálnímu programu:"
+
+#
+msgid "Reading picons..."
+msgstr "Načítání pikon..."
+
+#
+msgid "Please wait to finishing picon's list..."
+msgstr "Čekejte na dokončení načtení seznamu pikon..."
+
+#
+msgid "Save current"
+msgstr "Ulož aktuální"
+
+#
+msgid "Search"
+msgstr "Najít"
+
+#
+msgid "name"
+msgstr "název programu"
+
+#
+msgid "all picon's directories"
+msgstr "ze všech adresářů s pikonami"
+
+#
+msgid "input directory only"
+msgstr "pouze ze vstupního adresáře"
+
+#
+msgid "exit plugin"
+msgstr "zavřít plugin"
+
+#
+msgid "set and save selected picon"
+msgstr "nastavit a uložit vybranou pikonu"
+
+#
+msgid "service reference"
+msgstr "service reference"
+
+#
+msgid "configuration"
+msgstr "konfigurace"
+
+#
+msgid "go to previous picon"
+msgstr "předchozí pikona"
+
+#
+msgid "go to next picon"
+msgstr "následující pikona"
+
+#
+msgid "go to next service"
+msgstr "následující program"
+
+#
+msgid "go to previous service"
+msgstr "předchozí program"
+
+#
+msgid "save service's picon"
+msgstr "uložit pikonu programu"
+
+#
+msgid "save bouquet's picons"
+msgstr "uložit všechny picony z přehledu"
+
+#
+msgid "go to first picon"
+msgstr "na první pikonu"
+
+#
+msgid "go to last picon"
+msgstr "na poslední pikonu"
+
+#
+msgid "go to -5 picons"
+msgstr "zpět o 5 pikon"
+
+#
+msgid "go to -100 picons"
+msgstr "zpět o 100 pikon"
+
+#
+msgid "go to -1000 picons"
+msgstr "zpět o -1000 pikon"
+
+#
+msgid "go to +5 picons"
+msgstr "vpřed o 5 pikon"
+
+#
+msgid "go to +100 picons"
+msgstr "vpřed o 100 pikon"
+
+#
+msgid "go to +1000 picons"
+msgstr "vpřed o 1000 pikon"
+
+#
+msgid "Save name with orbital position"
+msgstr "Přidat k názvu i orbitální pozici"
+
+#
+msgid "Display picon's name"
+msgstr "Zobrazovat názvy pikon"
+
+#
+msgid "no"
+msgstr "ne"
+
+#
+msgid "filename"
+msgstr "název souboru"
+
+#
+msgid "full path"
+msgstr "celá cesta"
+
+#
+msgid "Not found"
+msgstr "nenalezeno"
+
+#
+msgid "Select picon and save it with OK to output directory:"
+msgstr "Vyberte ikonu a stiskem OK ji uložte do výstupního adresáře:"
+
+#
+msgid "Save %s bouquet's picons to %s"
+msgstr "Uložit pikony z přehledu %s do %s"
+
+#
+msgid "Copy all picons from %s to %s"
+msgstr "Zkopírovat všechny pikony z %s do %s"
+
+#
+msgid "Delete all picons in %s"
+msgstr "Smazat všechny pikony v %s"
+
+#
+msgid "Operations with picons"
+msgstr "Operace s pikonami"
+
+#
+msgid "Input directory and output directory are same!"
+msgstr "Vstupní a výstupní adresáře jsou stejné!"
+
+#
+msgid "Are You sure delete all picons in %s ?"
+msgstr "Skutečně chcete smazat všechny pikony v %s ?"
+
+#
+msgid "In menu change input directory or save picons from bouquet."
+msgstr "Změňte vstupní adresář nebo uložte pikony z přehledu."
+
+#
+msgid "Options"
+msgstr "Možnosti"
+
+#
+msgid "options"
+msgstr "možnosti"
+
+#
+msgid "menu"
+msgstr "menu"
+
+#
+msgid ""
+"Do you want set both directory as:\n"
+" %s"
+msgstr ""
+"Chcete nastavit oba adresáře jako:\n"
+" %s"
+
+#
+msgid "Swap Dirs"
+msgstr "Prohodit"
+
+#
+msgid "Same Dirs"
+msgstr "Stejné"
+
+#
+msgid "SetPicon in E-menu"
+msgstr "SetPicon v E-menu"
+
+#
+msgid "Search: picons"
+msgstr "Hledat: pikony"
+
+#
+msgid "Search: service"
+msgstr "Hledat: program"
+
+#
+msgid "search picons or service"
+msgstr "vyhledat pikony nebo program"
+
+#
+msgid "switch searching to service"
+msgstr "přepnout hledání na program"
+
+#
+msgid "switch searching to picons"
+msgstr "přepnout hledání na pikony"
+
+#
+msgid "Service not found"
+msgstr "Program nenalezen"
+
+#
+msgid "refresh"
+msgstr "obnovit"
+
+#
+msgid "Backup directory cannot be same as Input or Output directories !"
+msgstr "Záložní adresář nemůže být shodný se vstupním nebo výstupním adresářem !"
+
+#
+msgid "Backup directory for Picons"
+msgstr "Záložní adresář pro pikony"
+
+#
+msgid "Saving too to backup directory"
+msgstr "Ukládat též do záložního adresáře"
+
+#
+msgid "Backup directory"
+msgstr "Záložní adresář"
+
+#
+msgid "Delete picons in backup directory %s"
+msgstr "Smazat pikony v záložním adresáři %s"
+
+#
+msgid "ZAP when is changed service"
+msgstr "Přepnout při změně programu"
+
+#
+msgid "Sorting picons in backup directory"
+msgstr "Třídit pikony v záložním adresáři"
+
+#
+msgid "by providers"
+msgstr "podle poskytovatele"
+
+#
+msgid "by orbital position"
+msgstr "podle orbitální pozice"
+
+#
+msgid "Save %s bouquet's picons to backup directory only"
+msgstr "Uložit pikony z přehledu %s pouze do záložního adresáře"
+
+#
+msgid "Picons list reversed"
+msgstr "Seznam pikon opačně"
+
+#
+msgid "delete selected picon"
+msgstr "smazat vybranou pikonu"
+
+#
+msgid "Terrestrial"
+msgstr "Pozemní"
+
+#
+msgid "Cable"
+msgstr "Kabelová"
+

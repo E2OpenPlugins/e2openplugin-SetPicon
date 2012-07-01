@@ -1,0 +1,334 @@
+# Czech translations for enigma package.
+# Copyright (C) 2009 THE enigma'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the enigma package.
+# Automatically generated, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Dima 73\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-16 23:05+0100\n"
+"PO-Revision-Date: 2012-04-19 20:59+0100\n"
+"Last-Translator:  Dima73\n"
+"Language-Team: Dima73\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+
+#
+msgid "SetPicon Setup"
+msgstr "SetPicon - Настройки"
+
+#
+msgid "Input directory"
+msgstr "Входной каталог"
+
+#
+msgid "Output directory"
+msgstr "Выходной каталог"
+
+#
+msgid "Save picon as"
+msgstr "Сохранять пикон как"
+
+#
+msgid "Saving current picons from"
+msgstr "Сохранение текущего пикона в"
+
+#
+msgid "Input directory of Picons"
+msgstr "Входной каталог для пиконов"
+
+#
+msgid "Output directory for created Picons"
+msgstr "Выходной каталог для пиконов"
+
+#
+msgid "set picon to service"
+msgstr "установить пикон к сервису"
+
+#
+msgid "No picons found!"
+msgstr "Нет найденных пиконов!"
+
+#
+msgid "current:"
+msgstr "текущий:"
+
+#
+msgid "Select picon and press OK to assign to current service:"
+msgstr "Выберите пикон.ОК для установки к текущему сервису:"
+
+#
+msgid "Reading picons..."
+msgstr "Чтение пиконов..."
+
+#
+msgid "Please wait to finishing picon's list..."
+msgstr "Подождите полного списка пиконов..."
+
+#
+msgid "Save current"
+msgstr "Сохр. текущий"
+
+#
+msgid "Search"
+msgstr "Поиск"
+
+#
+msgid "name"
+msgstr "название сервиса"
+
+#
+msgid "all picon's directories"
+msgstr "в оба каталога пиконов"
+
+#
+msgid "input directory only"
+msgstr "только входной каталог"
+
+#
+msgid "exit plugin"
+msgstr "закрыть плагин"
+
+#
+msgid "set and save selected picon"
+msgstr "установить и сохр. выбранный пикон"
+
+#
+msgid "service reference"
+msgstr "сервис референс"
+
+#
+msgid "configuration"
+msgstr "конфигурация"
+
+#
+msgid "go to previous picon"
+msgstr "перейти к предыдущему пикону"
+
+#
+msgid "go to next picon"
+msgstr "перейти к следующему пикону"
+
+#
+msgid "go to next service"
+msgstr "перейти к следующему сервису"
+
+#
+msgid "go to previous service"
+msgstr "перейти к предыдущему сервису"
+
+#
+msgid "save service's picon"
+msgstr "сохранение текущего пикона"
+
+#
+msgid "save bouquet's picons"
+msgstr "сохранить пиконы букета"
+
+#
+msgid "go to first picon"
+msgstr "перейти к первому пикону"
+
+#
+msgid "go to last picon"
+msgstr "перейти к последнему пикону"
+
+#
+msgid "go to -5 picons"
+msgstr "назад на 5 пиконов"
+
+#
+msgid "go to -100 picons"
+msgstr "назад на 100 пиконов"
+
+#
+msgid "go to -1000 picons"
+msgstr "назад на 1000 пиконов"
+
+#
+msgid "go to +5 picons"
+msgstr "вперед на 5 пиконов"
+
+#
+msgid "go to +100 picons"
+msgstr "вперед на 100 пиконов"
+
+#
+msgid "go to +1000 picons"
+msgstr "вперед на 1000 пиконов"
+
+#
+msgid "Save name with orbital position"
+msgstr "Добавить название орбитальной позиции"
+
+#
+msgid "Display picon's name"
+msgstr "Показать имена пиконов"
+
+#
+msgid "no"
+msgstr "нет"
+
+#
+msgid "filename"
+msgstr "название файла"
+
+#
+msgid "full path"
+msgstr "полный путь"
+
+#
+msgid "Not found"
+msgstr "Не найдено"
+
+#
+msgid "Select picon and save it with OK to output directory:"
+msgstr "Выберите пикон и нажмите ОК для сохр. в выходной каталог:"
+
+msgid "delete selected picon"
+msgstr "удалить выбранный пикон"
+
+#
+msgid "Save %s bouquet's picons to %s"
+msgstr "Сохр. букет %s пиконов в %s "
+
+#
+msgid "Copy all picons from %s to %s"
+msgstr "Копир. все пиконы из %s в %s"
+
+#
+msgid "Delete all picons in %s"
+msgstr "Удалить все пиконы из %s"
+
+#
+msgid "Operations with picons"
+msgstr "Операции с пиконами"
+
+#
+msgid "Input directory and output directory are same!"
+msgstr "Входной и выходной каталог одинаковы!"
+
+#
+msgid "Are You sure delete all picons in %s ?"
+msgstr "Вы уверены, что хотите удалить все пиконы из %s ?"
+
+#
+msgid "In menu change input directory or save picons from bouquet."
+msgstr "В меню измените входной каталог или сохр. пиконы букета"
+
+#
+msgid "Options"
+msgstr "Настройки"
+
+#
+msgid "options"
+msgstr "настройки"
+
+#
+msgid "menu"
+msgstr "меню"
+
+#
+msgid ""
+"Do you want set both directory as:\n"
+" %s"
+msgstr ""
+"Вы хотите установить оба каталога как:\n"
+" %s"
+
+#
+msgid "Swap Dirs"
+msgstr "Обмен каталогов"
+
+#
+msgid "Same Dirs"
+msgstr "Одинаковые каталоги"
+
+#
+msgid "SetPicon in E-menu"
+msgstr "Показать SetPicon в меню дополнений"
+
+#
+msgid "Search: picons"
+msgstr "Поиск: пиконы"
+
+#
+msgid "Search: service"
+msgstr "Поиск: сервисы"
+
+#
+msgid "search picons or service"
+msgstr "поиск пиконов или сервисов"
+
+#
+msgid "switch searching to service"
+msgstr "переключить на поиск сервисов"
+
+#
+msgid "switch searching to picons"
+msgstr "переключить на поиск пиконов"
+
+#
+msgid "Service not found"
+msgstr "Сервис не найден"
+
+#
+msgid "refresh"
+msgstr "обновление"
+
+#
+msgid "Backup directory cannot be same as Input or Output directories !"
+msgstr "Бекуп каталога не состоится, оба каталога одинаковы!"
+
+#
+msgid "Backup directory for Picons"
+msgstr "Резервное копирование каталога пиконов"
+
+#
+msgid "Saving too to backup directory"
+msgstr "Сохранить и в каталог бекупа"
+
+#
+msgid "Backup directory"
+msgstr "Каталог бекупа"
+
+#
+msgid "Delete picons in backup directory %s"
+msgstr "Удаление пиконов в каталоге бекупа %s"
+
+#
+msgid "ZAP when is changed service"
+msgstr "Переключить при смене сервиса"
+
+#
+msgid "Sorting picons in backup directory"
+msgstr "Сортировка пиконов в каталоге бекупа"
+
+#
+msgid "by providers"
+msgstr "по провайдерам"
+
+#
+msgid "by orbital position"
+msgstr "по орбитальной позиции"
+
+#
+msgid "Save %s bouquet's picons to backup directory only"
+msgstr "Сохр. букет %s пиконов только в каталог бекупа"
+
+#
+msgid "Picons list reversed"
+msgstr "Обратный список пиконов"
+
+#
+msgid "Terrestrial"
+msgstr "Наземный"
+
+#
+msgid "Cable"
+msgstr "Кабель"
