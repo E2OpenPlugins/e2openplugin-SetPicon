@@ -1,11 +1,11 @@
-from distutils.core import setup, Extension
+from distutils.core import setup
 
 pkg = 'Extensions.SetPicon'
 setup (name = 'enigma2-plugin-extensions-setpicon',
        version = '0.35',
-       description = 'work with picons',
+       description = 'work with services picons',
        packages = [pkg],
        package_dir = {pkg: 'plugin'},
-       package_data = {pkg:
-           ['plugin.png']},
+       package_data = {pkg: ['*.xml', '*/*.png', 'locale/*/LC_MESSAGES/*.mo']},
+       cmdclass = setup_translate.cmdclass, # for translation
       )
