@@ -370,7 +370,12 @@ class setPicon(Screen, HelpableScreen):
 		return "unknown"
 
 	def copy(self, source, target):
-		shutil.copyfile(source, target)
+		try:
+			shutil.copyfile(source, target)
+		except IOError, e:
+			print "[SetPicon] copy failed", e
+		except:
+			print "[SetPicon] copy failed - source and target are same!"
 
 	def setWindowTitle(self):
 		self.setTitle(_("SetPicon") + "  -  " + self.bouquetname)
@@ -898,7 +903,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.35,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.36,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
