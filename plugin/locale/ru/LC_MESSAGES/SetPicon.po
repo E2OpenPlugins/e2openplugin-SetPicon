@@ -332,3 +332,11 @@ msgstr "Наземный"
 #
 msgid "Cable"
 msgstr "Кабель"
+
+#
+msgid "Cancel"
+msgstr "Отменить"
+
+#
+msgid "Save"
+msgstr "Сохранить"

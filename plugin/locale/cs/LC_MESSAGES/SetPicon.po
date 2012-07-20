@@ -334,3 +334,10 @@ msgstr "Pozemní"
 msgid "Cable"
 msgstr "Kabelová"
 
+#
+msgid "Cancel"
+msgstr "Zavřít"
+
+#
+msgid "Save"
+msgstr "Uložit"

@@ -903,7 +903,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.36,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.37,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -1030,6 +1030,13 @@ class setPiconCfg(Screen, ConfigListScreen):
 		global BACKUP
 		BACKUP = cfg.backup.value
 		self.keySave()
+		self.refreshPlugins()
+
+	def refreshPlugins(self):
+		from Components.PluginComponent import plugins
+		from Tools.Directories import SCOPE_PLUGINS
+		plugins.clearPluginList()
+		plugins.readPluginList(resolveFilename(SCOPE_PLUGINS))
 
 	def exit(self):
 		self.keyCancel()
