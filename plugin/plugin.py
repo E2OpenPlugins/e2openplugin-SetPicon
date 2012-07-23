@@ -94,8 +94,8 @@ class setPicon(Screen, HelpableScreen):
 		<widget name="name" position="10,50" zPosition="2" size="300,25" valign="center" halign="left" font="Regular;22" foregroundColor="white" />
 		<widget name="current" position="340,50" zPosition="2" size="100,20" valign="top" halign="right" font="Regular;16" foregroundColor="white" />
 		<widget name="reference" position="10,75" zPosition="2" size="430,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
-		<widget name="orbital" position="10,95" zPosition="2" size="60,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
-		<widget name="provider" position="80,95" zPosition="2" size="300,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
+		<widget name="orbital" position="10,95" zPosition="2" size="100,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
+		<widget name="provider" position="110,95" zPosition="2" size="300,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 
 		<ePixmap pixmap="skin_default/div-h.png" position="10,120" zPosition="2" size="540,2" transparent="0" />
 
