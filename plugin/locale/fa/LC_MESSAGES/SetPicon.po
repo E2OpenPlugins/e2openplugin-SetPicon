@@ -1,0 +1,336 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: set picon Persian Translation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-16 23:05+0100\n"
+"PO-Revision-Date: 2012-07-24 00:42+0330\n"
+"Last-Translator: mehdi <mehdi_ar_yekta@yahoo.com>\n"
+"Language-Team: Persian Professionals <persianpros@yahoo.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Persian\n"
+"X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
+
+#
+msgid "SetPicon Setup"
+msgstr "راه اندازی آیکون های تصویری"
+
+#
+msgid "Input directory"
+msgstr "وراد نمودن یک دایرکتوری "
+
+#
+msgid "Output directory"
+msgstr "خارج نمودن یک دایرکتوری"
+
+#
+msgid "Save picon as"
+msgstr "ذخیره سازی یک آیکون تصویری به عنوان"
+
+#
+msgid "Saving current picons from"
+msgstr "ذخیره سازی آیکون های تصویری موجود از "
+
+#
+msgid "Input directory of Picons"
+msgstr "وارد نمودن دایرکتوری آیکون های تصویری"
+
+#
+msgid "Output directory for created Picons"
+msgstr "خارج نمودن دایرکتوری برای آیکون های تصویری ساخته شده"
+
+#
+msgid "set picon to service"
+msgstr "فرستادن آیکون های تصویری به حالت سرویس و نمایش"
+
+#
+msgid "No picons found!"
+msgstr "هیچ آیکون تصویری یافت نشد !"
+
+#
+msgid "current:"
+msgstr "وضعیت موجود"
+
+#
+msgid "Select picon and press OK to assign to current service:"
+msgstr "آیکون تصویری مد نظرتان را انتخاب کنید و دکمه اوکی را بزنید و آنها را به حالت سرویس منتقل کنید"
+
+#
+msgid "Reading picons..."
+msgstr "در حال خواندن آیکون های تصویری ..."
+
+#
+msgid "Please wait to finishing picon's list..."
+msgstr "لطفا تا ایجاد لیست نهایی آیکون های تصویری صبر نمایید "
+
+#
+msgid "Save current"
+msgstr "ذخیره سازی وضعیت موجود"
+
+#
+msgid "Search"
+msgstr "جستجو کردن"
+
+#
+msgid "name"
+msgstr "نام"
+
+#
+msgid "all picon's directories"
+msgstr "همه دایرکتوری آیکون های تصویری"
+
+#
+msgid "input directory only"
+msgstr "وارد کردن دایرکتوری"
+
+#
+msgid "exit plugin"
+msgstr "خروج از پلاگین"
+
+#
+msgid "set and save selected picon"
+msgstr "تنظیم و ذخیره سازی آیکون های تصویری"
+
+#
+msgid "service reference"
+msgstr "مراجعه به منابع"
+
+#
+msgid "configuration"
+msgstr "پیکربندی"
+
+#
+msgid "go to previous picon"
+msgstr "برگشت به آیکون تصویری قبلی"
+
+#
+msgid "go to next picon"
+msgstr "رفتن به آیکون تصویری بعدی"
+
+#
+msgid "go to next service"
+msgstr "رفتن به سرویس بعدی"
+
+#
+msgid "go to previous service"
+msgstr "رفتن به سرویس قبلی"
+
+#
+msgid "save service's picon"
+msgstr "ذخیره سازی آیکون تصویری سرویس ها"
+
+#
+msgid "save bouquet's picons"
+msgstr "ذخیره سازی آیکون تصویری دسته های انتخابی"
+
+#
+msgid "go to first picon"
+msgstr "برگشت به اولین آیکون تصویری"
+
+#
+msgid "go to last picon"
+msgstr "برگشت به آخرین آیکون تصویری"
+
+#
+msgid "go to -5 picons"
+msgstr "برگشت به 5 آیکون تصویری آخر"
+
+#
+msgid "go to -100 picons"
+msgstr "برگشت به 100 آیکون تصویری آخر"
+
+#
+msgid "go to -1000 picons"
+msgstr "برگشت به 1000 آیکون تصویری آخر"
+
+#
+msgid "go to +5 picons"
+msgstr "برگشت به 5 آیکون تصویری اول"
+
+#
+msgid "go to +100 picons"
+msgstr "برگشت به 100 آیکون تصویری اول"
+
+#
+msgid "go to +1000 picons"
+msgstr "برگشت به 1000 آیکون تصویری اول"
+
+#
+msgid "Save name with orbital position"
+msgstr "ذخیره سازی نام با موقعیت قرار گیری آیکون های تصویری"
+
+#
+msgid "Display picon's name"
+msgstr "نمایش نام آیکون های تصویری"
+
+#
+msgid "no"
+msgstr "نه"
+
+#
+msgid "filename"
+msgstr "نام فایل ها "
+
+#
+msgid "full path"
+msgstr "مسیر کامل "
+
+#
+msgid "Not found"
+msgstr "پیدا نشد"
+
+#
+msgid "Select picon and save it with OK to output directory:"
+msgstr "آیکون تصویری را انتخاب و در دایرکتوری خارجی ذخیره سازی کنید "
+
+#
+msgid "Save %s bouquet's picons to %s"
+msgstr ""
+
+#
+msgid "Copy all picons from %s to %s"
+msgstr ""
+
+#
+msgid "Delete all picons in %s"
+msgstr ""
+
+#
+msgid "Operations with picons"
+msgstr "عملیاتی کردن آیکون های تصویری"
+
+#
+msgid "Input directory and output directory are same!"
+msgstr "آیا دایرکتوری داخلی و خارجی یکی هستند "
+
+#
+msgid "Are You sure delete all picons in %s ?"
+msgstr ""
+
+#
+msgid "In menu change input directory or save picons from bouquet."
+msgstr "از منو دایرکتوری های داخلی را تغییر دهید یا آنها را در دسته دیگری ذخیره کنید"
+
+#
+msgid "Options"
+msgstr "گزینه ها"
+
+#
+msgid "options"
+msgstr "گزینه ها"
+
+#
+msgid "menu"
+msgstr "منو"
+
+#
+msgid ""
+"Do you want set both directory as:\n"
+" %s"
+msgstr ""
+
+#
+msgid "Swap Dirs"
+msgstr ""
+
+#
+msgid "Same Dirs"
+msgstr ""
+
+#
+msgid "SetPicon in E-menu"
+msgstr "تنظیم آیکون های تصویری در یک منو الکترونیکی"
+
+#
+msgid "Search: picons"
+msgstr "جستجوی آیکون های تصویری"
+
+#
+msgid "Search: service"
+msgstr "جستجوی تصویری"
+
+#
+msgid "search picons or service"
+msgstr "جستجوی آیکون های تصویری یا سرویس ها"
+
+#
+msgid "switch searching to service"
+msgstr "سوئیچ کردن از حالت جستجو کردن به سرویس"
+
+#
+msgid "switch searching to picons"
+msgstr "سوئیچ کردن از حالت جستجو کردن به آیکون های تصویری"
+
+#
+msgid "Service not found"
+msgstr "هیچ سرویس پیدا نشد"
+
+#
+msgid "refresh"
+msgstr "روشن سازی مجدد"
+
+#
+msgid "Backup directory cannot be same as Input or Output directories !"
+msgstr "دایرکتوری پشتیبان نمی تواند همانند دایرکتوریهای داخلی یا خارجی باشد"
+
+#
+msgid "Backup directory for Picons"
+msgstr "ایجاد یک دایرکتوری پشتیبان برای آیکون های تصویری"
+
+#
+msgid "Saving too to backup directory"
+msgstr "ذخیره سازی در دایرکتوری پشتیبان"
+
+#
+msgid "Backup directory"
+msgstr "دایرکتوری پشتیبان"
+
+#
+msgid "Delete picons in backup directory %s"
+msgstr ""
+
+#
+msgid "ZAP when is changed service"
+msgstr "جابجایی کانال  به محض تغییر سرویس"
+
+#
+msgid "Sorting picons in backup directory"
+msgstr "دسته بندی آیکون های تصویری در دایرکتوری پشتیبان"
+
+#
+msgid "by providers"
+msgstr "بر اساس ارائه دهندگان"
+
+#
+msgid "by orbital position"
+msgstr "بر اساس موقعیت قرار گیری آیکون های تصویری"
+
+#
+msgid "Save %s bouquet's picons to backup directory only"
+msgstr ""
+
+#
+msgid "Picons list reversed"
+msgstr "لیست آیکون های تصویری رزرو شده است"
+
+#
+msgid "delete selected picon"
+msgstr "حذف آیکون تصویری انتخاب شده "
+
+#
+msgid "Terrestrial"
+msgstr "زمینی"
+
+#
+msgid "Cable"
+msgstr "کابل"
+
+#
+msgid "Cancel"
+msgstr "لغو کردن"
+
+#
+msgid "Save"
+msgstr "ذخیره کردن"
+
