@@ -275,7 +275,7 @@ class setPicon(Screen, HelpableScreen):
 	def displayServiceParams(self):
 		self["name"].setText(self.name)
 		self["reference"].setText(self.refstr)
-		self["orbital"].setText(self.orbital)
+		self["orbital"].setText(self.addGrade(self.orbital))
 		self["provider"].setText(self.provider)
 		self.displayCurServicePicon()
 
@@ -707,6 +707,11 @@ class setPicon(Screen, HelpableScreen):
 		if revert:
 			return ("%s_%03d.%d") % (direction, b // 10, b % 10)
 		return ("%d.%d%s") % (b // 10, b % 10, direction)
+
+	def addGrade(self, orbital):
+		if orbital == _("Terrestrial") or orbital == _("Cable"):
+			return orbital
+		return orbital[:-1]+ "\xc2\xb0 " + orbital[-1:]
 
 	def deleteSelectedPicon(self):
 		if not len(self.picon):
