@@ -695,6 +695,8 @@ class setPicon(Screen, HelpableScreen):
 		return serviceName.replace(' ','_').replace('/','__')
 
 	def getOrbitalPosition(self, serviceRef, revert=False):
+		if serviceRef.find("//") != -1:
+			return _("Stream")
 		b = int("".join(serviceRef.split(':', 10)[6:7])[:-4],16)
 		if b == 0xeeee:
 			return _("Terrestrial")
@@ -709,7 +711,7 @@ class setPicon(Screen, HelpableScreen):
 		return ("%d.%d%s") % (b // 10, b % 10, direction)
 
 	def addGrade(self, orbital):
-		if orbital == _("Terrestrial") or orbital == _("Cable"):
+		if orbital in (_("Terrestrial"), _("Cable"), _("Stream")):
 			return orbital
 		return orbital[:-1]+ "\xc2\xb0 " + orbital[-1:]
 
@@ -908,7 +910,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.37,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2012, v0.38,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,

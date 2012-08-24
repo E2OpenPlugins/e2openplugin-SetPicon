@@ -341,3 +341,7 @@ msgstr "Zavřít"
 #
 msgid "Save"
 msgstr "Uložit"
+
+#
+msgid "Stream"
+msgstr ""

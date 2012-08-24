@@ -334,3 +334,7 @@ msgstr "لغو کردن"
 msgid "Save"
 msgstr "ذخیره کردن"
 
+#
+msgid "Stream"
+msgstr ""
+

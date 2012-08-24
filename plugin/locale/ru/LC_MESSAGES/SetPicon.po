@@ -340,3 +340,7 @@ msgstr "Отменить"
 #
 msgid "Save"
 msgstr "Сохранить"
+
+#
+msgid "Stream"
+msgstr ""
