@@ -17,8 +17,10 @@ from . import _
 #
 
 from Plugins.Plugin import PluginDescriptor
-from ServiceReference import ServiceReference
-import ui
+from Components.config import ConfigSubsection, config, ConfigYesNo
+
+config.plugins.setpicon = ConfigSubsection()
+config.plugins.setpicon.extmenu = ConfigYesNo(default=True)
 
 def main(session, servicelist=None, **kwargs):
 	global Servicelist
@@ -26,6 +28,8 @@ def main(session, servicelist=None, **kwargs):
 	global epg_bouquet
 	epg_bouquet = Servicelist and Servicelist.getRoot()
 	if epg_bouquet is not None:
+		import ui
+		from ServiceReference import ServiceReference
 		services = ui.getBouquetServices(epg_bouquet)
 		session.openWithCallback(ui.closed, ui.setPicon, plugin_path, services, ServiceReference(epg_bouquet).getServiceName())
 
@@ -35,6 +39,6 @@ def Plugins(path,**kwargs):
 	name="SetPicon"
 	descr=_("set picon to service")
 	list = [ PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main),]
-	if ui.cfg.extmenu.value:
+	if config.plugins.setpicon.extmenu.value:
 		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart = False, fnc=main))
 	return list

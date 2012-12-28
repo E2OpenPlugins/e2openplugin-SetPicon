@@ -45,7 +45,6 @@ BACKUP = STARTDIR
 
 LAMEDB = eEnv.resolve('${sysconfdir}/enigma2/lamedb')
 
-config.plugins.setpicon = ConfigSubsection()
 config.plugins.setpicon.type = ConfigSelection(default = "0", choices = [("0",_("service reference")),("1",_("name"))])
 config.plugins.setpicon.source = ConfigDirectory(SOURCE)
 config.plugins.setpicon.target = ConfigDirectory(TARGET)
@@ -53,7 +52,6 @@ config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("
 config.plugins.setpicon.name_orbitpos = ConfigYesNo(default=False)
 config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
 config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
-config.plugins.setpicon.extmenu = ConfigYesNo(default=True)
 config.plugins.setpicon.save2backtoo = ConfigYesNo(default=False)
 config.plugins.setpicon.backup = ConfigDirectory(BACKUP)
 config.plugins.setpicon.backupsort = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("by providers")),("2",_("by orbital position"))])
