@@ -345,3 +345,7 @@ msgstr "Uložit"
 #
 msgid "Stream"
 msgstr ""
+
+#
+msgid "SetPicon"
+msgstr ""

@@ -36,7 +36,7 @@ def main(session, servicelist=None, **kwargs):
 def Plugins(path,**kwargs):
 	global plugin_path
     	plugin_path = path
-	name="SetPicon"
+	name= _("SetPicon")
 	descr=_("set picon to service")
 	list = [ PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main),]
 	if config.plugins.setpicon.extmenu.value:

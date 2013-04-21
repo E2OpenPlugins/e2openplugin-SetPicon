@@ -338,3 +338,6 @@ msgstr "ذخیره کردن"
 msgid "Stream"
 msgstr ""
 
+#
+msgid "SetPicon"
+msgstr ""

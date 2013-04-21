@@ -120,6 +120,7 @@ class setPicon(Screen, HelpableScreen):
 		self.services = services
 		self.bouquetname = bouquetname
 		self.setup_title = self.bouquetname
+		self.setTitle(_("SetPicon"))
 
 		self.EMPTY = self.skin_path + "/img/empty.png"
 
@@ -258,9 +259,10 @@ class setPicon(Screen, HelpableScreen):
 
 	def getCurrentService(self):
 		from ServiceReference import ServiceReference
-		if self.session.nav.getCurrentlyPlayingServiceReference():
-			self.name = ServiceReference(self.session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-			self.refstr = self.session.nav.getCurrentlyPlayingServiceReference().toString()
+		service = self.session.nav.getCurrentlyPlayingServiceReference()
+		if service:
+			self.name = ServiceReference(service).getServiceName()
+			self.refstr = ':'.join(service.toString().split(':')[:11])
 			self.orbital =  self.getOrbitalPosition(self.refstr)
 			self.provider = self.getProviderName()
 			self.displayServiceParams()
@@ -908,7 +910,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2012, v0.38,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2013, v0.39,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
