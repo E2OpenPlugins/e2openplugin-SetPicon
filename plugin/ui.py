@@ -1027,9 +1027,10 @@ class setPiconCfg(Screen, ConfigListScreen):
 			self["config"].invalidate(self["config"].list[self.setPiconCfglist.index(self.target_entry)])
 
 	def save(self):
-		if cfg.backup.value == cfg.target.value or cfg.backup.value == cfg.source.value:
-			self.backupWarning()
-			return
+		if cfg.save2backtoo.value:
+			if cfg.backup.value == cfg.target.value or cfg.backup.value == cfg.source.value:
+				self.backupWarning()
+				return
 		global SOURCE
 		SOURCE = cfg.source.value
 		global TARGET
