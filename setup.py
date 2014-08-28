@@ -4,7 +4,7 @@ import setup_translate
 pkg = 'Extensions.SetPicon'
 setup (name = 'enigma2-plugin-extensions-setpicon',
        version = '0.39',
-       description = 'work with services picons',
+       description = 'assignment picons for services',
        packages = [pkg],
        package_dir = {pkg: 'plugin'},
        package_data = {pkg: ['*.xml', '*/*.png', 'locale/*/LC_MESSAGES/*.mo']},
