@@ -264,6 +264,8 @@ class setPicon(Screen, HelpableScreen):
 			self.name = ServiceReference(service).getServiceName()
 			self.refstr = ':'.join(service.toString().split(':')[:11])
 			self.orbital =  self.getOrbitalPosition(self.refstr)
+			if self.orbital == _("Playback"):
+				return
 			self.provider = self.getProviderName()
 			self.displayServiceParams()
 			self.setCurrentServiceIndex()
@@ -697,6 +699,8 @@ class setPicon(Screen, HelpableScreen):
 	def getOrbitalPosition(self, serviceRef, revert=False):
 		if serviceRef.lower().find("%3a//") != -1:
 			return _("Stream")
+		if not serviceRef.split(':', 10)[6][:-4].isdigit():
+			return _("Playback")
 		b = int(serviceRef.split(':', 10)[6][:-4],16)
 		if b == 0xeeee:
 			return _("Terrestrial")
@@ -711,7 +715,7 @@ class setPicon(Screen, HelpableScreen):
 		return ("%d.%d%s") % (b // 10, b % 10, direction)
 
 	def addGrade(self, orbital):
-		if orbital in (_("Terrestrial"), _("Cable"), _("Stream")):
+		if orbital in (_("Terrestrial"), _("Cable"), _("Stream"), _("Playback")):
 			return orbital
 		return orbital[:-1]+ "\xc2\xb0 " + orbital[-1:]
 
