@@ -181,6 +181,7 @@ class setPicon(Screen, HelpableScreen):
 		self.orbital = None
 		self.provider = None
 		self.providers = []
+		self.picon = []
 
 		self.ServicesList = []
 		self.sidx = 0
@@ -453,7 +454,6 @@ class setPicon(Screen, HelpableScreen):
 
 	def readPngFiles(self):
 		self.idx = 0
-		self.picon = []
 		self.maxPicons = 0
 		for filename in os.listdir(SOURCE):
 			if filename.endswith('.png'):
