@@ -565,7 +565,7 @@ class setPicon(Screen, HelpableScreen):
 					except:
 						print "Failed to unlink", filename
 				else:
-					 if self.rmPath == BACKUP:
+					if self.rmPath == BACKUP:
 						try:
 							shutil.rmtree(filename)
 						except:
@@ -699,7 +699,7 @@ class setPicon(Screen, HelpableScreen):
 	def getOrbitalPosition(self, serviceRef, revert=False):
 		if serviceRef.lower().find("%3a//") != -1:
 			return _("Stream")
-		if not serviceRef.split(':', 10)[6][:-4].isdigit():
+		if len(serviceRef.split(':', 10)[10]):
 			return _("Playback")
 		b = int(serviceRef.split(':', 10)[6][:-4],16)
 		if b == 0xeeee:
