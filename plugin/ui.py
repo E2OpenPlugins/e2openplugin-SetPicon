@@ -55,7 +55,7 @@ config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
 config.plugins.setpicon.save2backtoo = ConfigYesNo(default=False)
 config.plugins.setpicon.backup = ConfigDirectory(BACKUP)
 config.plugins.setpicon.backupsort = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("by providers")),("2",_("by orbital position"))])
-config.plugins.setpicon.filter = ConfigSelection(default = "0", choices = [("0",_("all")),("1",_("as service only")),("2",_("as name only"))])
+config.plugins.setpicon.filter = ConfigSelection(default = "0", choices = [("0",_("all")),("1",_("as service reference only")),("2",_("as names only"))])
 config.plugins.setpicon.zap = ConfigYesNo(default=False)
 config.plugins.setpicon.sorting = ConfigSelection(default = "0", choices = [("0",_("unsorted")),("1",_("sorted")),("2",_("sorted in reverse order"))])
 
