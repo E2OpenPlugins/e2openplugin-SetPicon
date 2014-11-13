@@ -16,7 +16,7 @@ from . import _
 #  GNU General Public License for more details.
 #
 
-import os
+import os, re, unicodedata
 import shutil
 from enigma import ePicLoad, getDesktop
 from Plugins.Plugin import PluginDescriptor
@@ -27,7 +27,6 @@ from Components.Pixmap import Pixmap
 from Components.config import ConfigSubsection, ConfigDirectory, ConfigSelection, getConfigListEntry, config, ConfigYesNo, ConfigLocations
 from Components.Label import Label
 from Components.ConfigList import ConfigListScreen
-from os import system
 import enigma
 from Tools.Directories import resolveFilename, fileExists, pathExists
 from Components.Button import Button
@@ -707,7 +706,9 @@ class setPicon(Screen, HelpableScreen):
 		return ""
 
 	def name2str(self, serviceName):
-		return serviceName.replace(' ','_').replace('/','__')
+		serviceName = unicodedata.normalize('NFKD', unicode(serviceName, 'utf_8')).encode('ASCII', 'ignore')
+		serviceName = re.sub('[^a-z0-9]', '', serviceName.replace('&', 'and').replace('+', 'plus').replace('*', 'star').lower())
+		return serviceName
 
 	def getOrbitalPosition(self, serviceRef, revert=False):
 		if serviceRef.lower().find("%3a//") != -1:
@@ -933,7 +934,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.41,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.42,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
