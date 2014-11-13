@@ -311,8 +311,36 @@ msgid "Save %s bouquet's picons to backup directory only"
 msgstr ""
 
 #
-msgid "Picons list reversed"
-msgstr "لیست آیکون های تصویری رزرو شده است"
+msgid "Display picons"
+msgstr ""
+
+#
+msgid "unsorted"
+msgstr ""
+
+#
+msgid "sorted"
+msgstr ""
+
+#
+msgid "sorted in reverse order"
+msgstr ""
+
+#
+msgid "Accept picons"
+msgstr ""
+
+#
+msgid "all"
+msgstr ""
+
+#
+msgid "as service reference only"
+msgstr ""
+
+#
+msgid "as names only"
+msgstr ""
 
 #
 msgid "delete selected picon"
