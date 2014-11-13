@@ -283,7 +283,7 @@ class setPicon(Screen, HelpableScreen):
 		self.displayCurServicePicon()
 
 	def displayCurServicePicon(self):
-		path = self.getInternalPicon(self.ref2str(self.refstr))
+		path = self.getInternalPicon(self.refstr)
 		if fileExists(path) and not self.blocked:
 			self.nowLoad.startDecode(path)
 		else:
@@ -330,13 +330,18 @@ class setPicon(Screen, HelpableScreen):
 		return
 
 	def savePicon(self, item, bouquet=False, backuponly=False):
+		# note: item[0] name, item[1] service reference
 		refstr = self.ref2str(item[1])
-		if cfg.allpicons.value == "1":
-			path = SOURCE + refstr + EXT
-		else:
-			path = self.getInternalPicon(refstr)
+		if cfg.allpicons.value == "1":	#input directory only
+			path = SOURCE + self.name2str(item[0]) + EXT
+			if not fileExists(path):
+				path = SOURCE + refstr + EXT # look for old filename
+		else: 				# from all directories
+			path = self.getInternalPicon(item[1])
+			if not fileExists(path):
+				path = self.getInternalPiconOld(self, refstr)  # look for old filename
 		filename = refstr
-		if cfg.type.value == "1":
+		if cfg.type.value == "1": # name
 			filename = self.name2str(item[0])
 			if cfg.name_orbitpos.value:
 				filename += "_" + self.getOrbitalPosition(item[1])
@@ -350,6 +355,8 @@ class setPicon(Screen, HelpableScreen):
 			if not self.picon.count(filename):
 				self.picon.append(filename)
 				self.maxPicons+=1
+		else:
+			print "[SetPicon] path %s not exist" % path
 
 	def saveToBackup(self, ref, path, filename, bouquet=False):
 		directory = BACKUP
@@ -675,6 +682,10 @@ class setPicon(Screen, HelpableScreen):
 			self.servicePiconRefresh()
 
 	def getInternalPicon(self, serviceRef):
+		from Components.Renderer.Picon import getPiconName
+		return getPiconName(serviceRef)
+	
+	def getInternalPiconOld(self, serviceRef):
 		if self.lastPath:
 			pngname = self.lastPath + serviceRef + EXT
 			if pathExists(pngname):
@@ -934,7 +945,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.42,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.43,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
