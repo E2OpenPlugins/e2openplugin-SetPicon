@@ -80,8 +80,29 @@ msgstr "Выходной каталог"
 msgid "Output directory for created Picons"
 msgstr "Выходной каталог для пиконов"
 
-msgid "Picons list reversed"
-msgstr "Обратный список пиконов"
+msgid "Display picons"
+msgstr ""
+
+msgid "unsorted"
+msgstr ""
+
+msgid "sorted"
+msgstr ""
+
+msgid "sorted in reverse order"
+msgstr ""
+
+msgid "Accept picons"
+msgstr ""
+
+msgid "all"
+msgstr ""
+
+msgid "as service reference only"
+msgstr ""
+
+msgid "as names only"
+msgstr ""
 
 msgid "Please wait to finishing picon's list..."
 msgstr "Подождите полного списка пиконов..."
