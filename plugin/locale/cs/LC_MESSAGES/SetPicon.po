@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Enigma 2 SetPicon Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 23:05+0100\n"
-"PO-Revision-Date: 2012-06-07 20:56+0100\n"
+"PO-Revision-Date: 2012-11-13 17:29+0100\n"
 "Last-Translator: ims <ims21@users.sourceforge.net>\n"
 "Language-Team: ims\n"
 "MIME-Version: 1.0\n"
@@ -372,4 +372,8 @@ msgstr "Uložit"
 
 #
 msgid "Stream"
+msgstr ""
+
+#
+msgid "SetPicon"
 msgstr ""
