@@ -55,8 +55,9 @@ config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
 config.plugins.setpicon.save2backtoo = ConfigYesNo(default=False)
 config.plugins.setpicon.backup = ConfigDirectory(BACKUP)
 config.plugins.setpicon.backupsort = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("by providers")),("2",_("by orbital position"))])
+config.plugins.setpicon.filter = ConfigSelection(default = "0", choices = [("0",_("all")),("1",_("as service only")),("2",_("as name only"))])
 config.plugins.setpicon.zap = ConfigYesNo(default=False)
-config.plugins.setpicon.reverse = ConfigYesNo(default=False)
+config.plugins.setpicon.sorting = ConfigSelection(default = "0", choices = [("0",_("unsorted")),("1",_("sorted")),("2",_("sorted in reverse order"))])
 
 cfg = config.plugins.setpicon
 
@@ -455,21 +456,33 @@ class setPicon(Screen, HelpableScreen):
 	def readPngFiles(self):
 		self.idx = 0
 		self.maxPicons = 0
+		self.picon = []
 		for filename in os.listdir(SOURCE):
 			if filename.endswith('.png'):
 				if os.path.isfile(SOURCE+filename):
-					self.picon.append(filename[:-4])
-					self.maxPicons += 1
+					if cfg.filter.value == "0": # all
+						self.picon.append(filename[:-4])
+						self.maxPicons += 1
+					elif cfg.filter.value == "1": # service_ref only
+						if filename[0:3] == "1_0":
+							self.picon.append(filename[:-4])
+							self.maxPicons += 1
+					elif cfg.filter.value == "2": # names only
+						if filename[0:3] != "1_0":
+							self.picon.append(filename[:-4])
+							self.maxPicons += 1
 		self.sortPicons()
 		self.search = False
 		self.blocked = False
 		self.displayText()
 
 	def sortPicons(self):
-		if cfg.reverse.value:
+		if cfg.sorting.value == "1":
 			self.picon.sort()
-		else:
+		elif cfg.sorting.value == "2":
 			self.picon.reverse()
+		else:
+			pass
 
 	def searching(self):
 		if self.search_picon:
@@ -798,17 +811,23 @@ class setPicon(Screen, HelpableScreen):
 
 	def callConfig(self):
 		self.lastdir = cfg.source.value
-		self.lastrev = cfg.reverse.value
+		self.lastrev = cfg.sorting.value
+		self.lastfilter = cfg.filter.value
 		self.session.openWithCallback(self.afterConfig, setPiconCfg, self.skin_path)
 
 	def afterConfig(self, data=None):
 		self.displayText()
-		if self.lastdir != cfg.source.value:
+		if self.lastdir != cfg.source.value or self.lastfilter != cfg.filter.value:
 			self.getStoredPicons()
 		else:
-			if self.lastrev != cfg.reverse.value:
-				self.sortPicons()
-			self.displayPicon()
+			if self.lastrev == cfg.sorting.value:
+				self.displayPicon()
+			else:
+				if cfg.sorting.value == "0":
+					self.getStoredPicons()	
+				else:
+					self.sortPicons()
+					self.displayPicon()
 
 ### for graphics
 	def initGraphic(self):
@@ -914,7 +933,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.40,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.41,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -939,6 +958,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.backup_entry = getConfigListEntry(_("Backup directory"), cfg.backup)
 
 		self.setPiconCfglist = []
+		self.setPiconCfglist.append(getConfigListEntry(_("Accept picons"), cfg.filter))
 		self.setPiconCfglist.append(getConfigListEntry(_("Save picon as"), cfg.type))
 		if cfg.type.value == "1":
 			self.setPiconCfglist.extend((
@@ -948,7 +968,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(self.target_entry)
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
-		self.setPiconCfglist.append(getConfigListEntry(_("Picons list reversed"), cfg.reverse))
+		self.setPiconCfglist.append(getConfigListEntry(_("Display picons"), cfg.sorting))
 		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in E-menu"), cfg.extmenu))
 		self.setPiconCfglist.append(getConfigListEntry(_("ZAP when is changed service"), cfg.zap))
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving too to backup directory"), cfg.save2backtoo))
