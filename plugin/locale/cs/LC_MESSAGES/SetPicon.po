@@ -319,8 +319,36 @@ msgid "Save %s bouquet's picons to backup directory only"
 msgstr "Uložit pikony z přehledu %s pouze do záložního adresáře"
 
 #
-msgid "Picons list reversed"
-msgstr "Seznam pikon opačně"
+msgid "Display picons"
+msgstr "Zobrazovat pikony"
+
+#
+msgid "unsorted"
+msgstr "netříděně"
+
+#
+msgid "sorted"
+msgstr "setříděné"
+
+#
+msgid "sorted in reverse order"
+msgstr "setříděné v opačném pořadí"
+
+#
+msgid "Accept picons"
+msgstr "Akceptovat pikony"
+
+#
+msgid "all"
+msgstr "všechny"
+
+#
+msgid "as service reference only"
+msgstr "pouze jako service reference"
+
+#
+msgid "as names only"
+msgstr "pouze jako názvy"
 
 #
 msgid "delete selected picon"
@@ -344,8 +372,4 @@ msgstr "Uložit"
 
 #
 msgid "Stream"
-msgstr ""
-
-#
-msgid "SetPicon"
 msgstr ""
