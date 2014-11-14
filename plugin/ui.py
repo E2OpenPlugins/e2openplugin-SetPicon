@@ -152,7 +152,7 @@ class setPicon(Screen, HelpableScreen):
 			"6": (self.plusPiconC,_("go to +100 picons")),
 			"9": (self.plusPiconM,_("go to +1000 picons")),
 			"8": (self.deleteSelectedPicon,_("delete selected picon")),
-			"2": (self.getStoredPicons,_("refresh")),
+			"reload": (self.getStoredPicons,_("refresh")),
 			"service": (self.setSearchService,_("switch searching to service")),
 			"picons": (self.setSearchPicon,_("switch searching to picons")),
 			}, -2)
@@ -945,7 +945,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.43,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.44,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
