@@ -86,7 +86,7 @@ class setPicon(Screen, HelpableScreen):
 		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 
-		<widget name="nowpicon" position="450,50" zPosition="2" size="100,70" alphatest="on"/>
+		<widget name="nowpicon" position="450,50" zPosition="2" size="100,75" alphatest="on"/>
 
 		<widget name="name" position="10,50" zPosition="2" size="300,25" valign="center" halign="left" font="Regular;22" foregroundColor="white" />
 		<widget name="current" position="340,50" zPosition="2" size="100,20" valign="top" halign="right" font="Regular;16" foregroundColor="white" />
