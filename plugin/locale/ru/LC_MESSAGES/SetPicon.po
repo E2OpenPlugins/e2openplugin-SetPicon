@@ -280,3 +280,6 @@ msgstr "переключить на поиск пиконов"
 
 msgid "switch searching to service"
 msgstr "переключить на поиск сервисов"
+
+msgid "Fully fill rectangles with picons"
+msgstr ""

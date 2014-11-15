@@ -377,3 +377,7 @@ msgstr ""
 #
 msgid "SetPicon"
 msgstr ""
+
+#
+msgid "Fully fill rectangles with picons"
+msgstr "Maximálně zvětšit pikony"
