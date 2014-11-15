@@ -870,7 +870,7 @@ class setPicon(Screen, HelpableScreen):
 		if cfg.fill.value:
 			fill = 0
 
-		par = [self["picon2l"].instance.size().width(), self["picon2l"].instance.size().height(), 1, fill, True, 0, "#00000000"]
+		par = [self["picon2l"].instance.size().width(), self["picon2l"].instance.size().height(), 1, fill, False, 0, "#00000000"]
 		self.piconLoad2l.setPara(par)
 		par = [self["picon1l"].instance.size().width(), self["picon1l"].instance.size().height(), 1, fill, False, 0, "#00000000"]
 		self.piconLoad1l.setPara(par)
