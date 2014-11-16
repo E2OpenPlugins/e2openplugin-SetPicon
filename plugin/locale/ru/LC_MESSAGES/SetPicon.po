@@ -282,4 +282,4 @@ msgid "switch searching to service"
 msgstr "переключить на поиск сервисов"
 
 msgid "Fully fill rectangles with picons"
-msgstr ""
+msgstr "Полностью заполнять прямоугольники с пиконами"
