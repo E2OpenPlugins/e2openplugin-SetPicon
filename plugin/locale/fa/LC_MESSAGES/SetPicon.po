@@ -243,6 +243,10 @@ msgid "SetPicon in E-menu"
 msgstr "تنظیم آیکون های تصویری در یک منو الکترونیکی"
 
 #
+msgid "SetPicon in Channel's menu"
+msgstr ""
+
+#
 msgid "Search: picons"
 msgstr "جستجوی آیکون های تصویری"
 

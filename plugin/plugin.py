@@ -21,10 +21,12 @@ from Components.config import ConfigSubsection, config, ConfigYesNo
 
 config.plugins.setpicon = ConfigSubsection()
 config.plugins.setpicon.extmenu = ConfigYesNo(default=True)
+config.plugins.setpicon.chcmenu = ConfigYesNo(default=False)
 
 def main(session, servicelist=None, **kwargs):
 	global Servicelist
-	Servicelist = servicelist
+	import Screens.InfoBar
+	Servicelist = servicelist or Screens.InfoBar.InfoBar.instance.servicelist
 	global epg_bouquet
 	epg_bouquet = Servicelist and Servicelist.getRoot()
 	if epg_bouquet is not None:
@@ -41,4 +43,6 @@ def Plugins(path,**kwargs):
 	list = [ PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main),]
 	if config.plugins.setpicon.extmenu.value:
 		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart = False, fnc=main))
+	if config.plugins.setpicon.chcmenu.value:
+		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_CHANNEL_CONTEXT_MENU, needsRestart = False, fnc=main))
 	return list

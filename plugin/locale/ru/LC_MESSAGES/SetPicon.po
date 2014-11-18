@@ -164,6 +164,9 @@ msgstr "Установщик пиконов"
 msgid "SetPicon in E-menu"
 msgstr "Установщик пиконов в меню дополнений"
 
+msgid "SetPicon in Channel's menu"
+msgstr "Установщик пиконов в меню каналов"
+
 msgid "Sorting picons in backup directory"
 msgstr "Сортировка пиконов в каталоге бекупа"
 

@@ -251,6 +251,10 @@ msgid "SetPicon in E-menu"
 msgstr "SetPicon v E-menu"
 
 #
+msgid "SetPicon in Channel's menu"
+msgstr "SetPicon v menu přehledu kanálů"
+
+#
 msgid "Search: picons"
 msgstr "Hledat: pikony"
 

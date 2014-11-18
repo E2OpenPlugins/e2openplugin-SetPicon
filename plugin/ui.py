@@ -951,7 +951,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.45,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.46,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -989,6 +989,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(getConfigListEntry(_("Fully fill rectangles with picons"), cfg.fill))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picons"), cfg.sorting))
 		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in E-menu"), cfg.extmenu))
+		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in Channel's menu"), cfg.chcmenu))
 		self.setPiconCfglist.append(getConfigListEntry(_("ZAP when is changed service"), cfg.zap))
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving too to backup directory"), cfg.save2backtoo))
 		self.backup_sort = getConfigListEntry(_("Sorting picons in backup directory"), cfg.backupsort)
