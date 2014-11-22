@@ -111,12 +111,13 @@ class setPicon(Screen, HelpableScreen):
 		<widget name="path" position="10,307" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
 	</screen>"""
 
-	def __init__(self, session, plugin_path, services, bouquetname=None):
+	def __init__(self, session, plugin_path, services, curservice=None, bouquetname=None):
 		self.skin = setPicon.skin
 		self.skin_path = plugin_path
 		Screen.__init__(self, session)
 		HelpableScreen.__init__(self)
 		self.services = services
+		self.curservice = curservice
 		self.bouquetname = bouquetname
 		self.setup_title = self.bouquetname
 		self.setTitle(_("SetPicon"))
@@ -259,7 +260,10 @@ class setPicon(Screen, HelpableScreen):
 
 	def getCurrentService(self):
 		from ServiceReference import ServiceReference
-		service = self.session.nav.getCurrentlyPlayingServiceReference()
+		if self.curservice is not None:
+			service = self.curservice
+		else:
+			service = self.session.nav.getCurrentlyPlayingServiceReference()
 		if service:
 			self.name = ServiceReference(service).getServiceName()
 			self.refstr = ':'.join(service.toString().split(':')[:11])
@@ -951,7 +955,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.47,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.48,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,

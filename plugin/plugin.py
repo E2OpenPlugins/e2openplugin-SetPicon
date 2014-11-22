@@ -33,7 +33,8 @@ def main(session, servicelist=None, **kwargs):
 		import ui
 		from ServiceReference import ServiceReference
 		services = ui.getBouquetServices(epg_bouquet)
-		session.openWithCallback(ui.closed, ui.setPicon, plugin_path, services, ServiceReference(epg_bouquet).getServiceName())
+		service = Servicelist.servicelist.getCurrent()
+		session.openWithCallback(ui.closed, ui.setPicon, plugin_path, services, service, ServiceReference(epg_bouquet).getServiceName())
 
 def Plugins(path,**kwargs):
 	global plugin_path
