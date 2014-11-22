@@ -76,7 +76,7 @@ EXT = ".png"
 
 class setPicon(Screen, HelpableScreen):
 	skin = """
-	<screen name="setPicon" position="center,center" size="560,320" title="SetPicon">
+	<screen name="setPicon" position="center,center" size="560,330" title="SetPicon">
 		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
 		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
 		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
@@ -98,17 +98,17 @@ class setPicon(Screen, HelpableScreen):
 
 		<widget name="text" position="10,150" zPosition="2" size="540,25" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 
-		<ePixmap pixmap="~/img/border.png" position="225,180" zPosition="1" size="110,85" alphatest="on" />
-		<widget name="picon2l" position="10,195" zPosition="2" size="100,75" alphatest="on"/>
-		<widget name="picon1l" position="120,195" zPosition="2" size="100,75" alphatest="on"/>
-		<widget name="picon"   position="230,195" zPosition="2" size="100,75" alphatest="on"/>
-		<widget name="picon1p" position="340,195" zPosition="2" size="100,75" alphatest="on"/>
-		<widget name="picon2p" position="450,195" zPosition="2" size="100,75" alphatest="on"/>
+		<ePixmap pixmap="~/img/border.png" position="225,185" zPosition="1" size="110,85" alphatest="on" />
+		<widget name="picon2l" position="10,190" zPosition="2" size="100,75" alphatest="on"/>
+		<widget name="picon1l" position="120,190" zPosition="2" size="100,75" alphatest="on"/>
+		<widget name="picon"   position="230,190" zPosition="2" size="100,75" alphatest="on"/>
+		<widget name="picon1p" position="340,190" zPosition="2" size="100,75" alphatest="on"/>
+		<widget name="picon2p" position="450,190" zPosition="2" size="100,75" alphatest="on"/>
 
-		<widget name="search" position="10,270" zPosition="2" size="200,22" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
-		<widget name="message" position="230,270" zPosition="2" size="100,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
-		<ePixmap pixmap="skin_default/div-h.png" position="10,294" zPosition="2" size="540,2" />
-		<widget name="path" position="10,297" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
+		<widget name="search" position="10,275" zPosition="2" size="200,22" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
+		<widget name="message" position="230,275" zPosition="2" size="100,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
+		<ePixmap pixmap="skin_default/div-h.png" position="10,299" zPosition="2" size="540,2" />
+		<widget name="path" position="10,307" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
 	</screen>"""
 
 	def __init__(self, session, plugin_path, services, bouquetname=None):
@@ -951,7 +951,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.46,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.47,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
