@@ -286,3 +286,12 @@ msgstr "переключить на поиск сервисов"
 
 msgid "Fully fill rectangles with picons"
 msgstr "Полностью заполнять прямоугольники с пиконами"
+
+msgid "Are You sure delete picon?\n%s"
+msgstr "Opravdu smazat pikonu?\n%s"
+
+msgid "Move to directory"
+msgstr "Přesunout do adresáře"
+
+msgid "Move instead delete"
+msgstr "Přesunout místo smazat"

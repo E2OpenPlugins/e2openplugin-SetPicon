@@ -385,3 +385,15 @@ msgstr ""
 #
 msgid "Fully fill rectangles with picons"
 msgstr "Maximálně zvětšit pikony"
+
+#
+msgid "Are You sure delete picon?\n%s"
+msgstr "Opravdu smazat pikonu?\n%s"
+
+#
+msgid "Move to directory"
+msgstr "Přesunout do adresáře"
+
+#
+msgid "Move instead delete"
+msgstr "Přesunout místo smazat"

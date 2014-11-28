@@ -41,6 +41,7 @@ if not pathExists(STARTDIR):
 SOURCE = STARTDIR
 TARGET = STARTDIR
 BACKUP = STARTDIR
+MOVED = STARTDIR
 
 LAMEDB = eEnv.resolve('${sysconfdir}/enigma2/lamedb')
 
@@ -58,6 +59,8 @@ config.plugins.setpicon.filter = ConfigSelection(default = "0", choices = [("0",
 config.plugins.setpicon.zap = ConfigYesNo(default=False)
 config.plugins.setpicon.sorting = ConfigSelection(default = "0", choices = [("0",_("unsorted")),("1",_("sorted")),("2",_("sorted in reverse order"))])
 config.plugins.setpicon.fill = ConfigYesNo(default=False)
+config.plugins.setpicon.move = ConfigYesNo(default=False)
+config.plugins.setpicon.moved = ConfigDirectory(MOVED)
 
 cfg = config.plugins.setpicon
 
@@ -67,10 +70,13 @@ if not pathExists(cfg.target.value):
 	cfg.target.value = TEMP
 if not pathExists(cfg.backup.value):
 	cfg.backup.value = TEMP
+if not pathExists(cfg.moved.value):
+	cfg.moved.value = TEMP
 
 SOURCE = cfg.source.value
 TARGET = cfg.target.value
 BACKUP = cfg.backup.value
+MOVED = cfg.moved.value
 
 EXT = ".png"
 
@@ -751,11 +757,16 @@ class setPicon(Screen, HelpableScreen):
 		if not len(self.picon):
 			return
 		self.removePath = SOURCE + self.picon[self.idx] + EXT
-		self.session.openWithCallback(self.removePicon, MessageBox, _("Are You sure delete picon?\n%s") % self.removePath, MessageBox.TYPE_YESNO, default=False )
+		if cfg.move.value:
+			self.removePicon(True)
+		else:
+			self.session.openWithCallback(self.removePicon, MessageBox, _("Are You sure delete picon?\n%s") % self.removePath, MessageBox.TYPE_YESNO, default=False )
 
 	def removePicon(self, answer):
 		if answer is True:
 			if fileExists(self.removePath):
+				if cfg.move.value:
+					self.copy( self.removePath, self.removePath.replace(SOURCE, MOVED))
 				os.unlink(self.removePath)
 			self.picon.pop(self.idx)
 			self.maxPicons-=1
@@ -955,7 +966,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.49,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.50,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -978,6 +989,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.source_entry = getConfigListEntry(_("Input directory"), cfg.source)
 		self.target_entry = getConfigListEntry(_("Output directory"), cfg.target)
 		self.backup_entry = getConfigListEntry(_("Backup directory"), cfg.backup)
+		self.moved_entry = getConfigListEntry(_("Move to directory"), cfg.moved)
 
 		self.setPiconCfglist = []
 		self.setPiconCfglist.append(getConfigListEntry(_("Accept picons"), cfg.filter))
@@ -988,6 +1000,9 @@ class setPiconCfg(Screen, ConfigListScreen):
 			))
 		self.setPiconCfglist.append(self.source_entry)
 		self.setPiconCfglist.append(self.target_entry)
+		self.setPiconCfglist.append(getConfigListEntry(_("Move instead delete"), cfg.move))
+		if cfg.move.value:
+			self.setPiconCfglist.extend((self.moved_entry,))
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving current picons from"), cfg.allpicons))
 		self.setPiconCfglist.append(getConfigListEntry(_("Display picon's name"), cfg.filename))
 		self.setPiconCfglist.append(getConfigListEntry(_("Fully fill rectangles with picons"), cfg.fill))
@@ -1039,6 +1054,11 @@ class setPiconCfg(Screen, ConfigListScreen):
 			self.session.openWithCallback(self.backupDirSelected, LocationBox, text=txt, currDir=cfg.backup.value,
 							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
 							inhibitDirs=self.inhibitDirs, minFree=10 ) # in MB
+		elif currentry == self.moved_entry:
+			txt = _("Directory for removed Picons")
+			self.session.openWithCallback(self.movedDirSelected, LocationBox, text=txt, currDir=cfg.moved.value,
+							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
+							inhibitDirs=self.inhibitDirs, minFree=10 ) # in MB
 
 	def sourceDirSelected(self, res):
 		if res is not None:
@@ -1052,6 +1072,14 @@ class setPiconCfg(Screen, ConfigListScreen):
 		if res is not None:
 			if res != cfg.source.value and res != cfg.target.value:
 				cfg.backup.value = res
+			else:
+				self.backupWarning()
+				return
+
+	def movedDirSelected(self, res):
+		if res is not None:
+			if res != cfg.source.value and res != cfg.target.value:
+				cfg.moved.value = res
 			else:
 				self.backupWarning()
 				return
@@ -1079,12 +1107,18 @@ class setPiconCfg(Screen, ConfigListScreen):
 			if cfg.backup.value == cfg.target.value or cfg.backup.value == cfg.source.value:
 				self.backupWarning()
 				return
+		if cfg.move.value:
+			if cfg.moved.value == cfg.target.value or cfg.backup.value == cfg.source.value:
+				self.backupWarning()
+				return
 		global SOURCE
 		SOURCE = cfg.source.value
 		global TARGET
 		TARGET = cfg.target.value
 		global BACKUP
 		BACKUP = cfg.backup.value
+		global MOVED
+		MOVED = cfg.moved.value
 		self.keySave()
 		self.refreshPlugins()
 
