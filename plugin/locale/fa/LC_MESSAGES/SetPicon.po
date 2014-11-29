@@ -380,12 +380,12 @@ msgstr ""
 
 #
 msgid "Are You sure delete picon?\n%s"
-msgstr "Opravdu smazat pikonu?\n%s"
+msgstr ""
 
 #
 msgid "Move to directory"
-msgstr "Přesunout do adresáře"
+msgstr ""
 
 #
 msgid "Move instead delete"
-msgstr "Přesunout místo smazat"
+msgstr ""
