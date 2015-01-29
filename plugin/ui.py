@@ -348,7 +348,7 @@ class setPicon(Screen, HelpableScreen):
 		else: 				# from all directories
 			path = self.getInternalPicon(item[1])
 			if not fileExists(path):
-				path = self.getInternalPiconOld(self, refstr)  # look for old filename
+				path = self.getInternalPiconOld(refstr)  # look for old filename
 		filename = refstr
 		if cfg.type.value == "1": # name
 			filename = self.name2str(item[0])
