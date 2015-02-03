@@ -206,9 +206,11 @@ class setPicon(Screen, HelpableScreen):
 
 	def init(self):
 		# fill ItemList with services from current bouquet:
-		for service in self.services: 
+		for service in self.services:
 			self.ServicesList.append((service.getServiceName(), str(service)))
 		self.lenServicesList = len(self.ServicesList)
+		if not self.bouquetname:
+			self.ServicesList.sort()
 		# fill self.providers list from lamedb:
 		self.getProviders()
 
@@ -966,7 +968,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.50,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014, v0.51,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -1178,7 +1180,7 @@ from ServiceReference import ServiceReference
 def getBouquetServices(bouquet):
 	services = [ ]
 	Servicelist = eServiceCenter.getInstance().list(bouquet)
-	if not Servicelist is None:
+	if Servicelist:
 		while True:
 			service = Servicelist.getNext()
 			if not service.valid(): #check if end of list
