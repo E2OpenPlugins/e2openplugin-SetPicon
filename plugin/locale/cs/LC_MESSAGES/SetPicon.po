@@ -48,7 +48,7 @@ msgstr "Adresář pro ukládání pikon"
 
 #
 msgid "set picon to service"
-msgstr "přiřadit pikonu programu"
+msgstr "Přiřadit pikonu programu"
 
 #
 msgid "No picons found!"
@@ -56,7 +56,7 @@ msgstr "Žádné pikony nenalezeny!"
 
 #
 msgid "current:"
-msgstr "aktuální:"
+msgstr "Aktuální:"
 
 #
 msgid "Select picon and press OK to assign to current service:"
@@ -80,51 +80,51 @@ msgstr "Najít"
 
 #
 msgid "name"
-msgstr "název programu"
+msgstr "Název programu"
 
 #
 msgid "all picon's directories"
-msgstr "ze všech adresářů s pikonami"
+msgstr "Ze všech adresářů s pikonami"
 
 #
 msgid "input directory only"
-msgstr "pouze ze vstupního adresáře"
+msgstr "Pouze ze vstupního adresáře"
 
 #
 msgid "exit plugin"
-msgstr "zavřít plugin"
+msgstr "Zavřít plugin"
 
 #
 msgid "set and save selected picon"
-msgstr "nastavit a uložit vybranou pikonu"
+msgstr "Nastavit a uložit vybranou pikonu"
 
 #
 msgid "service reference"
-msgstr "service reference"
+msgstr "Service reference"
 
 #
 msgid "configuration"
-msgstr "konfigurace"
+msgstr "Konfigurace"
 
 #
 msgid "go to previous picon"
-msgstr "předchozí pikona"
+msgstr "Předchozí pikona"
 
 #
 msgid "go to next picon"
-msgstr "následující pikona"
+msgstr "Následující pikona"
 
 #
 msgid "go to next service"
-msgstr "následující program"
+msgstr "Následující program"
 
 #
 msgid "go to previous service"
-msgstr "předchozí program"
+msgstr "Předchozí program"
 
 #
 msgid "save service's picon"
-msgstr "uložit pikonu programu"
+msgstr "Uložit pikonu programu"
 
 #
 msgid "save bouquet's picons"
@@ -132,35 +132,35 @@ msgstr "uložit všechny picony z přehledu"
 
 #
 msgid "go to first picon"
-msgstr "na první pikonu"
+msgstr "Na první pikonu"
 
 #
 msgid "go to last picon"
-msgstr "na poslední pikonu"
+msgstr "Na poslední pikonu"
 
 #
 msgid "go to -5 picons"
-msgstr "zpět o 5 pikon"
+msgstr "Zpět o 5 pikon"
 
 #
 msgid "go to -100 picons"
-msgstr "zpět o 100 pikon"
+msgstr "Zpět o 100 pikon"
 
 #
 msgid "go to -1000 picons"
-msgstr "zpět o -1000 pikon"
+msgstr "Zpět o -1000 pikon"
 
 #
 msgid "go to +5 picons"
-msgstr "vpřed o 5 pikon"
+msgstr "Vpřed o 5 pikon"
 
 #
 msgid "go to +100 picons"
-msgstr "vpřed o 100 pikon"
+msgstr "Vpřed o 100 pikon"
 
 #
 msgid "go to +1000 picons"
-msgstr "vpřed o 1000 pikon"
+msgstr "Vpřed o 1000 pikon"
 
 #
 msgid "Save name with orbital position"
@@ -172,19 +172,19 @@ msgstr "Zobrazovat názvy pikon"
 
 #
 msgid "no"
-msgstr "ne"
+msgstr "Ne"
 
 #
 msgid "filename"
-msgstr "název souboru"
+msgstr "Název souboru"
 
 #
 msgid "full path"
-msgstr "celá cesta"
+msgstr "Celá cesta"
 
 #
 msgid "Not found"
-msgstr "nenalezeno"
+msgstr "Nenalezeno"
 
 #
 msgid "Select picon and save it with OK to output directory:"
@@ -224,11 +224,11 @@ msgstr "Možnosti"
 
 #
 msgid "options"
-msgstr "možnosti"
+msgstr "Možnosti"
 
 #
 msgid "menu"
-msgstr "menu"
+msgstr "Menu"
 
 #
 msgid ""
@@ -264,15 +264,15 @@ msgstr "Hledat: program"
 
 #
 msgid "search picons or service"
-msgstr "vyhledat pikony nebo program"
+msgstr "Vyhledat pikony nebo program"
 
 #
 msgid "switch searching to service"
-msgstr "přepnout hledání na program"
+msgstr "Přepnout hledání na program"
 
 #
 msgid "switch searching to picons"
-msgstr "přepnout hledání na pikony"
+msgstr "Přepnout hledání na pikony"
 
 #
 msgid "Service not found"
@@ -280,7 +280,7 @@ msgstr "Program nenalezen"
 
 #
 msgid "refresh"
-msgstr "obnovit"
+msgstr "Obnovit"
 
 #
 msgid "Backup directory cannot be same as Input or Output directories !"
@@ -312,11 +312,11 @@ msgstr "Třídit pikony v záložním adresáři"
 
 #
 msgid "by providers"
-msgstr "podle poskytovatele"
+msgstr "Podle poskytovatele"
 
 #
 msgid "by orbital position"
-msgstr "podle orbitální pozice"
+msgstr "Podle orbitální pozice"
 
 #
 msgid "Save %s bouquet's picons to backup directory only"
@@ -328,15 +328,15 @@ msgstr "Zobrazovat pikony"
 
 #
 msgid "unsorted"
-msgstr "netříděně"
+msgstr "Netříděně"
 
 #
 msgid "sorted"
-msgstr "setříděné"
+msgstr "Setříděné"
 
 #
 msgid "sorted in reverse order"
-msgstr "setříděné v opačném pořadí"
+msgstr "Setříděné v opačném pořadí"
 
 #
 msgid "Accept picons"
@@ -344,19 +344,19 @@ msgstr "Akceptovat pikony"
 
 #
 msgid "all"
-msgstr "všechny"
+msgstr "Všechny"
 
 #
 msgid "as service reference only"
-msgstr "pouze jako service reference"
+msgstr "Pouze jako service reference"
 
 #
 msgid "as names only"
-msgstr "pouze jako názvy"
+msgstr "Pouze jako názvy"
 
 #
 msgid "delete selected picon"
-msgstr "smazat vybranou pikonu"
+msgstr "Smazat vybranou pikonu"
 
 #
 msgid "Terrestrial"
