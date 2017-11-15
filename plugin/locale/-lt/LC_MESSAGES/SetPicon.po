@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SetPicon\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-16 23:05+0100\n"
+"PO-Revision-Date: 2017-11-15 11:58+0200\n"
+"Last-Translator: Vytenis P. <vyteniui@gmail.com>\n"
+"Language-Team: Vytenis P. vyteniui@gmail.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: lt\n"
+"X-Generator: Poedit 2.0.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "Are You sure delete all picons in %s ?"
+msgstr "Ar tikrai norite pašalinti visas piktogramas iš %s?"
+
+msgid "Backup directory"
+msgstr "Atsarginės kopijos katalogas"
+
+msgid "Backup directory cannot be same as Input or Output directories !"
+msgstr "Atsarginių kopijų katalogas negali būti toks pat, kaip įvesties/išvesties katalogai!"
+
+msgid "Backup directory for Picons"
+msgstr "Piktogramų atsarginės kopijos katalogas"
+
+msgid "Cable"
+msgstr "Kabelinė"
+
+msgid "Cancel"
+msgstr "Atšaukti"
+
+msgid "Copy all picons from %s to %s"
+msgstr "Kopijuoti visas piktogramas iš %s į %s"
+
+msgid "Delete all picons in %s"
+msgstr "Pašalinti visas piktogramas iš %s"
+
+msgid "Delete picons in backup directory %s"
+msgstr "Pašalinti piktogramas iš atsarginės kopijos katalogo %s"
+
+msgid "Display picon's name"
+msgstr "Rodyti piktogramos pavadinimą"
+
+msgid ""
+"Do you want set both directory as:\n"
+" %s"
+msgstr ""
+"Ar norite nustatyti abu katalogus, kaip:\n"
+" %s"
+
+msgid "In menu change input directory or save picons from bouquet."
+msgstr "Meniu pakeiskite įvesties katalogą, arba išsaugokite bukieto piktogramas."
+
+msgid "Input directory"
+msgstr "Įvesties katalogas"
+
+msgid "Input directory and output directory are same!"
+msgstr "Įvesties ir išvesties katalogas tas pats!"
+
+msgid "Input directory of Picons"
+msgstr "Įvesties katalogas piktogramoms"
+
+msgid "No picons found!"
+msgstr "Piktogramų neaptikta!"
+
+msgid "Not found"
+msgstr "Nerasta"
+
+msgid "Operations with picons"
+msgstr "Operacijos su piktogramomis"
+
+msgid "Options"
+msgstr "Parinktys"
+
+msgid "Output directory"
+msgstr "Išvesties katalogas"
+
+msgid "Output directory for created Picons"
+msgstr "Piktogramų išvesties katalogas"
+
+msgid "Display picons"
+msgstr "Rodyti piktogramas"
+
+msgid "unsorted"
+msgstr "nerūšiuoti"
+
+msgid "sorted"
+msgstr "rūšiuoti"
+
+msgid "sorted in reverse order"
+msgstr "rūšiuoti atvirkštine tvarka"
+
+msgid "Accept picons"
+msgstr "Priimti piktogramas"
+
+msgid "all"
+msgstr "viską"
+
+msgid "as service reference only"
+msgstr "tik kaip kanalo nuorodą"
+
+msgid "as names only"
+msgstr "tik kaip pavadinimus"
+
+msgid "Please wait to finishing picon's list..."
+msgstr "Palaukite piktogramų sąrašo pabaigos..."
+
+msgid "Reading picons..."
+msgstr "Skaitomos piktogramos..."
+
+msgid "Same Dirs"
+msgstr "Tie patys katalogai"
+
+msgid "Save"
+msgstr "Įrašyti"
+
+msgid "Save %s bouquet's picons to %s"
+msgstr "%s bukieto piktogramas išsaugoti %s"
+
+msgid "Save %s bouquet's picons to backup directory only"
+msgstr "Bukieto %s piktogramas išsaugoti tik į atsarg. kopjijos katalogą"
+
+msgid "Save current"
+msgstr "Išsaugoti dabartinę"
+
+msgid "Save name with orbital position"
+msgstr "Išsaugoti pavadinimą su padėtimi orbitoje"
+
+msgid "Save picon as"
+msgstr "Piktogramą išsaugoti, kaip"
+
+msgid "Saving current picons from"
+msgstr "Išsaugoti dabartines piktogramas iš"
+
+msgid "Saving too to backup directory"
+msgstr "Išsaugoti ir į atsarginės kopijos katalogą"
+
+msgid "Search"
+msgstr "Paieška"
+
+msgid "Search: picons"
+msgstr "Paieška: piktogramos"
+
+msgid "Search: service"
+msgstr "Paieška: kanalai"
+
+msgid "Select picon and press OK to assign to current service:"
+msgstr "Pasirinkite piktogramą ir spauskite 'OK', kad priskirti šiam kanalui:"
+
+msgid "Select picon and save it with OK to output directory:"
+msgstr "Pasirinkite piktogramą ir spauskite 'OK', kad išsaugoti išeities kataloge:"
+
+msgid "Service not found"
+msgstr "Kanalo nerasta"
+
+msgid "SetPicon Setup"
+msgstr "Piktogramų diegėjo sąranka"
+
+msgid "SetPicon"
+msgstr "Piktogramų diegėjas"
+
+msgid "SetPicon in E-menu"
+msgstr "Piktogramų diegėjas plėtinių naršyklėje"
+
+msgid "SetPicon in Channel's menu"
+msgstr "Piktogramų diegėjas kanalų meniu"
+
+msgid "Sorting picons in backup directory"
+msgstr "Piktogramų rūšiavimas atsarginių kopijų kataloge"
+
+msgid "Swap Dirs"
+msgstr "Sukeisti katalogus"
+
+msgid "Terrestrial"
+msgstr "Antžeminė"
+
+msgid "ZAP when is changed service"
+msgstr "Perjungti, pasikeitus kanalui"
+
+msgid "all picon's directories"
+msgstr "visi piktogramų katalogai"
+
+msgid "by orbital position"
+msgstr "pagal padėtį orbitoje"
+
+msgid "by providers"
+msgstr "pagal tiekėjus"
+
+msgid "configuration"
+msgstr "konfigūracija"
+
+msgid "current:"
+msgstr "dabartinis:"
+
+msgid "delete selected picon"
+msgstr "ištrinti pasirinktą piktogramą"
+
+msgid "exit plugin"
+msgstr "užverti įskiepį"
+
+msgid "filename"
+msgstr "failo pavadinimas"
+
+msgid "full path"
+msgstr "visas kelias"
+
+msgid "go to +100 picons"
+msgstr "100 piktogramų pirmyn"
+
+msgid "go to +1000 picons"
+msgstr "1000 piktogramų pirmyn"
+
+msgid "go to +5 picons"
+msgstr "5 piktogramomis pirmyn"
+
+msgid "go to -100 picons"
+msgstr "100 piktogramų atgal"
+
+msgid "go to -1000 picons"
+msgstr "1000 piktogramų atgal"
+
+msgid "go to -5 picons"
+msgstr "5 piktogramomis atgal"
+
+msgid "go to first picon"
+msgstr "prie pirmos piktogramos"
+
+msgid "go to last picon"
+msgstr "prie paskutinės piktogramos"
+
+msgid "go to next picon"
+msgstr "prie sekančios piktogramos"
+
+msgid "go to next service"
+msgstr "prie sekančio kanalo"
+
+msgid "go to previous picon"
+msgstr "prie ankstesnės piktogramos"
+
+msgid "go to previous service"
+msgstr "prie ankstesnio kanalo"
+
+msgid "input directory only"
+msgstr "tik įvesties katalogas"
+
+msgid "menu"
+msgstr "meniu"
+
+msgid "name"
+msgstr "pavadinimas"
+
+msgid "no"
+msgstr "ne"
+
+msgid "options"
+msgstr "nustatymai"
+
+msgid "refresh"
+msgstr "atnaujinti"
+
+msgid "save bouquet's picons"
+msgstr "išsaugoti bukieto piktogramas"
+
+msgid "save service's picon"
+msgstr "išsaugoti dabartinę piktogramą"
+
+msgid "search picons or service"
+msgstr "ieškoti piktogramų/kanalų"
+
+msgid "service reference"
+msgstr "kanalo nuoroda"
+
+msgid "set and save selected picon"
+msgstr "nustatyti ir išsaugoti pasirinktą piktogramą"
+
+msgid "set picon to service"
+msgstr "nustatyti piktogramą kanalui"
+
+msgid "switch searching to picons"
+msgstr "perjungti į piktogramų paiešką"
+
+msgid "switch searching to service"
+msgstr "perjungti į kanalų paiešką"
+
+msgid "Fully fill rectangles with picons"
+msgstr "Užpildyti stačiakampius piktogramomis"
+
+msgid ""
+"Are You sure delete picon?\n"
+"%s"
+msgstr ""
+"Ar tikrai norite pašalinti piktogramą?\n"
+"%s"
+
+msgid "Move to directory"
+msgstr "Perkelti į katalogą"
+
+msgid "Move instead delete"
+msgstr "Perkelti, o ne ištrinti"
