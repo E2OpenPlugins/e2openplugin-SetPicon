@@ -3,7 +3,7 @@ from . import _
 #
 #  Set Picon - Plugin E2
 #
-#  by ims (c) 2012 ims21@users.sourceforge.net
+#  by ims (c) 2012-2018 ims21@users.sourceforge.net
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -61,6 +61,8 @@ config.plugins.setpicon.sorting = ConfigSelection(default = "0", choices = [("0"
 config.plugins.setpicon.fill = ConfigYesNo(default=False)
 config.plugins.setpicon.move = ConfigYesNo(default=False)
 config.plugins.setpicon.moved = ConfigDirectory(MOVED)
+config.plugins.setpicon.lamedb5 = ConfigYesNo(default=True)
+
 
 cfg = config.plugins.setpicon
 
@@ -807,15 +809,24 @@ class setPicon(Screen, HelpableScreen):
 	def ref2ProviderName(self, ref):
 #		SID:NS:TSID:ONID:STYPE:UNUSED(used for channelnumber in enigma1)
 #		X   X  X    X    D     D
-
+#		[0]	[1]	[2] [3]	 [4]  [5] [6]    [7]        [8]       [9]
 #		REFTYPE:FLAGS:STYPE:SID:TSID:ONID:NS:PARENT_SID:PARENT_TSID:UNUSED
 #		D       D     X     X   X    X    X  X          X           X
+
 		ref = [ int(x, 0x10) for x in ref.split(':')[:10]]
-		ref = "%04x:%08x:%04x:%04x:%d:0" % (ref[3], ref[6], ref[4], ref[5], ref[2])
+		if cfg.lamedb5.value:
+			ref = "%04x:%08x:%04x:%04x" % (ref[3], ref[6], ref[4], ref[5])
+		else:
+			ref = "%04x:%08x:%04x:%04x:%d:0" % (ref[3], ref[6], ref[4], ref[5], ref[2])
 		for i in self.providers:
-			if i[0] == ref:
+			if cfg.lamedb5.value:
+				tmp = i[0].split(':')
+				i_ref = ":".join((tmp[0],tmp[1],tmp[2],tmp[3]))
+			else:
+				i_ref = i[0]
+			if i_ref == ref:
 				return i[1]
-		return "unknown"
+		return "-"
 
 	def getProviders(self):
 		lamedb = open(LAMEDB,"r")
@@ -829,9 +840,9 @@ class setPicon(Screen, HelpableScreen):
 			if len(prov) and prov[0][0] is 'p':
 				provider = prov[0].split(':')[1]
 				if not len(provider):
-					provider = "unknown"
+					provider = "-"
 			else:
-				provider = "unknown"
+				provider = "-"
 			self.providers.append((ref,provider))
 
 	def end(self):
@@ -859,6 +870,7 @@ class setPicon(Screen, HelpableScreen):
 				else:
 					self.sortPicons()
 					self.displayPicon()
+		self.getCurrentService()
 
 ### for graphics
 	def initGraphic(self):
@@ -968,7 +980,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014, v0.51,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims (c) 2014-2018, v0.52,  %s" % getMemory(7))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -1013,6 +1025,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in Channel's menu"), cfg.chcmenu))
 		self.setPiconCfglist.append(getConfigListEntry(_("ZAP when is changed service"), cfg.zap))
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving too to backup directory"), cfg.save2backtoo))
+		self.setPiconCfglist.append(getConfigListEntry(_("lamedb5"), cfg.lamedb5))
 		self.backup_sort = getConfigListEntry(_("Sorting picons in backup directory"), cfg.backupsort)
 		if cfg.save2backtoo.value:
 			self.setPiconCfglist.extend((self.backup_entry,))
