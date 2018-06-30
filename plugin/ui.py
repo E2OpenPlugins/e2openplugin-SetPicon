@@ -5,6 +5,7 @@ from . import _
 #
 #  by ims (c) 2012-2018 ims21@users.sourceforge.net
 #
+VERSION = 0.53
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
 #  as published by the Free Software Foundation; either version 2
@@ -61,7 +62,6 @@ config.plugins.setpicon.sorting = ConfigSelection(default = "0", choices = [("0"
 config.plugins.setpicon.fill = ConfigYesNo(default=False)
 config.plugins.setpicon.move = ConfigYesNo(default=False)
 config.plugins.setpicon.moved = ConfigDirectory(MOVED)
-config.plugins.setpicon.lamedb5 = ConfigYesNo(default=True)
 
 
 cfg = config.plugins.setpicon
@@ -809,22 +809,16 @@ class setPicon(Screen, HelpableScreen):
 	def ref2ProviderName(self, ref):
 #		SID:NS:TSID:ONID:STYPE:UNUSED(used for channelnumber in enigma1)
 #		X   X  X    X    D     D
-#		[0]	[1]	[2] [3]	 [4]  [5] [6]    [7]        [8]       [9]
+#		[0]	[1]   [2]   [3]	[4]  [5]  [6] [7]       [8]         [9]
 #		REFTYPE:FLAGS:STYPE:SID:TSID:ONID:NS:PARENT_SID:PARENT_TSID:UNUSED
 #		D       D     X     X   X    X    X  X          X           X
 
 		ref = [ int(x, 0x10) for x in ref.split(':')[:10]]
-		if cfg.lamedb5.value:
-			ref = "%04x:%08x:%04x:%04x" % (ref[3], ref[6], ref[4], ref[5])
-		else:
-			ref = "%04x:%08x:%04x:%04x:%d:0" % (ref[3], ref[6], ref[4], ref[5], ref[2])
+		ref = "%04x:%08x:%04x:%04x:%d" % (ref[3], ref[6], ref[4], ref[5], ref[2])
 		for i in self.providers:
-			if cfg.lamedb5.value:
-				tmp = i[0].split(':')
-				i_ref = ":".join((tmp[0],tmp[1],tmp[2],tmp[3]))
-			else:
-				i_ref = i[0]
-			if i_ref == ref:
+			p = i[0].split(':')
+			p_ref = ":".join((p[0],p[1],p[2],p[3],p[4]))
+			if p_ref == ref:
 				return i[1]
 		return "-"
 
@@ -980,7 +974,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["key_yellow"] = Label(_("Swap Dirs"))
 		self["key_blue"] = Label(_("Same Dirs"))
 
-		self["statusbar"] = Label("ims (c) 2014-2018, v0.52,  %s" % getMemory(7))
+		self["statusbar"] = Label("ims(c) 2014-2018, v%s,  %s" % (VERSION, getMemory(7)))
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"green": self.save,
@@ -1025,7 +1019,6 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.setPiconCfglist.append(getConfigListEntry(_("SetPicon in Channel's menu"), cfg.chcmenu))
 		self.setPiconCfglist.append(getConfigListEntry(_("ZAP when is changed service"), cfg.zap))
 		self.setPiconCfglist.append(getConfigListEntry(_("Saving too to backup directory"), cfg.save2backtoo))
-		self.setPiconCfglist.append(getConfigListEntry(_("lamedb5"), cfg.lamedb5))
 		self.backup_sort = getConfigListEntry(_("Sorting picons in backup directory"), cfg.backupsort)
 		if cfg.save2backtoo.value:
 			self.setPiconCfglist.extend((self.backup_entry,))

@@ -3,7 +3,7 @@ import setup_translate
 
 pkg = 'Extensions.SetPicon'
 setup (name = 'enigma2-plugin-extensions-setpicon',
-       version = '0.52',
+       version = '0.53',
        description = 'assignment picons for services',
        packages = [pkg],
        package_dir = {pkg: 'plugin'},
