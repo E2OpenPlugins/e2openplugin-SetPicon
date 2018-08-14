@@ -744,10 +744,7 @@ class setPicon(Screen, HelpableScreen):
 			return _("Terrestrial")
 		if b == 0xffff:
 			return _("Cable")
-		direction = 'E'
-		if b > 1800:
-			b = 3600 - b
-			direction = 'W'
+		b, direction = (3600 - b, 'W') if b > 1800 else (b, 'E')
 		if revert:
 			return ("%s_%03d.%d") % (direction, b // 10, b % 10)
 		return ("%d.%d%s") % (b // 10, b % 10, direction)
