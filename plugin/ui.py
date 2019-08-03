@@ -85,10 +85,10 @@ EXT = ".png"
 class setPicon(Screen, HelpableScreen):
 	skin = """
 	<screen name="setPicon" position="center,center" size="560,330" title="SetPicon">
-		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
-		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
-		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
-		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" /> 
+		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="buttons/red.png" transparent="1" alphatest="on" />
+		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="buttons/green.png" transparent="1" alphatest="on" />
+		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="buttons/yellow.png" transparent="1" alphatest="on" /> 
+		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="buttons/blue.png" transparent="1" alphatest="on" /> 
 		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
 		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
 		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
@@ -102,7 +102,7 @@ class setPicon(Screen, HelpableScreen):
 		<widget name="orbital" position="10,95" zPosition="2" size="100,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 		<widget name="provider" position="110,95" zPosition="2" size="300,20" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 
-		<ePixmap pixmap="skin_default/div-h.png" position="10,135" zPosition="2" size="540,2" transparent="0" />
+		<ePixmap pixmap="div-h.png" position="10,135" zPosition="2" size="540,2" transparent="0" />
 
 		<widget name="text" position="10,150" zPosition="2" size="540,25" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 
@@ -115,7 +115,7 @@ class setPicon(Screen, HelpableScreen):
 
 		<widget name="search" position="10,275" zPosition="2" size="200,22" valign="center" halign="left" font="Regular;18" foregroundColor="white" />
 		<widget name="message" position="230,275" zPosition="2" size="100,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
-		<ePixmap pixmap="skin_default/div-h.png" position="10,299" zPosition="2" size="540,2" />
+		<ePixmap pixmap="div-h.png" position="10,299" zPosition="2" size="540,2" />
 		<widget name="path" position="10,307" zPosition="2" size="540,22" valign="center" halign="center" font="Regular;18" foregroundColor="white" />
 	</screen>"""
 
@@ -940,10 +940,10 @@ class setPicon(Screen, HelpableScreen):
 class setPiconCfg(Screen, ConfigListScreen):
 	skin = """
 	<screen name="setPiconCfg" position="center,center" size="560,430" title="SetPicon Setup">
-		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
-		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
-		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
-		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" /> 
+		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="buttons/red.png" transparent="1" alphatest="on" />
+		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="buttons/green.png" transparent="1" alphatest="on" />
+		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="buttons/yellow.png" transparent="1" alphatest="on" /> 
+		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="buttons/blue.png" transparent="1" alphatest="on" /> 
 
 		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
 		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
@@ -951,8 +951,8 @@ class setPiconCfg(Screen, ConfigListScreen):
 		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 
 		<widget name="config" position="10,40" size="540,350" zPosition="1" scrollbarMode="showOnDemand" />
-		<ePixmap pixmap="skin_default/div-h.png" position="0,405" zPosition="1" size="560,2" />
-		<ePixmap alphatest="on" pixmap="skin_default/icons/clock.png" position="480,411" size="14,14" zPosition="3"/>
+		<ePixmap pixmap="div-h.png" position="0,405" zPosition="1" size="560,2" />
+		<ePixmap alphatest="on" pixmap="icons/clock.png" position="480,411" size="14,14" zPosition="3"/>
 		<widget font="Regular;18" halign="right" position="495,408" render="Label" size="55,20" source="global.CurrentTime" valign="center" zPosition="3">
 			<convert type="ClockToText">Default</convert>
 		</widget>
