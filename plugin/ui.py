@@ -830,7 +830,7 @@ class setPicon(Screen, HelpableScreen):
 		for i in range(0, len(lines), 3):
 			ref = lines[i].split("\n")[0]
 			prov = lines[i+2].split("\n")[0].split(',')
-			if len(prov) and prov[0][0] is 'p':
+			if len(prov) and prov[0][0] == 'p':
 				provider = prov[0].split(':')[1]
 				if not len(provider):
 					provider = "-"
