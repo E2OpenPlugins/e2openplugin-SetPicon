@@ -35,6 +35,7 @@ from Components.Button import Button
 from enigma import eTimer, eEnv
 from Screens.MessageBox import MessageBox
 from Screens.ChoiceBox import ChoiceBox
+import six
 
 TEMP = "/tmp/"
 STARTDIR = "/picon/"
@@ -731,7 +732,7 @@ class setPicon(Screen, HelpableScreen):
 		return ""
 
 	def name2str(self, serviceName):
-		serviceName = unicodedata.normalize('NFKD', unicode(serviceName, 'utf_8')).encode('ASCII', 'ignore')
+		serviceName = unicodedata.normalize('NFKD', six.text_type(serviceName, 'utf_8')).encode('ASCII', 'ignore')
 		serviceName = re.sub('[^a-z0-9]', '', serviceName.replace('&', 'and').replace('+', 'plus').replace('*', 'star').lower())
 		return serviceName
 
