@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # for localized messages  	 
 from . import _
 #
@@ -30,7 +31,7 @@ def main(session, servicelist=None, **kwargs):
 	global epg_bouquet
 	epg_bouquet = Servicelist and Servicelist.getRoot()
 	if epg_bouquet is not None:
-		import ui
+		from . import ui
 		from ServiceReference import ServiceReference
 		services = ui.getBouquetServices(epg_bouquet)
 		service = Servicelist.servicelist.getCurrent()
