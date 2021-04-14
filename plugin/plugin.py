@@ -36,7 +36,7 @@ def main(session, servicelist=None, **kwargs):
 		service = Servicelist.servicelist.getCurrent()
 		session.openWithCallback(ui.closed, ui.setPicon, plugin_path, services, service, ServiceReference(epg_bouquet).getServiceName())
 
-def Plugins(path,**kwargs):
+def Plugins(path, **kwargs):
 	global plugin_path
 	plugin_path = path
 	name = _("SetPicon")
