@@ -316,7 +316,7 @@ class setPicon(Screen, HelpableScreen):
 		path = SOURCE + self.picon[self.idx] + EXT
 		if fileExists(path):
 			print "[SetPicon] copy", path, TARGET + filename + EXT
-			self.copy( path, TARGET + filename + EXT )
+			self.copy(path, TARGET + filename + EXT)
 			if cfg.save2backtoo.value:
 				self.saveToBackup(self.refstr, path, filename)
 			self.displayCurServicePicon()
@@ -339,7 +339,7 @@ class setPicon(Screen, HelpableScreen):
 			self.displayPicon()
 			self.search = False
 		else:
-			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
+			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5)
 
 	def setSameDirectories(self, answer):
 		return
@@ -364,7 +364,7 @@ class setPicon(Screen, HelpableScreen):
 			if not bouquet:
 				print "[SetPicon] copy", path, TARGET + filename + EXT
 			if not backuponly:
-				self.copy( path, TARGET + filename + EXT )
+				self.copy(path, TARGET + filename + EXT)
 			if cfg.save2backtoo.value:
 				self.saveToBackup(item[1], path, filename, bouquet)
 			if not self.picon.count(filename):
@@ -386,7 +386,7 @@ class setPicon(Screen, HelpableScreen):
 				os.makedirs(directory)
 		if not bouquet:
 			print "[SetPicon] copy2", path, directory + filename + EXT
-		self.copy( path, directory + filename + EXT )
+		self.copy(path, directory + filename + EXT)
 
 	def trueName(self, name):
 		name = name.replace('/', '_').replace('\\', '_').replace('&', '_').replace('\'', '').replace('"', '').replace('`', '').replace('*', '_').replace('?', '_').replace(' ', '_').replace('(', '_').replace(')', '_')
@@ -421,7 +421,7 @@ class setPicon(Screen, HelpableScreen):
 		index = 0
 		founded = False
 		for item in self.ServicesList:
-			(service, refstr, name, nameo, orbital ) = self.getStrings(item)
+			(service, refstr, name, nameo, orbital) = self.getStrings(item)
 			if service == refstr or service == name or service == nameo:
 				founded = True
 				self.refstr = item[1]
@@ -456,7 +456,7 @@ class setPicon(Screen, HelpableScreen):
 	def getStrings(self, item):
 		name = self.name2str(item[0])
 		orbital = self.getOrbitalPosition(item[1])
-		return ( self.picon[self.idx], self.ref2str(item[1]), self.name2str(item[0]), name + "_" + orbital, orbital)
+		return (self.picon[self.idx], self.ref2str(item[1]), self.name2str(item[0]), name + "_" + orbital, orbital)
 
 	def setSearchService(self):
 		self.search_picon = False
@@ -566,7 +566,7 @@ class setPicon(Screen, HelpableScreen):
 						except IOError, e:
 							print "Failed copy all", e, filename
 		else:
-			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5 )
+			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5)
 
 	def deleteTarget(self):
 		self.rmPath = TARGET
@@ -587,7 +587,7 @@ class setPicon(Screen, HelpableScreen):
 		return False
 		
 	def confirmDelete(self, path):
-		self.session.openWithCallback(self.deleteAllPicons, MessageBox, _("Are You sure delete all picons in %s ?") % path, MessageBox.TYPE_YESNO, default=False )
+		self.session.openWithCallback(self.deleteAllPicons, MessageBox, _("Are You sure delete all picons in %s ?") % path, MessageBox.TYPE_YESNO, default=False)
 
 	def deleteAllPicons(self, answer=False):
 		if answer is True:
@@ -763,13 +763,13 @@ class setPicon(Screen, HelpableScreen):
 		if cfg.move.value:
 			self.removePicon(True)
 		else:
-			self.session.openWithCallback(self.removePicon, MessageBox, _("Are You sure delete picon?\n%s") % self.removePath, MessageBox.TYPE_YESNO, default=False )
+			self.session.openWithCallback(self.removePicon, MessageBox, _("Are You sure delete picon?\n%s") % self.removePath, MessageBox.TYPE_YESNO, default=False)
 
 	def removePicon(self, answer):
 		if answer is True:
 			if fileExists(self.removePath):
 				if cfg.move.value:
-					self.copy( self.removePath, self.removePath.replace(SOURCE, MOVED))
+					self.copy(self.removePath, self.removePath.replace(SOURCE, MOVED))
 				os.unlink(self.removePath)
 			self.picon.pop(self.idx)
 			self.maxPicons-=1
@@ -812,7 +812,7 @@ class setPicon(Screen, HelpableScreen):
 #		REFTYPE:FLAGS:STYPE:SID:TSID:ONID:NS:PARENT_SID:PARENT_TSID:UNUSED
 #		D       D     X     X   X    X    X  X          X           X
 
-		ref = [ int(x, 0x10) for x in ref.split(':')[:10]]
+		ref = [int(x, 0x10) for x in ref.split(':')[:10]]
 		ref = "%04x:%08x:%04x:%04x:%d" % (ref[3], ref[6], ref[4], ref[5], ref[2])
 		for i in self.providers:
 			p = i[0].split(':')
@@ -1055,17 +1055,17 @@ class setPiconCfg(Screen, ConfigListScreen):
 			txt = _("Output directory for created Picons")
 			self.session.openWithCallback(self.targetDirSelected, LocationBox, text=txt, currDir=cfg.target.value,
 							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
-							inhibitDirs=self.inhibitDirs, minFree=10 ) # in MB
+							inhibitDirs=self.inhibitDirs, minFree=10) # in MB
 		elif currentry == self.backup_entry:
 			txt = _("Backup directory for Picons")
 			self.session.openWithCallback(self.backupDirSelected, LocationBox, text=txt, currDir=cfg.backup.value,
 							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
-							inhibitDirs=self.inhibitDirs, minFree=10 ) # in MB
+							inhibitDirs=self.inhibitDirs, minFree=10) # in MB
 		elif currentry == self.moved_entry:
 			txt = _("Directory for removed Picons")
 			self.session.openWithCallback(self.movedDirSelected, LocationBox, text=txt, currDir=cfg.moved.value,
 							bookmarks=cfg.bookmarks, autoAdd=False, editDir=True,
-							inhibitDirs=self.inhibitDirs, minFree=10 ) # in MB
+							inhibitDirs=self.inhibitDirs, minFree=10) # in MB
 
 	def sourceDirSelected(self, res):
 		if res is not None:
@@ -1092,7 +1092,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 				return
 
 	def backupWarning(self):
-		self.session.open( MessageBox, _("Backup directory cannot be same as Input or Output directories !"), MessageBox.TYPE_ERROR, timeout=5 )
+		self.session.open(MessageBox, _("Backup directory cannot be same as Input or Output directories !"), MessageBox.TYPE_ERROR, timeout=5)
 
 	def swapDirs(self):
 		tmp = cfg.target.value
@@ -1102,7 +1102,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self["config"].invalidate(self["config"].list[self.setPiconCfglist.index(self.target_entry)])
 
 	def bothAsInputDir(self):
-		self.session.openWithCallback(self.sameDirs, MessageBox, _("Do you want set both directory as:\n %s") % cfg.source.value , MessageBox.TYPE_YESNO, default=False )
+		self.session.openWithCallback(self.sameDirs, MessageBox, _("Do you want set both directory as:\n %s") % cfg.source.value, MessageBox.TYPE_YESNO, default=False)
 
 	def sameDirs(self, answer=False):
 		if answer:
@@ -1183,7 +1183,7 @@ from enigma import eServiceCenter, eServiceReference
 from ServiceReference import ServiceReference
 
 def getBouquetServices(bouquet):
-	services = [ ]
+	services = []
 	Servicelist = eServiceCenter.getInstance().list(bouquet)
 	if Servicelist:
 		while True:

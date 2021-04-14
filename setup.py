@@ -2,7 +2,7 @@ from distutils.core import setup
 import setup_translate
 
 pkg = 'Extensions.SetPicon'
-setup (name='enigma2-plugin-extensions-setpicon',
+setup(name='enigma2-plugin-extensions-setpicon',
 	version='0.53',
 	description='assignment picons for services',
 	packages=[pkg],
