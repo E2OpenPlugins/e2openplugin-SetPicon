@@ -1,4 +1,4 @@
-# for localized messages  	 
+# for localized messages
 from . import _
 #
 #  Set Picon - Plugin E2
@@ -23,6 +23,7 @@ config.plugins.setpicon = ConfigSubsection()
 config.plugins.setpicon.extmenu = ConfigYesNo(default=True)
 config.plugins.setpicon.chcmenu = ConfigYesNo(default=False)
 
+
 def main(session, servicelist=None, **kwargs):
 	global Servicelist
 	import Screens.InfoBar
@@ -36,16 +37,17 @@ def main(session, servicelist=None, **kwargs):
 		service = Servicelist.servicelist.getCurrent()
 		session.openWithCallback(ui.closed, ui.setPicon, plugin_path, services, service, ServiceReference(epg_bouquet).getServiceName())
 
-def Plugins(path,**kwargs):
+
+def Plugins(path, **kwargs):
 	global plugin_path
 	plugin_path = path
-	name= _("SetPicon")
-	descr=_("set picon to service")
+	name = _("SetPicon")
+	descr = _("set picon to service")
 	list = []
-	list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_PLUGINMENU, icon = "setpicon.png", needsRestart = False, fnc=main))
-	list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart = False, fnc=main))
+	list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_PLUGINMENU, icon="setpicon.png", needsRestart=False, fnc=main))
+	list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EVENTINFO, needsRestart=False, fnc=main))
 	if config.plugins.setpicon.extmenu.value:
-		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart = False, fnc=main))
+		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_EXTENSIONSMENU, needsRestart=False, fnc=main))
 	if config.plugins.setpicon.chcmenu.value:
-		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_CHANNEL_CONTEXT_MENU, needsRestart = False, fnc=main))
+		list.append(PluginDescriptor(name=name, description=descr, where=PluginDescriptor.WHERE_CHANNEL_CONTEXT_MENU, needsRestart=False, fnc=main))
 	return list
