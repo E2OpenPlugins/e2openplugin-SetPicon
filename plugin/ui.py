@@ -48,19 +48,19 @@ MOVED = STARTDIR
 
 LAMEDB = eEnv.resolve('${sysconfdir}/enigma2/lamedb')
 
-config.plugins.setpicon.type = ConfigSelection(default = "0", choices = [("0",_("service reference")),("1",_("name"))])
+config.plugins.setpicon.type = ConfigSelection(default="0", choices=[("0",_("service reference")),("1",_("name"))])
 config.plugins.setpicon.source = ConfigDirectory(SOURCE)
 config.plugins.setpicon.target = ConfigDirectory(TARGET)
-config.plugins.setpicon.allpicons = ConfigSelection(default = "0", choices = [("0",_("all picon's directories")),("1",_("input directory only"))])
+config.plugins.setpicon.allpicons = ConfigSelection(default="0", choices=[("0",_("all picon's directories")),("1",_("input directory only"))])
 config.plugins.setpicon.name_orbitpos = ConfigYesNo(default=False)
-config.plugins.setpicon.filename = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("filename")),("2",_("full path"))])
+config.plugins.setpicon.filename = ConfigSelection(default="0", choices=[("0",_("no")),("1",_("filename")),("2",_("full path"))])
 config.plugins.setpicon.bookmarks = ConfigLocations(default=[SOURCE])
 config.plugins.setpicon.save2backtoo = ConfigYesNo(default=False)
 config.plugins.setpicon.backup = ConfigDirectory(BACKUP)
-config.plugins.setpicon.backupsort = ConfigSelection(default = "0", choices = [("0",_("no")),("1",_("by providers")),("2",_("by orbital position"))])
-config.plugins.setpicon.filter = ConfigSelection(default = "0", choices = [("0",_("all")),("1",_("as service reference only")),("2",_("as names only"))])
+config.plugins.setpicon.backupsort = ConfigSelection(default="0", choices=[("0",_("no")),("1",_("by providers")),("2",_("by orbital position"))])
+config.plugins.setpicon.filter = ConfigSelection(default="0", choices=[("0",_("all")),("1",_("as service reference only")),("2",_("as names only"))])
 config.plugins.setpicon.zap = ConfigYesNo(default=False)
-config.plugins.setpicon.sorting = ConfigSelection(default = "0", choices = [("0",_("unsorted")),("1",_("sorted")),("2",_("sorted in reverse order"))])
+config.plugins.setpicon.sorting = ConfigSelection(default="0", choices=[("0",_("unsorted")),("1",_("sorted")),("2",_("sorted in reverse order"))])
 config.plugins.setpicon.fill = ConfigYesNo(default=False)
 config.plugins.setpicon.move = ConfigYesNo(default=False)
 config.plugins.setpicon.moved = ConfigDirectory(MOVED)
@@ -243,7 +243,7 @@ class setPicon(Screen, HelpableScreen):
 			self.menu.append((_("Save %s bouquet's picons to backup directory only") % (self.bouquetname),4))
 			self.menu.append((_("Delete picons in backup directory %s") % BACKUP,5))
 
-		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Operations with picons"), list=self.menu, selection = self.selection)
+		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Operations with picons"), list=self.menu, selection=self.selection)
 
 	def menuCallback(self, choice):
 		if choice is None:
@@ -988,7 +988,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 
 		self.onChangedEntry = []
 		self.refreshMenu()
-		ConfigListScreen.__init__(self, self.setPiconCfglist, session, on_change = self.changedEntry)
+		ConfigListScreen.__init__(self, self.setPiconCfglist, session, on_change=self.changedEntry)
 
 		self.onShown.append(self.setWindowTitle)
 
