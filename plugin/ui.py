@@ -17,7 +17,9 @@ VERSION = 0.53
 #  GNU General Public License for more details.
 #
 
-import os, re, unicodedata
+import os
+import re
+import unicodedata
 import shutil
 from enigma import ePicLoad, getDesktop
 from Plugins.Plugin import PluginDescriptor
