@@ -1,4 +1,4 @@
-# for localized messages  	 
+# for localized messages
 from . import _
 #
 #  Set Picon - Plugin E2
@@ -90,10 +90,10 @@ class setPicon(Screen, HelpableScreen):
 	<screen name="setPicon" position="center,center" size="560,330" title="SetPicon">
 		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
 		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
-		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
-		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" /> 
-		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
-		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
+		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" />
+		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" />
+		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
+		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 
@@ -155,7 +155,7 @@ class setPicon(Screen, HelpableScreen):
 			"yellow": (self.searching, _("search picons or service")),
 			"blue": (self.callConfig, _("options")),
 			"1": (self.firstPicon, _("go to first picon")),
-			"3": (self.lastPicon, _("go to last picon")),			
+			"3": (self.lastPicon, _("go to last picon")),
 			"first": (self.minusPiconV, _("go to -5 picons")),
 			"4": (self.minusPiconC, _("go to -100 picons")),
 			"7": (self.minusPiconM, _("go to -1000 picons")),
@@ -256,7 +256,7 @@ class setPicon(Screen, HelpableScreen):
 		elif selected == 1:
 			self.copyAllToOutput()
 		elif selected == 2:
-			self.deleteTarget()			
+			self.deleteTarget()
 		elif selected == 3:
 			self.deleteSource()
 		elif selected == 4:
@@ -586,7 +586,7 @@ class setPicon(Screen, HelpableScreen):
 		if BACKUP != SOURCE and BACKUP != TARGET:
 			return True
 		return False
-		
+
 	def confirmDelete(self, path):
 		self.session.openWithCallback(self.deleteAllPicons, MessageBox, _("Are You sure delete all picons in %s ?") % path, MessageBox.TYPE_YESNO, default=False)
 
@@ -617,7 +617,7 @@ class setPicon(Screen, HelpableScreen):
 
 	def firstPicon(self):
 		self.gotoPicon(0, True)
-		
+
 	def lastPicon(self):
 		self.gotoPicon(self.maxPicons - 1, True)
 
@@ -700,7 +700,7 @@ class setPicon(Screen, HelpableScreen):
 	def getInternalPicon(self, serviceRef):
 		from Components.Renderer.Picon import getPiconName
 		return getPiconName(serviceRef)
-	
+
 	def getInternalPiconOld(self, serviceRef):
 		if self.lastPath:
 			pngname = self.lastPath + serviceRef + EXT
@@ -860,7 +860,7 @@ class setPicon(Screen, HelpableScreen):
 				self.displayPicon()
 			else:
 				if cfg.sorting.value == "0":
-					self.getStoredPicons()	
+					self.getStoredPicons()
 				else:
 					self.sortPicons()
 					self.displayPicon()
@@ -950,10 +950,10 @@ class setPiconCfg(Screen, ConfigListScreen):
 	<screen name="setPiconCfg" position="center,center" size="560,430" title="SetPicon Setup">
 		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
 		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
-		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" /> 
-		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" /> 
+		<ePixmap name="yellow" position="280,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" />
+		<ePixmap name="blue"   position="420,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" />
 
-		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" /> 
+		<widget name="key_red" position="0,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_green" position="140,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
@@ -973,7 +973,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.skin = setPiconCfg.skin
 		self.skin_path = plugin_path
 		self.setup_title = _("SetPicon Setup")
-			
+
 		self["key_green"] = Label(_("Save"))
 		self["key_red"] = Label(_("Cancel"))
 		self["key_yellow"] = Label(_("Swap Dirs"))

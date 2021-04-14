@@ -1,4 +1,4 @@
-# for localized messages  	 
+# for localized messages
 from . import _
 #
 #  Set Picon - Plugin E2
