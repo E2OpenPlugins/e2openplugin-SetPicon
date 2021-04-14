@@ -279,7 +279,7 @@ class setPicon(Screen, HelpableScreen):
 		if service:
 			self.name = ServiceReference(service).getServiceName()
 			self.refstr = ':'.join(service.toString().split(':')[:11])
-			self.orbital =  self.getOrbitalPosition(self.refstr)
+			self.orbital = self.getOrbitalPosition(self.refstr)
 			if self.orbital == _("Playback"):
 				return
 			self.provider = self.getProviderName(self.refstr)
@@ -369,7 +369,7 @@ class setPicon(Screen, HelpableScreen):
 				self.saveToBackup(item[1], path, filename, bouquet)
 			if not self.picon.count(filename):
 				self.picon.append(filename)
-				self.maxPicons+=1
+				self.maxPicons += 1
 		else:
 			print "[SetPicon] path %s not exist" % path
 
@@ -480,7 +480,7 @@ class setPicon(Screen, HelpableScreen):
 		self.picon = []
 		for filename in os.listdir(SOURCE):
 			if filename.endswith('.png'):
-				if os.path.isfile(SOURCE+filename):
+				if os.path.isfile(SOURCE + filename):
 					if cfg.filter.value == "0": # all
 						self.picon.append(filename[:-4])
 						self.maxPicons += 1
@@ -541,7 +541,7 @@ class setPicon(Screen, HelpableScreen):
 	def displayFoundedPicon(self):
 		text = _("Search")
 		if len(self.searchList) != 1:
-			text += " (%s/%s)" % (self.fidx+1, len(self.searchList))
+			text += " (%s/%s)" % (self.fidx + 1, len(self.searchList))
 		self["key_yellow"].setText(text)
 		self.displayPath("%s" % self.picon[self.searchList[self.fidx]])
 		self.gotoPicon(self.searchList[self.fidx], True)
@@ -552,14 +552,14 @@ class setPicon(Screen, HelpableScreen):
 		if cfg.filename.value == "0":
 			text = ""
 		if cfg.filename.value == "1":
-			text = text[text.rfind('/')+1:]
+			text = text[text.rfind('/') + 1:]
 		self["path"].setText(text)
 
 	def copyAllToOutput(self):
 		if SOURCE != TARGET:
 			for filename in os.listdir(SOURCE):
 				if filename.endswith('.png'):
-					if os.path.isfile(SOURCE+filename):
+					if os.path.isfile(SOURCE + filename):
 						try:
 							filename = os.path.join(SOURCE,filename)
 							self.copy(filename, TARGET)
@@ -618,7 +618,7 @@ class setPicon(Screen, HelpableScreen):
 		self.gotoPicon(0, True)
 		
 	def lastPicon(self):
-		self.gotoPicon(self.maxPicons-1, True)
+		self.gotoPicon(self.maxPicons - 1, True)
 
 	def plusPiconV(self):
 		self.gotoPicon(5)
@@ -649,23 +649,23 @@ class setPicon(Screen, HelpableScreen):
 
 	def displayPicon(self):
 		if len(self.picon):
-			path = SOURCE + self.picon[(self.idx-2) % self.maxPicons] + EXT
+			path = SOURCE + self.picon[(self.idx - 2) % self.maxPicons] + EXT
 			if fileExists(path):
 				self.piconLoad2l.startDecode(path)
-			path = SOURCE + self.picon[(self.idx-1) % self.maxPicons] + EXT
+			path = SOURCE + self.picon[(self.idx - 1) % self.maxPicons] + EXT
 			if fileExists(path):
 				self.piconLoad1l.startDecode(path)
 			path = SOURCE + self.picon[self.idx] + EXT
 			if fileExists(path):
 				self.piconLoad.startDecode(path)
 				self.displayPath(path)
-			path = SOURCE + self.picon[(self.idx+1) % self.maxPicons] + EXT
+			path = SOURCE + self.picon[(self.idx + 1) % self.maxPicons] + EXT
 			if fileExists(path):
 				self.piconLoad1p.startDecode(path)
-			path = SOURCE + self.picon[(self.idx+2) %self.maxPicons] + EXT
+			path = SOURCE + self.picon[(self.idx + 2) % self.maxPicons] + EXT
 			if fileExists(path):
 				self.piconLoad2p.startDecode(path)
-			self.displayMsg("%s/%s" % (self.idx+1, self.maxPicons))
+			self.displayMsg("%s/%s" % (self.idx + 1, self.maxPicons))
 			if self.blocked:
 				self.servicePiconRefresh()
 		else:
@@ -693,7 +693,7 @@ class setPicon(Screen, HelpableScreen):
 			self.name = self.ServicesList[self.sidx][0]
 			self.refstr = self.ServicesList[self.sidx][1]
 			self.zapToService(self.refstr)
-			self.orbital =  self.getOrbitalPosition(self.refstr)
+			self.orbital = self.getOrbitalPosition(self.refstr)
 			self.servicePiconRefresh()
 
 	def getInternalPicon(self, serviceRef):
@@ -754,7 +754,7 @@ class setPicon(Screen, HelpableScreen):
 	def addGrade(self, orbital):
 		if orbital in (_("Terrestrial"), _("Cable"), _("Stream"), _("Playback")):
 			return orbital
-		return orbital[:-1]+ "\xc2\xb0 " + orbital[-1:]
+		return orbital[:-1] + "\xc2\xb0 " + orbital[-1:]
 
 	def deleteSelectedPicon(self):
 		if not len(self.picon):
@@ -772,7 +772,7 @@ class setPicon(Screen, HelpableScreen):
 					self.copy(self.removePath, self.removePath.replace(SOURCE, MOVED))
 				os.unlink(self.removePath)
 			self.picon.pop(self.idx)
-			self.maxPicons-=1
+			self.maxPicons -= 1
 			self.search = False
 			if self.maxPicons:
 				self.idx %= self.maxPicons
@@ -825,11 +825,11 @@ class setPicon(Screen, HelpableScreen):
 		lamedb = open(LAMEDB,"r")
 		lines = lamedb.readlines()
 		lamedb.close()
-		lines = lines[lines.index("services\n")+1:-2]
+		lines = lines[lines.index("services\n") + 1:-2]
 		provider = ""
 		for i in range(0,len(lines),3):
 			ref = lines[i].split("\n")[0]
-			prov = lines[i+2].split("\n")[0].split(',')
+			prov = lines[i + 2].split("\n")[0].split(',')
 			if len(prov) and prov[0][0] is 'p':
 				provider = prov[0].split(':')[1]
 				if not len(provider):
@@ -1152,12 +1152,12 @@ def getMemory(par=0x01):
 				mf = int(line[1])
 				break
 		mu = mm - mf
-		if par&0x01:
-			memory += "".join((_("mem:")," %d " % (mm/1024),_("MB")," "))
-		if par&0x02:
-			memory += "".join((_("used:")," %.2f%s" % (100.*mu/mm,'%')," "))
-		if par&0x04:
-			memory += "".join((_("free:")," %.2f%s" % (100.*mf/mm,'%')))
+		if par & 0x01:
+			memory += "".join((_("mem:")," %d " % (mm / 1024),_("MB")," "))
+		if par & 0x02:
+			memory += "".join((_("used:")," %.2f%s" % (100. * mu / mm,'%')," "))
+		if par & 0x04:
+			memory += "".join((_("free:")," %.2f%s" % (100. * mf / mm,'%')))
 		return memory
 	except Exception, e:
 		print "[SetPicon] read file FAIL:", e
