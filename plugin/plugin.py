@@ -23,6 +23,7 @@ config.plugins.setpicon = ConfigSubsection()
 config.plugins.setpicon.extmenu = ConfigYesNo(default=True)
 config.plugins.setpicon.chcmenu = ConfigYesNo(default=False)
 
+
 def main(session, servicelist=None, **kwargs):
 	global Servicelist
 	import Screens.InfoBar
@@ -35,6 +36,7 @@ def main(session, servicelist=None, **kwargs):
 		services = ui.getBouquetServices(epg_bouquet)
 		service = Servicelist.servicelist.getCurrent()
 		session.openWithCallback(ui.closed, ui.setPicon, plugin_path, services, service, ServiceReference(epg_bouquet).getServiceName())
+
 
 def Plugins(path, **kwargs):
 	global plugin_path

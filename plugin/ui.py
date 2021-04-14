@@ -84,6 +84,7 @@ MOVED = cfg.moved.value
 
 EXT = ".png"
 
+
 class setPicon(Screen, HelpableScreen):
 	skin = """
 	<screen name="setPicon" position="center,center" size="560,330" title="SetPicon">
@@ -911,21 +912,25 @@ class setPicon(Screen, HelpableScreen):
 		if ptr != None:
 			self["picon2l"].instance.setPixmap(ptr.__deref__())
 			self["picon2l"].show()
+
 	def showPicon1l(self, picInfo=None):
 		ptr = self.piconLoad1l.getData()
 		if ptr != None:
 			self["picon1l"].instance.setPixmap(ptr.__deref__())
 			self["picon1l"].show()
+
 	def showPicon(self, picInfo=None):
 		ptr = self.piconLoad.getData()
 		if ptr != None:
 			self["picon"].instance.setPixmap(ptr.__deref__())
 			self["picon"].show()
+
 	def showPicon1p(self, picInfo=None):
 		ptr = self.piconLoad1p.getData()
 		if ptr != None:
 			self["picon1p"].instance.setPixmap(ptr.__deref__())
 			self["picon1p"].show()
+
 	def showPicon2p(self, picInfo=None):
 		ptr = self.piconLoad2p.getData()
 		if ptr != None:
@@ -938,6 +943,7 @@ class setPicon(Screen, HelpableScreen):
 			self["nowpicon"].instance.setPixmap(ptr.__deref__())
 			self["nowpicon"].show()
 ###
+
 
 class setPiconCfg(Screen, ConfigListScreen):
 	skin = """
@@ -1028,14 +1034,18 @@ class setPiconCfg(Screen, ConfigListScreen):
 		self.refresh()
 		for x in self.onChangedEntry:
 			x()
+
 	def getCurrentEntry(self):
 		return self["config"].getCurrent()[0]
+
 	def getCurrentValue(self):
 		return str(self["config"].getCurrent()[1].getText())
+
 	def createSummary(self):
 		from Screens.Setup import SetupSummary
 		return SetupSummary
 	###
+
 	def setWindowTitle(self):
 		self.setTitle(_("SetPicon Setup"))
 
@@ -1138,6 +1148,7 @@ class setPiconCfg(Screen, ConfigListScreen):
 	def exit(self):
 		self.keyCancel()
 
+
 def getMemory(par=0x01):
 	try:
 		memory = ""
@@ -1163,9 +1174,11 @@ def getMemory(par=0x01):
 		print "[SetPicon] read file FAIL:", e
 		return ""
 
+
 def freeMemory():
 	os.system("sync")
 	os.system("echo 3 > /proc/sys/vm/drop_caches")
+
 
 def cleanup():
 	global Session
@@ -1176,11 +1189,14 @@ def cleanup():
 	epg_bouquet = None
 	freeMemory()
 
+
 def closed(ret=False):
 	cleanup()
 
+
 from enigma import eServiceCenter, eServiceReference
 from ServiceReference import ServiceReference
+
 
 def getBouquetServices(bouquet):
 	services = []
