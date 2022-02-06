@@ -3,9 +3,9 @@ from . import _
 #
 #  Set Picon - Plugin E2
 #
-#  by ims (c) 2012-2018 ims21@users.sourceforge.net
+#  by ims (c) 2012-2022 ims21@users.sourceforge.net
 #
-VERSION = 0.53
+VERSION = 0.54
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
 #  as published by the Free Software Foundation; either version 2
@@ -26,16 +26,18 @@ from Plugins.Plugin import PluginDescriptor
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Components.ActionMap import ActionMap, HelpableActionMap
+from Components.Button import Button
 from Components.Pixmap import Pixmap
 from Components.config import ConfigSubsection, ConfigDirectory, ConfigSelection, getConfigListEntry, config, ConfigYesNo, ConfigLocations
 from Components.Label import Label
 from Components.ConfigList import ConfigListScreen
+from Components.Renderer.Picon import getPiconName
 import enigma
 from Tools.Directories import resolveFilename, fileExists, pathExists
-from Components.Button import Button
 from enigma import eTimer, eEnv
 from Screens.MessageBox import MessageBox
 from Screens.ChoiceBox import ChoiceBox
+
 
 TEMP = "/tmp/"
 STARTDIR = "/picon/"
@@ -307,7 +309,7 @@ class setPicon(Screen, HelpableScreen):
 
 	def assignSelectedPicon(self):
 		if not len(self.picon) or self.blocked:
-			print "[SetPicon] OK: blocked or no picons", len(self.picon), self.blocked
+			print("[SetPicon] OK: blocked or no picons", len(self.picon), self.blocked)
 			return
 		filename = self.ref2str(self.refstr)
 		if cfg.type.value == "1":
@@ -316,17 +318,17 @@ class setPicon(Screen, HelpableScreen):
 				filename += "_" + self.getOrbitalPosition(self.refstr)
 		path = SOURCE + self.picon[self.idx] + EXT
 		if fileExists(path):
-			print "[SetPicon] copy", path, TARGET + filename + EXT
+			print("[SetPicon] copy", path, TARGET + filename + EXT)
 			self.copy(path, TARGET + filename + EXT)
 			if cfg.save2backtoo.value:
 				self.saveToBackup(self.refstr, path, filename)
 			self.displayCurServicePicon()
 		else:
-			print "[SetPicon] source does not exist", path
+			print("[SetPicon] source does not exist", path)
 
 	def saveAssignedPicon(self):
 		if self.blocked:
-			print "[SetPicon] blocked"
+			print("[SetPicon] blocked")
 			return
 		if len(self.ServicesList):
 			self.savePicon(self.ServicesList[self.sidx])
@@ -363,7 +365,7 @@ class setPicon(Screen, HelpableScreen):
 				filename += "_" + self.getOrbitalPosition(item[1])
 		if fileExists(path):
 			if not bouquet:
-				print "[SetPicon] copy", path, TARGET + filename + EXT
+				print("[SetPicon] copy", path, TARGET + filename + EXT)
 			if not backuponly:
 				self.copy(path, TARGET + filename + EXT)
 			if cfg.save2backtoo.value:
@@ -372,7 +374,7 @@ class setPicon(Screen, HelpableScreen):
 				self.picon.append(filename)
 				self.maxPicons += 1
 		else:
-			print "[SetPicon] path %s not exist" % path
+			print("[SetPicon] path %s not exist" % path)
 
 	def saveToBackup(self, ref, path, filename, bouquet=False):
 		directory = BACKUP
@@ -386,7 +388,7 @@ class setPicon(Screen, HelpableScreen):
 			if not fileExists(directory):
 				os.makedirs(directory)
 		if not bouquet:
-			print "[SetPicon] copy2", path, directory + filename + EXT
+			print("[SetPicon] copy2", path, directory + filename + EXT)
 		self.copy(path, directory + filename + EXT)
 
 	def trueName(self, name):
@@ -398,10 +400,10 @@ class setPicon(Screen, HelpableScreen):
 	def copy(self, source, target):
 		try:
 			shutil.copyfile(source, target)
-		except IOError, e:
-			print "[SetPicon] copy failed", e
+		except IOError as e:
+			print("[SetPicon] copy failed", e)
 		except:
-			print "[SetPicon] copy failed - source and target are same!"
+			print("[SetPicon] copy failed - source and target are same!")
 
 	def setWindowTitle(self):
 		self.setTitle(_("SetPicon") + "  -  " + self.bouquetname)
@@ -422,8 +424,8 @@ class setPicon(Screen, HelpableScreen):
 		index = 0
 		founded = False
 		for item in self.ServicesList:
-			(service, refstr, name, nameo, orbital) = self.getStrings(item)
-			if service == refstr or service == name or service == nameo:
+			(service, altRef, refstr, name, nameo, orbital) = self.getStrings(item)
+			if service == altRef or service == refstr or service == name or service == nameo:
 				founded = True
 				self.refstr = item[1]
 				self.name = item[0]
@@ -456,8 +458,9 @@ class setPicon(Screen, HelpableScreen):
 
 	def getStrings(self, item):
 		name = self.name2str(item[0])
+		altRef = self.getAltRefPicon(item[1])
 		orbital = self.getOrbitalPosition(item[1])
-		return (self.picon[self.idx], self.ref2str(item[1]), self.name2str(item[0]), name + "_" + orbital, orbital)
+		return (self.picon[self.idx], altRef, self.ref2str(item[1]), self.name2str(item[0]), name + "_" + orbital, orbital)
 
 	def setSearchService(self):
 		self.search_picon = False
@@ -512,6 +515,9 @@ class setPicon(Screen, HelpableScreen):
 		else:
 			self.searchService()
 
+	def getAltRefPicon(self, ref):
+		return os.path.basename(getPiconName(ref))[:-4]
+
 	def searchPicon(self):
 		if not len(self.picon):
 			return
@@ -524,6 +530,10 @@ class setPicon(Screen, HelpableScreen):
 			item = self.ref2str(self.refstr)
 			if self.picon.count(item):
 				self.searchList.append(self.picon.index(item))
+			else:
+				item = self.getAltRefPicon(self.refstr)
+				if self.picon.count(item):
+					self.searchList.append(self.picon.index(item))
 			item = self.name2str(self.name)
 			if self.picon.count(item):
 				self.searchList.append(self.picon.index(item))
@@ -532,7 +542,7 @@ class setPicon(Screen, HelpableScreen):
 				self.searchList.append(self.picon.index(item))
 
 			if len(self.searchList):
-				print "[SetPicon] found:", self.searchList
+				print("[SetPicon] found:", self.searchList)
 				self.search = True
 				self.displayFoundedPicon()
 			else:
@@ -564,8 +574,8 @@ class setPicon(Screen, HelpableScreen):
 						try:
 							filename = os.path.join(SOURCE, filename)
 							self.copy(filename, TARGET)
-						except IOError, e:
-							print "Failed copy all", e, filename
+						except IOError as e:
+							print("Failed copy all", e, filename)
 		else:
 			self.session.openWithCallback(self.setSameDirectories, MessageBox, _("Input directory and output directory are same!"), MessageBox.TYPE_ERROR, timeout=5)
 
@@ -598,13 +608,13 @@ class setPicon(Screen, HelpableScreen):
 					try:
 						os.unlink(filename)
 					except:
-						print "Failed to unlink", filename
+						print("Failed to unlink", filename)
 				else:
 					if self.rmPath == BACKUP:
 						try:
 							shutil.rmtree(filename)
 						except:
-							print "Failed rmtree", filename
+							print("Failed rmtree", filename)
 			if self.rmPath == SOURCE:
 				self.getStoredPicons()
 		del self.rmPath
@@ -709,13 +719,13 @@ class setPicon(Screen, HelpableScreen):
 		try:
 			from Components.Renderer.Picon import searchPaths
 			global searchPaths
-		except Exception, e:
-			print "[SetPicon]", e
+		except Exception as e:
+			print("[SetPicon]", e)
 			try:
 				from Components.Renderer.Picon import Picon
 				searchPaths = Picon().searchPaths
-			except Exception, e:
-				print "[SetPicon]", e
+			except Exception as e:
+				print("[SetPicon]", e)
 				from enigma import eEnv
 				searchPaths = (eEnv.resolve('${datadir}/enigma2/%s/'), '/media/cf/%s/', '/media/usb/%s/')
 
@@ -1170,8 +1180,8 @@ def getMemory(par=0x01):
 		if par & 0x04:
 			memory += "".join((_("free:"), " %.2f%s" % (100. * mf / mm, '%')))
 		return memory
-	except Exception, e:
-		print "[SetPicon] read file FAIL:", e
+	except Exception as e:
+		print("[SetPicon] read file FAIL:", e)
 		return ""
 
 
