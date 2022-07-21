@@ -754,7 +754,7 @@ class setPicon(Screen, HelpableScreen):
 	def addGrade(self, orbital):
 		if orbital in (_("Terrestrial"), _("Cable"), _("Stream"), _("Playback")):
 			return orbital
-		return orbital[:-1]+ "\xc2\xb0 " + orbital[-1:]
+		return orbital[:-1]+ b"\xc2\xb0 ".decode('utf-8') + orbital[-1:]
 
 	def deleteSelectedPicon(self):
 		if not len(self.picon):
